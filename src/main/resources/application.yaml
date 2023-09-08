@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+
+  # DATABASE CONFIG
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DATABASE_NAME}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  # JPA CONFIG
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: true
+    show-sql: true
+
+  # SERVER CONFIG
+server:
+  port: ${SERVER_PORT:8080}

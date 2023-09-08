@@ -1,0 +1,24 @@
+#
+#  docker run --name mypostgres \
+#  -e POSTGRES_USER=root \
+#  -e POSTGRES_PASSWORD=password \
+#  -e POSTGRES_DB=mydatabase \
+#  -p 5432:5432 \
+#  -d postgres
+#
+
+# DATABASE CONFIGURATION
+POSTGRES_HOST: localhost
+POSTGRES_PORT: 5432
+POSTGRES_DATABASE_NAME: mydatabase
+POSTGRES_USERNAME: root
+POSTGRES_PASSWORD: password
+
+# SERVER
+SERVER_PORT: 8080
+ACTIVE_PROFILE: dev
+
+# DEBUGGING
+logging:
+  level:
+    io.igorcossta.*: debug

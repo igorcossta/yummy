@@ -18,7 +18,7 @@ public class Security {
         return http
                 .authorizeHttpRequests(req -> req.requestMatchers(
                                 "/", "/login", "/registration/**",
-                                "/css/**", "/js/**", "/img/**", "/receitas")
+                                "/css/**", "/js/**", "/img/**", "/receitas", "/receitas/detalhes/**")
                         .permitAll())
                 .authorizeHttpRequests(req -> req.anyRequest().authenticated())
                 // login form config

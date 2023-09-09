@@ -28,12 +28,12 @@
     <div class="container d-flex align-items-center" style="min-height: 100vh;">
         <div class="row justify-content-center w-100">
             <h1>Receitas</h1>
-            <div th:each="recipe : ${recipes}" class="bg-light mb-3">
-                <h3 th:text="${recipe.name}">Recipe Name</h3>
+            <div th:each="recipe : ${recipes}" class="bg-light-subtle mb-3">
+                <h3 th:text="${recipe.name}" class="m-0">Recipe Name</h3>
                 <p th:text="'Criado por ' + ${recipe.recipeOwner.username}">Owner</p>
+
                 <p th:text="${recipe.description}">Description</p>
-                <p th:text="${recipe.ingredients}">Ingredients</p>
-                <p th:text="${recipe.howToPrepare}">How to Prepare</p>
+                <a th:href="@{'/receitas/detalhes/' + ${recipe.id}}" class="fw-bold">Ver receita</a>
             </div>
         </div>
     </div>

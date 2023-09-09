@@ -42,31 +42,14 @@
 
                 <div class="form-group mb-3">
                     <label for="ingredients">Ingredientes</label>
-                    <textarea class="form-control" id="ingredients" th:field="*{ingredients}" placeholder="Liste os ingredientes, por exemplo:
-
-Massa:
-
-- 1/2 xícara (chá) de óleo
-- 2 cenouras médias
-- 4 ovos
-- 2 xícaras (chá) de açúcar
-- 2 e 1/2 xícaras (chá) de farinha de trigo
-- 1 colher (sopa) de fermento em pó" required rows="15"></textarea>
+                    <textarea class="form-control" id="ingredients" th:field="*{ingredients}"
+                              placeholder="1/2 xícara (chá) de óleo:2 cenouras médias:4 ovos:2 xícaras (chá) de açúcar:2 e 1/2 xícaras (chá) de farinha de trigo:1 colher (sopa) de fermento em pó" required rows="15"></textarea>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="howToPrepare">Modo de Preparo</label>
-                    <textarea class="form-control" id="howToPrepare" th:field="*{howToPrepare}" placeholder="Descreva o modo de preparo, por exemplo:
-
-Passos:
-
-1. Descasque e pique as cenouras.
-2. Bata no liquidificador as cenouras, óleo, ovos e açúcar.
-3. Em uma tigela, misture a farinha de trigo com o fermento.
-4. Adicione a mistura do liquidificador à tigela e misture bem.
-5. Despeje a massa em uma forma untada.
-6. Leve ao forno preaquecido a 180°C por 40 minutos.
-7. Deixe esfriar e sirva." required rows="15"></textarea>
+                    <textarea class="form-control" id="howToPrepare" th:field="*{howToPrepare}" placeholder="Comece fazendo a massa do bolo. Para isso, escolha bem as cenouras e higienizá-las adequadamente.:Em seguida, corte-as em pedaços médios e leve para o liquidificador junto com o açúcar, os ovos e o óleo. Bata bem até que toda a cenoura tenha sido triturada, pode deixar batendo por uns 5 minutos em velocidade máxima.:Quando tiver um creme homogêneo, transfira para uma tigela e acrescente a farinha de trigo peneirada aos poucos. Misture com ajuda de um batedor de arames, apenas o suficiente para incorporar a farinha.:Finalize adicionando o fermento em pó e misturando bem.:Despeje a massa em uma forma untada e enfarinhada e leve para assar em forno preaquecido a 180º C por 35 a 40 minutos. Faça o teste do palito para confirmar o ponto.:Se for desenformar o bolo, espere esfriar primeiro, para não correr o risco de quebrar.
+" required rows="15"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Compartilhar</button>

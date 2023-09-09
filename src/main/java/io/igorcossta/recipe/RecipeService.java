@@ -34,4 +34,7 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
+    public Recipe getRecipe(Long recipe) {
+        return recipeRepository.findById(recipe).orElseThrow(() -> new RuntimeException("recipe not found"));
+    }
 }

@@ -1,5 +1,6 @@
 package io.igorcossta.recipe;
 
+import io.igorcossta.comment.CommentDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -43,8 +44,10 @@ public class RecipeController {
 
     @GetMapping("/detalhes/{receita}")
     public String displayFoodRecipe(Model model, @PathVariable Long receita) {
-        Recipe recipe = recipeService.getRecipe(receita);
-        model.addAttribute("recipe", recipe);
+        RecipeAndComments recipe = recipeService.getRecipeAndComments(receita);
+
+        model.addAttribute("recipeAndComments", recipe);
+        model.addAttribute("commentDto", new CommentDto());
         return "food-recipe";
     }
 }

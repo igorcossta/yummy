@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head id="head">
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -7,19 +7,19 @@
     <title>Yummy</title>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet">
 
     <!-- Vendor Files -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
 <header th:replace="~{shared/header :: #header}"></header>
@@ -28,7 +28,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <img th:src="@{/img/bg5.jpg}" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300">
+                <img alt="" class="img-fluid" data-aos="zoom-out" data-aos-delay="300" th:src="@{/img/bg5.jpg}">
             </div>
         </div>
     </div>
@@ -40,7 +40,8 @@
                 <div class="col-12 col-md-8">
                     <div class="my-5">
                         <span class="text-secondary">Abril 05, 2018</span>
-                        <h2 th:text="${recipe.name}" class="text-dark-emphasis mb-4 fs-1">Recipe Name</h2>
+                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe.name}">Recipe
+                            Name</h2>
                         <div class="border-start border-dark border-3 ps-3">
                             <h6>Preparação: 15 mins</h6>
                             <h6>Serve: 3 pessoas</h6>
@@ -52,10 +53,10 @@
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <!-- Single Preparation Step -->
-                    <div th:each="text, status : ${#strings.arraySplit(recipe.howToPrepare, ':')}">
+                    <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe.howToPrepare, ':')}">
                         <div class="d-flex mb-3">
-                            <h4 th:text="'0' + ${status.index + 1} + ." class="fs-4 text-secondary-emphasis">01.</h4>
-                            <p th:text="${text}" class="ms-4 text-body-tertiary fs-6">How to prepare</p>
+                            <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + .">01.</h4>
+                            <p class="ms-4 text-body-tertiary fs-6" th:text="${text}">How to prepare</p>
                         </div>
                     </div>
                 </div>
@@ -65,9 +66,10 @@
                     <div>
                         <h4 class="mb-3 text-secondary-emphasis">Ingredientes</h4>
 
-                        <div th:each="ingredient : ${#strings.arraySplit(recipe.ingredients, ':')}">
+                        <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe.ingredients, ':')}">
                             <div class="mb-3">
-                                <label class="text-body-tertiary fs-6" th:text="${ingredient}">* 4 Tbsp (57 gr) butter</label>
+                                <label class="text-body-tertiary fs-6" th:text="${ingredient}">* 4 Tbsp (57 gr)
+                                    butter</label>
                             </div>
                         </div>
                     </div>
@@ -86,11 +88,14 @@
                 <div class="row">
                     <div class="col-12">
                         <div>
-                            <form action="#" method="post">
+                            <form method="post"
+                                  th:action="@{'/comentario/postar?recipeId=' + ${recipeAndComments.getRecipe().id}}"
+                                  th:object="${commentDto}">
                                 <div class="row">
                                     <div class="col-12">
-                                        <textarea name="message" class="form-control" id="message" rows="10"
-                                                  placeholder="Deixe um comentário avaliando esta receita."></textarea>
+                                        <textarea class="form-control" id="message" name="message" placeholder="Deixe um comentário avaliando esta receita."
+                                                  rows="10"
+                                                  th:field="*{comment}"></textarea>
                                     </div>
                                     <div class="col-12 mt-3">
                                         <button class="btn btn-success" type="submit">Postar Comentário
@@ -107,22 +112,55 @@
                     Você deve estar logado para deixar um comentário.
                 </div>
             </div>
+
+            <div class="row mt-5 mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments)}">
+                <div class="col-12">
+
+                    <div th:each="comment, status : ${recipeAndComments.comments}">
+                        <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
+                            <img class="rounded-circle me-3"
+                                 height="60"
+                                 th:src="@{'https://api.dicebear.com/7.x/avataaars/svg?seed=' + ${comment.commentOwner.username}}"
+                                 width="60"/>
+                            <div>
+                                <h6 class="fw-bold mb-1" th:text="${comment.commentOwner.username}">Maggie Marsh</h6>
+                                <div class="d-flex align-items-center mb-3">
+                                    <p class="mb-0">
+                                        March 07, 2021
+                                    </p>
+                                    <a class="link-muted ms-3 fs-5" href="#"><i class="bi bi-heart"></i></a>
+                                </div>
+                                <p class="mb-0" th:text="${comment.comment}">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                                    industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                    since the 1500s, when an unknown printer took a galley of type and
+                                    scrambled it.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
+
+    </div>
     </div>
 </main>
 
 <footer th:replace="~{shared/footer :: #footer}"></footer>
 
-<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a class="scroll-top d-flex align-items-center justify-content-center" href="#"><i class="bi bi-arrow-up-short"></i></a>
 <div id="preloader"></div>
 
 <!-- Template Main JS File -->
 <script th:src="@{/js/main.js}"></script>
 
 <!-- Vendor Files -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>

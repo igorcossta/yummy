@@ -1,5 +1,6 @@
 package io.igorcossta.user;
 
+import io.igorcossta.comment.Comment;
 import io.igorcossta.recipe.Recipe;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,9 @@ public class User implements UserDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipeOwner")
     private List<Recipe> recipes;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentOwner")
+    private List<Comment> comments;
 
     public User(String username, String password) {
         this.username = username;

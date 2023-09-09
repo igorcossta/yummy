@@ -1,5 +1,7 @@
 package io.igorcossta.recipe;
 
+import io.igorcossta.comment.Comment;
+import io.igorcossta.comment.CommentRepository;
 import io.igorcossta.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import java.util.List;
 @Transactional
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final CommentRepository commentRepository;
 
     public void createRecipe(CreateNewRecipe recipe) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -36,5 +39,11 @@ public class RecipeService {
 
     public Recipe getRecipe(Long recipe) {
         return recipeRepository.findById(recipe).orElseThrow(() -> new RuntimeException("recipe not found"));
+    }
+
+    public RecipeAndComments getRecipeAndComments(Long id) {
+        Recipe recipe = getRecipe(id);
+        List<Comment> comments = commentRepository.findAllByRecipeId(id);
+        return new RecipeAndComments(recipe, comments);
     }
 }

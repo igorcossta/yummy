@@ -1,9 +1,12 @@
 package io.igorcossta.recipe;
 
 
+import io.igorcossta.comment.Comment;
 import io.igorcossta.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +22,9 @@ public class Recipe {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User recipeOwner;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<Comment> commentList;
 
     private String name;
     private String description;

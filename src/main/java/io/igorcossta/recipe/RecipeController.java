@@ -19,20 +19,20 @@ public class RecipeController {
     @GetMapping
     public String recipes(Model model) {
         model.addAttribute("recipes", recipeService.findAll());
-        return "recipes";
+        return "recipe/show-all-recipes";
     }
 
     @GetMapping("/publicadas")
     public String listMyRecipes(Model model) {
         List<Recipe> recipes = recipeService.listMyRecipes();
         model.addAttribute("recipes", recipes);
-        return "list-my-recipes";
+        return "user/recipe/show-my-recipes";
     }
 
     @GetMapping("/compartilhar")
     public String createRecipeHomePage(Model model) {
         model.addAttribute("recipe", new CreateNewRecipe());
-        return "create-new-recipe";
+        return "user/recipe/create-new-recipe";
     }
 
     @PostMapping("/compartilhar")
@@ -48,6 +48,6 @@ public class RecipeController {
 
         model.addAttribute("recipeAndComments", recipe);
         model.addAttribute("commentDto", new CommentDto());
-        return "food-recipe";
+        return "recipe/recipe-details";
     }
 }

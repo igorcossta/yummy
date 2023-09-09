@@ -1653,3 +1653,7 @@ section {
 .link-muted:hover {
     color: #1266f1;
 }
+
+main {
+    margin-top: 5.7rem;
+}

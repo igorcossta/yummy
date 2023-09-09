@@ -17,13 +17,13 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                <li><a class="dropdown-item" th:href="@{/logout}">Sair</a></li>
             </ul>
         </div>
 
         <div sec:authorize="!isAuthenticated()">
-            <a class="btn-book-a-table bg-body-tertiary text-dark" th:href="@{/login}">Sign in</a>
-            <a class="btn-book-a-table" th:href="@{/registration}">Sign up</a>
+            <a class="btn-book-a-table bg-body-tertiary text-dark" th:href="@{/login}">Entrar</a>
+            <a class="btn-book-a-table" th:href="@{/registration}">Cadastrar</a>
         </div>
     </div>
 </header><!-- End Header -->

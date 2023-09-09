@@ -1,30 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head id="head">
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
 
-    <title>Yummy</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet">
-
-    <!-- Vendor Files -->
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link rel="stylesheet" th:href="@{/css/main.css}">
+<head>
+    <title>Yummy. Share Recipe</title>
 </head>
-<body>
-<header th:replace="~{shared/header :: #header}"></header>
 
-<main id="main" style="margin-top: 5.7rem;">
+<body>
+
+<main>
     <div class="container d-flex align-items-center" style="min-height: 100vh;">
         <div class="row justify-content-center w-100">
             <form method="post" th:action="@{/receitas/compartilhar}" th:object="${recipe}">
@@ -42,7 +26,8 @@
 
                 <div class="form-group mb-3">
                     <label for="ingredients">Ingredientes</label>
-                    <textarea class="form-control" id="ingredients" placeholder="1/2 xícara (chá) de óleo:2 cenouras médias:4 ovos:2 xícaras (chá) de açúcar:2 e 1/2 xícaras (chá) de farinha de trigo:1 colher (sopa) de fermento em pó"
+                    <textarea class="form-control" id="ingredients"
+                              placeholder="1/2 xícara (chá) de óleo:2 cenouras médias:4 ovos:2 xícaras (chá) de açúcar:2 e 1/2 xícaras (chá) de farinha de trigo:1 colher (sopa) de fermento em pó"
                               required
                               rows="15" th:field="*{ingredients}"></textarea>
                 </div>
@@ -59,17 +44,5 @@
     </div>
 </main>
 
-<footer th:replace="~{shared/footer :: #footer}"></footer>
-
-<a class="scroll-top d-flex align-items-center justify-content-center" href="#"><i class="bi bi-arrow-up-short"></i></a>
-<div id="preloader"></div>
-
-<!-- Template Main JS File -->
-<script th:src="@{/js/main.js}"></script>
-
-<!-- Vendor Files -->
-<script crossorigin="anonymous"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

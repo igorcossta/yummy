@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
+
+<head>
+    <title>Yummy. Recipes</title>
+</head>
+
+<body>
+
+<main>
+    <div class="container" style="min-height: 100vh;">
+        <div class="row justify-content-center w-100">
+            <h1>Receitas</h1>
+            <div class="bg-light-subtle mb-3" th:each="recipe : ${recipes}">
+                <h3 class="m-0" th:text="${recipe.name}">Recipe Name</h3>
+                <p th:text="'Criado por ' + ${recipe.recipeOwner.username}">Owner</p>
+
+                <p th:text="${recipe.description}">Description</p>
+                <a class="fw-bold" th:href="@{'/receitas/detalhes/' + ${recipe.id}}">Ver receita</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

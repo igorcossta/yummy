@@ -19,9 +19,12 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
 
-    public void createRecipe(CreateNewRecipe recipe) {
+    public void createRecipe(RecipeCreationDTO recipe) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Recipe toSave = new Recipe(user, recipe.getName(), recipe.getDescription(), recipe.getIngredients(), recipe.getHowToPrepare());
+
+        String ingredients = String.join(":", recipe.getIngredients());
+        String howToPrepare = String.join(":", recipe.getHowToPrepare());
+        Recipe toSave = new Recipe(user, recipe.getTitle(), recipe.getDescription(), ingredients, howToPrepare);
 
         log.debug(user.getUsername());
         recipeRepository.save(toSave);

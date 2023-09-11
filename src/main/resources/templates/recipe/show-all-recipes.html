@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
+<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Yummy. Recipes</title>
@@ -11,7 +11,7 @@
         <div class="row justify-content-center w-100">
             <h1>Receitas</h1>
             <div class="bg-light-subtle mb-3" th:each="recipe : ${recipes}">
-                <h3 class="m-0" th:text="${recipe.name}">Recipe Name</h3>
+                <h3 class="m-0" th:text="${recipe.getTitle}">Recipe Name</h3>
                 <p th:text="'Criado por ' + ${recipe.recipeOwner.username}">Owner</p>
 
                 <p th:text="${recipe.description}">Description</p>

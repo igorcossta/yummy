@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
+<html lang="en"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{::script})}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Yummy. Share Recipe</title>
+    <script defer th:src="@{/js/createInput.js}"></script>
 </head>
 
 <main>
@@ -11,9 +13,9 @@
         <div class="row justify-content-center w-100">
             <form method="post" th:action="@{/receitas/compartilhar}" th:object="${recipe}">
                 <div class="form-group mb-3">
-                    <label for="name">Título da Receita</label>
-                    <input class="form-control" id="name" placeholder="Digite o título da receita" required
-                           th:field="*{name}" type="text">
+                    <label for="title">Título da Receita</label>
+                    <input class="form-control" id="title" placeholder="Digite o título da receita" required
+                           th:field="*{title}" type="text">
                 </div>
 
                 <div class="form-group mb-3">
@@ -22,18 +24,27 @@
                            required th:field="*{description}"/>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="ingredients">Ingredientes</label>
-                    <textarea class="form-control" id="ingredients"
-                              placeholder="1/2 xícara (chá) de óleo:2 cenouras médias:4 ovos:2 xícaras (chá) de açúcar:2 e 1/2 xícaras (chá) de farinha de trigo:1 colher (sopa) de fermento em pó"
-                              required
-                              rows="15" th:field="*{ingredients}"></textarea>
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="ingredient1" >Ingredientes</label>
+                        <button class="btn btn-primary" id="add-ingredient" type="button">Adicionar Ingrediente</button>
+                    </div>
+                    <div class="form-group mb-3 mt-3" id="recipe-ingredients">
+                        <input class="form-control" id="ingredient1" name="ingredients"
+                               placeholder="..."
+                               required th:field="*{ingredients}"/>
+                    </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="howToPrepare">Modo de Preparo</label>
-                    <textarea class="form-control" id="howToPrepare" placeholder="Comece fazendo a massa do bolo. Para isso, escolha bem as cenouras e higienizá-las adequadamente.:Em seguida, corte-as em pedaços médios e leve para o liquidificador junto com o açúcar, os ovos e o óleo. Bata bem até que toda a cenoura tenha sido triturada, pode deixar batendo por uns 5 minutos em velocidade máxima.:Quando tiver um creme homogêneo, transfira para uma tigela e acrescente a farinha de trigo peneirada aos poucos. Misture com ajuda de um batedor de arames, apenas o suficiente para incorporar a farinha.:Finalize adicionando o fermento em pó e misturando bem.:Despeje a massa em uma forma untada e enfarinhada e leve para assar em forno preaquecido a 180º C por 35 a 40 minutos. Faça o teste do palito para confirmar o ponto.:Se for desenformar o bolo, espere esfriar primeiro, para não correr o risco de quebrar.
-" required rows="15" th:field="*{howToPrepare}"></textarea>
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label for="step1">Etapas</label>
+                        <button class="btn btn-primary" id="add-step" type="button">Adicionar Etapa</button>
+                    </div>
+                    <div class="form-group mb-3 mt-3" id="recipe-steps">
+                        <textarea class="form-control" id="step1" placeholder="..." required rows="5"
+                                  th:field="*{howToPrepare}"></textarea>
+                    </div>
                 </div>
 
                 <button class="btn btn-primary" type="submit">Compartilhar</button>

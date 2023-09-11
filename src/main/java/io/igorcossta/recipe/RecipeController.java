@@ -31,12 +31,12 @@ public class RecipeController {
 
     @GetMapping("/compartilhar")
     public String createRecipeHomePage(Model model) {
-        model.addAttribute("recipe", new CreateNewRecipe());
+        model.addAttribute("recipe", new RecipeCreationDTO());
         return "user/recipe/create-new-recipe";
     }
 
     @PostMapping("/compartilhar")
-    public String createRecipe(Model model, @ModelAttribute CreateNewRecipe recipe) {
+    public String createRecipe(Model model, @ModelAttribute RecipeCreationDTO recipe) {
         log.debug(recipe.toString());
         recipeService.createRecipe(recipe);
         return "redirect:/?c1001";

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
+<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Yummy. Login</title>
@@ -12,7 +12,7 @@
 
         <div class="d-flex justify-content-center" style="height: 100vh;">
 
-            <form th:action="@{/login}" th:object="${userDto}" method="post" class="w-50">
+            <form class="w-50" method="post" th:action="@{/login}" th:object="${userDto}">
 
                 <div class="col-12" th:if="${param.error}">
                     <p class="alert alert-danger">Usuário ou senha incorreto(s)</p>
@@ -21,23 +21,23 @@
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="email">Email</label>
-                    <input type="email" id="email" class="form-control" th:field="*{username}" required/>
+                    <input class="form-control" id="email" required th:field="*{username}" type="email"/>
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="password">Senha</label>
-                    <input type="password" id="password" class="form-control" th:field="*{password}" required/>
+                    <input class="form-control" id="password" required th:field="*{password}" type="password"/>
                 </div>
 
                 <!-- Submit button -->
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary mb-4">Entrar</button>
+                    <button class="btn btn-primary mb-4" type="submit">Entrar</button>
                 </div>
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Não possui uma conta ? <a th:href="@{/registration}" class="text-primary">Cadastrar</a></p>
+                    <p>Não possui uma conta ? <a class="text-primary" th:href="@{/registration}">Cadastrar</a></p>
                 </div>
             </form>
         </div>

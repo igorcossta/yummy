@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
+<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Yummy. Recipe Details</title>
@@ -22,7 +22,7 @@
                 <div class="col-12 col-md-8">
                     <div class="my-5">
                         <span class="text-secondary">Abril 05, 2018</span>
-                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe.name}">Recipe
+                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe.getTitle}">Recipe
                             Name</h2>
                         <div class="border-start border-dark border-3 ps-3">
                             <h6>Preparação: 15 mins</h6>

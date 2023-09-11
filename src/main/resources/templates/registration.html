@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
 
 <head>
-    <title>Yummy. Cadastrar</title>
+    <title>Yummy. Sign Up</title>
 </head>
-
-<body>
 
 <main>
     <div class="container">
@@ -36,7 +34,7 @@
                     <button type="submit" class="btn btn-primary mb-4">Cadastrar</button>
                 </div>
 
-                <!-- Register buttons -->
+                <!-- Login buttons -->
                 <div class="text-center">
                     <p>Já possui uma conta ? <a th:href="@{/login}" class="text-primary">Entrar</a></p>
                 </div>
@@ -47,5 +45,4 @@
 
 </main>
 
-</body>
 </html>

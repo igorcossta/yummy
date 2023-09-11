@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
 
 <head>
     <title>Yummy.</title>
 </head>
-
-<body>
 
 <main>
     <div th:replace="~{fragment/index/hero :: #hero}"></div>
     <div th:replace="~{fragment/index/menu :: #menu}"></div>
 </main>
 
-</body>
 </html>

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
 
 <head>
     <title>Yummy. Share Recipe</title>
 </head>
-
-<body>
 
 <main>
     <div class="container d-flex align-items-center" style="min-height: 100vh;">
@@ -44,5 +42,4 @@
     </div>
 </main>
 
-</body>
 </html>

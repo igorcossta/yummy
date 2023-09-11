@@ -1,0 +1,20 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="html (head, main)">
+
+<head th:replace="${head}">
+</head>
+
+<body>
+
+<header th:replace="~{fragment/shared/header :: #header}"></header>
+
+<main th:replace="${main}">
+
+</main>
+
+<footer th:replace="~{fragment/shared/footer :: #footer}"></footer>
+
+<div id="preloader"></div>
+<a class="scroll-top d-flex align-items-center justify-content-center" href="#"><i class="bi bi-arrow-up-short"></i></a>
+
+</body>
+</html>

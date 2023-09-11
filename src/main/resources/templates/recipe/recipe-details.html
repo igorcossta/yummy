@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      th:replace="layout :: base(~{shared/base :: baseHead(~{::title})}, ~{::main})">
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}">
 
 <head>
     <title>Yummy. Recipe Details</title>
 </head>
-
-<body>
 
 <main>
     <div class="container">
@@ -131,8 +129,6 @@
         </div>
 
     </div>
-    </div>
 </main>
 
-</body>
 </html>

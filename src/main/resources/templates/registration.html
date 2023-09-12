@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+<html lang="en"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -11,7 +12,7 @@
 
         <div class="d-flex justify-content-center" style="height: 100vh;">
 
-            <form class="w-50" method="post" th:action="@{/registration}" th:object="${userRegistration}">
+            <form class="w-50" method="post" th:action="@{/signup}" th:object="${userRegistration}">
 
                 <div class="col-12" th:if="${param.success}">
                     <p class="alert alert-success">Conta criada com sucesso!</p>

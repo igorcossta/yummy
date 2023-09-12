@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final AuthenticationManager authenticationManager;
 
+    public static User getPrincipal() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
     public boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || AnonymousAuthenticationToken.class.

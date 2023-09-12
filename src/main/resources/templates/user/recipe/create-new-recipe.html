@@ -9,47 +9,56 @@
 </head>
 
 <main>
-    <div class="container d-flex align-items-center" style="min-height: 100vh;">
-        <div class="row justify-content-center w-100">
-            <form method="post" th:action="@{/receitas/compartilhar}" th:object="${recipe}">
-                <div class="form-group mb-3">
-                    <label for="title">Título da Receita</label>
-                    <input class="form-control" id="title" placeholder="Digite o título da receita" required
-                           th:field="*{title}" type="text">
-                </div>
+    <div class="container">
+        <form method="post" th:action="@{/recipes/share}" th:object="${recipe}">
+            <div class="form-group mb-3">
+                <label for="title">Título da Receita</label>
+                <input class="form-control" id="title" required
+                       th:field="*{title}" type="text">
+            </div>
 
-                <div class="form-group mb-3">
-                    <label for="description">Descrição</label>
-                    <input class="form-control" id="description" placeholder="Descreva a receita"
-                           required th:field="*{description}"/>
-                </div>
+            <div class="form-group mb-3">
+                <label for="servings">Porções</label>
+                <input class="form-control" id="servings"
+                       required th:field="*{servings}"/>
+            </div>
 
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <label for="ingredient1" >Ingredientes</label>
-                        <button class="btn btn-primary" id="add-ingredient" type="button">Adicionar Ingrediente</button>
-                    </div>
-                    <div class="form-group mb-3 mt-3" id="recipe-ingredients">
-                        <input class="form-control" id="ingredient1" name="ingredients"
-                               placeholder="..."
-                               required th:field="*{ingredients}"/>
-                    </div>
-                </div>
+            <div class="form-group mb-3">
+                <label for="timeToPrepare">Tempo de preparação</label>
+                <input class="form-control" id="timeToPrepare"
+                       required th:field="*{preparationTime}"/>
+            </div>
 
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <label for="step1">Etapas</label>
-                        <button class="btn btn-primary" id="add-step" type="button">Adicionar Etapa</button>
-                    </div>
-                    <div class="form-group mb-3 mt-3" id="recipe-steps">
-                        <textarea class="form-control" id="step1" placeholder="..." required rows="5"
+            <div class="form-group mb-3">
+                <label for="description">Descrição</label>
+                <input class="form-control" id="description"
+                       required th:field="*{description}"/>
+            </div>
+
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="ingredient1">Ingredientes</label>
+                    <button class="btn btn-primary" id="add-ingredient" type="button">Adicionar Ingrediente</button>
+                </div>
+                <div class="form-group mb-3 mt-3" id="recipe-ingredients">
+                    <input class="form-control" id="ingredient1" name="ingredients"
+                           required th:field="*{ingredients}"/>
+                </div>
+            </div>
+
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="step1">Etapas</label>
+                    <button class="btn btn-primary" id="add-step" type="button">Adicionar Etapa</button>
+                </div>
+                <div class="form-group mb-3 mt-3" id="recipe-steps">
+                        <textarea class="form-control" id="step1" required rows="5"
                                   th:field="*{howToPrepare}"></textarea>
-                    </div>
                 </div>
+            </div>
 
-                <button class="btn btn-primary" type="submit">Compartilhar</button>
-            </form>
-        </div>
+            <button class="btn btn-primary" type="submit">Compartilhar</button>
+        </form>
     </div>
 </main>
 

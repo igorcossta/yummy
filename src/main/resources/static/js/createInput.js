@@ -5,7 +5,6 @@ function addIngredientInput() {
 
     newInput.className = 'form-control mt-3';
     newInput.name = 'ingredients';
-    newInput.placeholder = '...';
     newInput.required = true;
     newInput.setAttribute('th:field', '${ingredients}')
 
@@ -23,7 +22,6 @@ function addStepInput() {
 
     newInput.className = 'form-control mt-3';
     newInput.name = 'howToPrepare';
-    newInput.placeholder = '...';
     newInput.required = true;
     newInput.rows = 5;
     newInput.setAttribute('th:field', '${howToPrepare}')

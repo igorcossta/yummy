@@ -11,8 +11,8 @@
             </a>
 
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" th:href="@{/receitas/compartilhar}">Compartilhar receita</a></li>
-                <li><a class="dropdown-item" th:href="@{/receitas/publicadas}">Minhas receitas</a></li>
+                <li><a class="dropdown-item" th:href="@{/recipes/share}">Compartilhar receita</a></li>
+                <li><a class="dropdown-item" th:href="@{/recipes/mines}">Minhas receitas</a></li>
                 <li><a class="dropdown-item" href="#">Profile</a></li>
                 <li>
                     <hr class="dropdown-divider">
@@ -23,7 +23,7 @@
 
         <div sec:authorize="!isAuthenticated()">
             <a class="btn-book-a-table bg-body-tertiary text-dark" th:href="@{/login}">Entrar</a>
-            <a class="btn-book-a-table" th:href="@{/registration}">Cadastrar</a>
+            <a class="btn-book-a-table" th:href="@{/signup}">Cadastrar</a>
         </div>
     </div>
 </header>

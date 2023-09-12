@@ -1,8 +1,7 @@
 package io.igorcossta.recipe;
 
-import io.igorcossta.comment.CommentDto;
+import io.igorcossta.comment.CommentCreationDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/receitas")
+@RequestMapping("/recipes")
 @RequiredArgsConstructor
-@Slf4j
 public class RecipeController {
     private final RecipeService recipeService;
 
@@ -22,32 +20,35 @@ public class RecipeController {
         return "recipe/show-all-recipes";
     }
 
-    @GetMapping("/publicadas")
+    @GetMapping("/mines")
     public String listMyRecipes(Model model) {
-        List<Recipe> recipes = recipeService.listMyRecipes();
+        List<RecipeViewDTO> recipes = recipeService.listMyRecipes();
         model.addAttribute("recipes", recipes);
         return "user/recipe/show-my-recipes";
     }
 
-    @GetMapping("/compartilhar")
+    @GetMapping("/share")
     public String createRecipeHomePage(Model model) {
         model.addAttribute("recipe", new RecipeCreationDTO());
         return "user/recipe/create-new-recipe";
     }
 
-    @PostMapping("/compartilhar")
-    public String createRecipe(Model model, @ModelAttribute RecipeCreationDTO recipe) {
-        log.debug(recipe.toString());
-        recipeService.createRecipe(recipe);
-        return "redirect:/?c1001";
+    @PostMapping("/share")
+    public String createRecipe(@ModelAttribute RecipeCreationDTO recipe) {
+        long id = recipeService.createRecipe(recipe);
+        return "redirect:/recipes/details/" + id;
     }
 
-    @GetMapping("/detalhes/{receita}")
-    public String displayFoodRecipe(Model model, @PathVariable Long receita) {
-        RecipeAndComments recipe = recipeService.getRecipeAndComments(receita);
+    @GetMapping("/details/{id}")
+    public String displayFoodRecipe(Model model, @PathVariable Long id) {
+        RecipeAndCommentsViewDTO recipe = recipeService.getRecipeAndComments(id);
 
         model.addAttribute("recipeAndComments", recipe);
-        model.addAttribute("commentDto", new CommentDto());
         return "recipe/recipe-details";
+    }
+
+    @ModelAttribute("commentCreation")
+    public CommentCreationDTO commentCreation() {
+        return new CommentCreationDTO();
     }
 }

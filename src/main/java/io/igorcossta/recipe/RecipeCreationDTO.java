@@ -14,4 +14,6 @@ public class RecipeCreationDTO {
     private String description;
     private List<String> ingredients;
     private List<String> howToPrepare;
+    private int preparationTime;
+    private int servings;
 }

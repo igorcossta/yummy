@@ -2,16 +2,16 @@ package io.igorcossta.recipe;
 
 import io.igorcossta.comment.Comment;
 import io.igorcossta.comment.CommentRepository;
+import io.igorcossta.comment.CommentViewDTO;
 import io.igorcossta.user.User;
+import io.igorcossta.user.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -19,34 +19,49 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
 
-    public void createRecipe(RecipeCreationDTO recipe) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public long createRecipe(RecipeCreationDTO recipe) {
+        User user = UserService.getPrincipal();
+        Recipe toSave = Recipe.fromRecipeCreationDTO(recipe, user);
 
-        String ingredients = String.join(":", recipe.getIngredients());
-        String howToPrepare = String.join(":", recipe.getHowToPrepare());
-        Recipe toSave = new Recipe(user, recipe.getTitle(), recipe.getDescription(), ingredients, howToPrepare);
-
-        log.debug(user.getUsername());
-        recipeRepository.save(toSave);
+        Recipe saved = recipeRepository.save(toSave);
+        return saved.getId();
     }
 
-    public List<Recipe> listMyRecipes() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.debug(user.getUsername());
-        return recipeRepository.findAllByRecipeOwner(user);
+    public List<RecipeViewDTO> listMyRecipes() {
+        User user = UserService.getPrincipal();
+        return recipeRepository.findAllByRecipeOwner(user)
+                .stream()
+                .map(Recipe::toRecipeViewDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Recipe> findAll() {
-        return recipeRepository.findAll();
+    public List<RecipeViewDTO> findAll() {
+        return recipeRepository.findAll()
+                .stream()
+                .map(Recipe::toRecipeViewDTO)
+                .collect(Collectors.toList());
     }
 
-    public Recipe getRecipe(Long recipe) {
-        return recipeRepository.findById(recipe).orElseThrow(() -> new RuntimeException("recipe not found"));
+    public RecipeViewDTO getRecipeViewDTO(Long id) {
+        Recipe recipe = getRecipeById(id);
+        return Recipe.toRecipeViewDTO(recipe);
     }
 
-    public RecipeAndComments getRecipeAndComments(Long id) {
-        Recipe recipe = getRecipe(id);
-        List<Comment> comments = commentRepository.findAllByRecipeId(id);
-        return new RecipeAndComments(recipe, comments);
+    public Recipe getRecipeEntity(Long id) {
+        return getRecipeById(id);
+    }
+
+    private Recipe getRecipeById(Long id) {
+        return recipeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Recipe not found"));
+    }
+
+    public RecipeAndCommentsViewDTO getRecipeAndComments(Long id) {
+        RecipeViewDTO recipeViewDTO = getRecipeViewDTO(id);
+        List<CommentViewDTO> comments = commentRepository.findAllByRecipeId(id)
+                .stream()
+                .map(Comment::toCommentViewDTO)
+                .collect(Collectors.toList());
+        return new RecipeAndCommentsViewDTO(recipeViewDTO, comments);
     }
 }

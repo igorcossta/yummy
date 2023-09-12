@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+<html lang="en"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -37,7 +38,7 @@
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Não possui uma conta ? <a class="text-primary" th:href="@{/registration}">Cadastrar</a></p>
+                    <p>Não possui uma conta ? <a class="text-primary" th:href="@{/signup}">Cadastrar</a></p>
                 </div>
             </form>
         </div>

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}" xmlns:sec="http://www.w3.org/1999/xhtml"
+<html lang="en"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -21,12 +23,15 @@
             <div class="row">
                 <div class="col-12 col-md-8">
                     <div class="my-5">
-                        <span class="text-secondary">Abril 05, 2018</span>
-                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe.getTitle}">Recipe
+                        <span class="text-secondary"
+                              th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}">Abril 05, 2018</span>
+                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe().title()}">Recipe
                             Name</h2>
                         <div class="border-start border-dark border-3 ps-3">
-                            <h6>Preparação: 15 mins</h6>
-                            <h6>Serve: 3 pessoas</h6>
+                            <h6 th:text="'Preparação: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'">
+                                Preparação: 15 mins</h6>
+                            <h6 th:text="'Serve: ' + ${recipeAndComments.recipe().servings()} + ' pessoas'">Serve: 3
+                                pessoas</h6>
                         </div>
                     </div>
                 </div>
@@ -35,7 +40,7 @@
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <!-- Single Preparation Step -->
-                    <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe.howToPrepare, ':')}">
+                    <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe().howToPrepare(), ':')}">
                         <div class="d-flex mb-3">
                             <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + .">01.</h4>
                             <p class="ms-4 text-body-tertiary fs-6" th:text="${text}">How to prepare</p>
@@ -48,7 +53,7 @@
                     <div>
                         <h4 class="mb-3 text-secondary-emphasis">Ingredientes</h4>
 
-                        <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe.ingredients, ':')}">
+                        <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
                             <div class="mb-3">
                                 <label class="text-body-tertiary fs-6" th:text="${ingredient}">* 4 Tbsp (57 gr)
                                     butter</label>
@@ -71,8 +76,8 @@
                     <div class="col-12">
                         <div>
                             <form method="post"
-                                  th:action="@{'/comentario/postar?recipeId=' + ${recipeAndComments.getRecipe().id}}"
-                                  th:object="${commentDto}">
+                                  th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
+                                  th:object="${commentCreation}">
                                 <div class="row">
                                     <div class="col-12">
                                         <textarea class="form-control" id="message" name="message"
@@ -96,24 +101,25 @@
                 </div>
             </div>
 
-            <div class="row mt-5 mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments)}">
+            <div class="row mt-5 mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
                 <div class="col-12">
 
-                    <div th:each="comment, status : ${recipeAndComments.comments}">
+                    <div th:each="comment, status : ${recipeAndComments.comments()}">
                         <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
                             <img class="rounded-circle me-3"
                                  height="60"
-                                 th:src="@{'https://api.dicebear.com/7.x/avataaars/svg?seed=' + ${comment.commentOwner.username}}"
+                                 th:src="@{'https://api.dicebear.com/7.x/avataaars/svg?seed=' + ${comment.owner()}}"
                                  width="60"/>
                             <div>
-                                <h6 class="fw-bold mb-1" th:text="${comment.commentOwner.username}">Maggie Marsh</h6>
+                                <h6 class="fw-bold mb-1" th:text="${comment.owner()}">Maggie Marsh</h6>
                                 <div class="d-flex align-items-center mb-3">
-                                    <p class="mb-0">
+                                    <p class="mb-0"
+                                       th:text="${#temporals.format(comment.createdAt(), 'MMMM dd, yyyy')}">
                                         March 07, 2021
                                     </p>
                                     <a class="link-muted ms-3 fs-5" href="#"><i class="bi bi-heart"></i></a>
                                 </div>
-                                <p class="mb-0" th:text="${comment.comment}">
+                                <p class="mb-0" th:text="${comment.comment()}">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting
                                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                                     since the 1500s, when an unknown printer took a galley of type and

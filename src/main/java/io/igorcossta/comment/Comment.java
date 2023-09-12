@@ -5,6 +5,9 @@ import io.igorcossta.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,10 +29,16 @@ public class Comment {
 
     @Lob
     private String comment;
+    private ZonedDateTime createdAt;
 
     public Comment(User commentOwner, Recipe recipe, String comment) {
         this.commentOwner = commentOwner;
         this.recipe = recipe;
         this.comment = comment;
+        this.createdAt = ZonedDateTime.now(ZoneId.of("GMT"));
+    }
+
+    public static CommentViewDTO toCommentViewDTO(Comment comment) {
+        return new CommentViewDTO(comment.getCommentOwner().getUsername(), comment.getComment(), comment.getCreatedAt());
     }
 }

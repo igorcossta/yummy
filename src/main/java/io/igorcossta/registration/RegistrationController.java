@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/registration")
+@RequestMapping("/signup")
 @RequiredArgsConstructor
 public class RegistrationController {
     private final UserService userService;
@@ -25,9 +25,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerNewUser(
-            UserRegistrationDto request) {
-        System.out.println(request);
-        return "redirect:/registration?success";
+    public String registerNewUser(UserRegistrationDto request) {
+        return "redirect:/signup?success";
     }
 }

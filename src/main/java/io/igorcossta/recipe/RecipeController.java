@@ -1,9 +1,11 @@
 package io.igorcossta.recipe;
 
 import io.igorcossta.comment.CommentCreationDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +36,12 @@ public class RecipeController {
     }
 
     @PostMapping("/share")
-    public String createRecipe(@ModelAttribute RecipeCreationDTO recipe) {
+    public String createRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe, BindingResult bindingResult) {
+        System.out.println(recipe.toString());
+        if (bindingResult.hasErrors()) {
+            return "user/recipe/create-new-recipe";
+        }
+
         long id = recipeService.createRecipe(recipe);
         return "redirect:/recipes/details/" + id;
     }

@@ -13,10 +13,14 @@
 
         <div class="d-flex justify-content-center" style="height: 100vh;">
 
-            <form class="w-50" method="post" th:action="@{/login}" th:object="${userDto}">
+            <form class="w-50" method="post" th:action="@{/login}" th:object="${authentication}">
+
+                <div class="col-12" th:if="${param.success}">
+                    <p class="alert alert-success">Account created successfully!</p>
+                </div>
 
                 <div class="col-12" th:if="${param.error}">
-                    <p class="alert alert-danger">Usuário ou senha incorreto(s)</p>
+                    <p class="alert alert-danger">Username or password are incorrect!</p>
                 </div>
 
                 <!-- Email input -->
@@ -27,18 +31,18 @@
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="password">Senha</label>
+                    <label class="form-label" for="password">Password</label>
                     <input class="form-control" id="password" required th:field="*{password}" type="password"/>
                 </div>
 
                 <!-- Submit button -->
                 <div class="d-grid">
-                    <button class="btn btn-primary mb-4" type="submit">Entrar</button>
+                    <button class="btn btn-primary mb-4" type="submit">Sign In</button>
                 </div>
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Não possui uma conta ? <a class="text-primary" th:href="@{/signup}">Cadastrar</a></p>
+                    <p>Don't have an account ? <a class="text-primary" th:href="@{/signup}">Sign Up</a></p>
                 </div>
             </form>
         </div>

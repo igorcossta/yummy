@@ -1,33 +1,27 @@
-// create input for new ingredient
 function addIngredientInput() {
-    const inputContainer = document.getElementById('recipe-ingredients');
-    const newInput = document.createElement('input');
+    const container = document.getElementById("ingredients-section");
 
-    newInput.className = 'form-control mt-3';
-    newInput.name = 'ingredients';
-    newInput.required = true;
-    newInput.setAttribute('th:field', '${ingredients}')
+    // count how many inputs have in the ingredients sections
+    let newIndex = container.querySelectorAll('.ingredient-div').length;
 
-    inputContainer.appendChild(newInput);
+    // append the new input at the bottom
+    container.insertAdjacentHTML('beforeend', `
+    <div class="ingredient-div">
+     <input name="ingredients[${newIndex}]" placeholder="Flour 240gr" type="text" class="form-control mb-2" required>
+    </div>
+    `);
 }
 
-// Attach the addIngredientInput function to a button click event
-document.getElementById('add-ingredient').addEventListener('click', addIngredientInput);
-
-
-// create input for new step
 function addStepInput() {
-    const stepContainer = document.getElementById('recipe-steps');
-    const newInput = document.createElement('textarea');
+    const container = document.getElementById("step-section");
 
-    newInput.className = 'form-control mt-3';
-    newInput.name = 'howToPrepare';
-    newInput.required = true;
-    newInput.rows = 5;
-    newInput.setAttribute('th:field', '${howToPrepare}')
+    // count how many inputs have in the ingredients sections
+    let newIndex = container.querySelectorAll('.step-by-step-div').length;
 
-    stepContainer.appendChild(newInput);
+    // append the new input at the bottom
+    container.insertAdjacentHTML('beforeend', `
+    <div class="step-by-step-div">
+     <textarea name="howToPrepare[${newIndex}]" class="form-control mb-2" required></textarea>
+    </div>
+    `);
 }
-
-// Attach the addStepInput function to a button click event
-document.getElementById('add-step').addEventListener('click', addStepInput);

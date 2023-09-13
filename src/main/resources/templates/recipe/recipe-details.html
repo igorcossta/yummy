@@ -24,14 +24,11 @@
                 <div class="col-12 col-md-8">
                     <div class="my-5">
                         <span class="text-secondary"
-                              th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}">Abril 05, 2018</span>
-                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe().title()}">Recipe
-                            Name</h2>
+                              th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}"></span>
+                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe().title()}"></h2>
                         <div class="border-start border-dark border-3 ps-3">
-                            <h6 th:text="'Preparação: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'">
-                                Preparação: 15 mins</h6>
-                            <h6 th:text="'Serve: ' + ${recipeAndComments.recipe().servings()} + ' pessoas'">Serve: 3
-                                pessoas</h6>
+                            <h6 th:text="'Preparation: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'"></h6>
+                            <h6 th:text="'Servings: ' + ${recipeAndComments.recipe().servings()}"></h6>
                         </div>
                     </div>
                 </div>
@@ -42,8 +39,8 @@
                     <!-- Single Preparation Step -->
                     <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe().howToPrepare(), ':')}">
                         <div class="d-flex mb-3">
-                            <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + .">01.</h4>
-                            <p class="ms-4 text-body-tertiary fs-6" th:text="${text}">How to prepare</p>
+                            <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + ."></h4>
+                            <p class="ms-4 text-body-tertiary fs-6" th:text="${text}"></p>
                         </div>
                     </div>
                 </div>
@@ -51,53 +48,51 @@
                 <!-- Ingredients -->
                 <div class="col-12 col-lg-4">
                     <div>
-                        <h4 class="mb-3 text-secondary-emphasis">Ingredientes</h4>
+                        <h4 class="mb-3 text-secondary-emphasis">Ingredients</h4>
 
                         <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
                             <div class="mb-3">
-                                <label class="text-body-tertiary fs-6" th:text="${ingredient}">* 4 Tbsp (57 gr)
-                                    butter</label>
+                                <label class="text-body-tertiary fs-6" th:text="${ingredient}"></label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row mt-5 mb-5">
-                <div class="col-12">
-                    <div class="text-left">
-                        <h3>Deixe um comentário</h3>
-                    </div>
-                </div>
-            </div>
-
             <div sec:authorize="isAuthenticated()">
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col-12">
-                        <div>
-                            <form method="post"
-                                  th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
-                                  th:object="${commentCreation}">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <textarea class="form-control" id="message" name="message"
-                                                  placeholder="Deixe um comentário avaliando esta receita."
-                                                  rows="10"
-                                                  th:field="*{comment}"></textarea>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <button class="btn btn-success" type="submit">Postar Comentário
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="text-left">
+                            <h3>Leave a review for this recipe</h3>
                         </div>
                     </div>
                 </div>
+
+                <form class="needs-validation"
+                      method="post"
+                      novalidate
+                      th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
+                      th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+                      th:object="${commentCreation}">
+                    <div class="row">
+                        <div class="col-12">
+                            <textarea class="form-control" maxlength="300" minlength="1" required
+                                      th:field="*{comment}"></textarea>
+                            <div class="invalid-feedback" th:errors="*{comment}"
+                                 th:if="${#fields.hasErrors('comment')}">
+                                Please enter a comment in the textarea.
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button class="btn btn-success" type="submit">Post</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div sec:authorize="!isAuthenticated()">
+
+            <div class="mt-5" sec:authorize="!isAuthenticated()">
                 <div class="alert alert-danger text-center" role="alert">
-                    Você deve estar logado para deixar um comentário.
+                    You must be logged in to share a comment!
                 </div>
             </div>
 
@@ -108,7 +103,7 @@
                         <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
                             <img class="rounded-circle me-3"
                                  height="60"
-                                 th:src="@{'https://api.dicebear.com/7.x/avataaars/svg?seed=' + ${comment.owner()}}"
+                                 th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${comment.owner()}}"
                                  width="60"/>
                             <div>
                                 <h6 class="fw-bold mb-1" th:text="${comment.owner()}">Maggie Marsh</h6>
@@ -117,7 +112,7 @@
                                        th:text="${#temporals.format(comment.createdAt(), 'MMMM dd, yyyy')}">
                                         March 07, 2021
                                     </p>
-                                    <a class="link-muted ms-3 fs-5" href="#"><i class="bi bi-heart"></i></a>
+                                    <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
                                 </div>
                                 <p class="mb-0" th:text="${comment.comment()}">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting

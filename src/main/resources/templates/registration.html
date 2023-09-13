@@ -12,10 +12,14 @@
 
         <div class="d-flex justify-content-center" style="height: 100vh;">
 
-            <form class="w-50" method="post" th:action="@{/signup}" th:object="${userRegistration}">
+            <form class="w-50" method="post" th:action="@{/signup}" th:object="${registration}">
 
-                <div class="col-12" th:if="${param.success}">
-                    <p class="alert alert-success">Conta criada com sucesso!</p>
+                <div class="col-12" th:if="${#fields.hasErrors('username')}">
+                    <p class="alert alert-danger" th:errors="*{username}">Please enter a valid email.</p>
+                </div>
+
+                <div class="col-12" th:if="${#fields.hasErrors('password')}">
+                    <p class="alert alert-danger" th:errors="*{password}">Please enter a valid password.</p>
                 </div>
 
                 <!-- Email input -->
@@ -26,18 +30,18 @@
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="password">Senha</label>
+                    <label class="form-label" for="password">Password</label>
                     <input class="form-control" id="password" required th:field="*{password}" type="password"/>
                 </div>
 
                 <!-- Submit button -->
                 <div class="d-grid">
-                    <button class="btn btn-primary mb-4" type="submit">Cadastrar</button>
+                    <button class="btn btn-primary mb-4" type="submit">Sign Up</button>
                 </div>
 
                 <!-- Login buttons -->
                 <div class="text-center">
-                    <p>Já possui uma conta ? <a class="text-primary" th:href="@{/login}">Entrar</a></p>
+                    <p>Already have an account ? <a class="text-primary" th:href="@{/login}">Sign In</a></p>
                 </div>
             </form>
         </div>

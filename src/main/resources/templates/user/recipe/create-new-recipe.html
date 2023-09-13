@@ -8,58 +8,92 @@
     <script defer th:src="@{/js/createInput.js}"></script>
 </head>
 
-<main>
-    <div class="container">
-        <form method="post" th:action="@{/recipes/share}" th:object="${recipe}">
-            <div class="form-group mb-3">
-                <label for="title">Título da Receita</label>
-                <input class="form-control" id="title" required
-                       th:field="*{title}" type="text">
-            </div>
+<main class="container overflow-scroll" style="height: 100vh; margin-top: 8rem;">
+    <form class="row g-3 needs-validation" method="post"
+          novalidate
+          th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+          th:object="${recipe}">
 
-            <div class="form-group mb-3">
-                <label for="servings">Porções</label>
-                <input class="form-control" id="servings"
-                       required th:field="*{servings}"/>
-            </div>
-
-            <div class="form-group mb-3">
-                <label for="timeToPrepare">Tempo de preparação</label>
-                <input class="form-control" id="timeToPrepare"
-                       required th:field="*{preparationTime}"/>
-            </div>
-
-            <div class="form-group mb-3">
-                <label for="description">Descrição</label>
-                <input class="form-control" id="description"
-                       required th:field="*{description}"/>
-            </div>
-
-            <div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <label for="ingredient1">Ingredientes</label>
-                    <button class="btn btn-primary" id="add-ingredient" type="button">Adicionar Ingrediente</button>
+        <!--recipe details section-->
+        <div class="p-0" id="recipe-details-section">
+            <h2 class="fs-3 fw-light col-6">Recipe Details</h2>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" for="recipeTitle">Title</label>
+                    <input class="form-control" id="recipeTitle" maxlength="60" pattern="[A-Za-z]+" required
+                           th:field="*{title}" type="text">
+                    <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}">
+                        Please enter a valid recipe title.
+                    </div>
                 </div>
-                <div class="form-group mb-3 mt-3" id="recipe-ingredients">
-                    <input class="form-control" id="ingredient1" name="ingredients"
-                           required th:field="*{ingredients}"/>
+                <div class="col-md-4">
+                    <label class="form-label" for="recipePreparationTime">Approximated time</label>
+                    <input class="form-control" id="recipePreparationTime" max="99" min="1"
+                           required th:field="*{preparationTime}" type="number">
+                    <div class="invalid-feedback">
+                        Please provide an approximate preparation time.
+                    </div>
                 </div>
-            </div>
-
-            <div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <label for="step1">Etapas</label>
-                    <button class="btn btn-primary" id="add-step" type="button">Adicionar Etapa</button>
+                <div class="col-md-4">
+                    <label class="form-label" for="recipeServings">No. of Servings</label>
+                    <input class="form-control" id="recipeServings" max="99" min="1"
+                           required th:field="*{servings}" type="number">
+                    <div class="invalid-feedback">
+                        Please specify the number of servings.
+                    </div>
                 </div>
-                <div class="form-group mb-3 mt-3" id="recipe-steps">
-                        <textarea class="form-control" id="step1" required rows="5"
-                                  th:field="*{howToPrepare}"></textarea>
+                <div class="col-12">
+                    <label class="form-label" for="recipeDescription">Description</label>
+                    <textarea class="form-control" id="recipeDescription" maxlength="180"
+                              required th:field="*{description}"></textarea>
+                    <div class="invalid-feedback" th:errors="*{description}"
+                         th:if="${#fields.hasErrors('description')}">
+                        Please enter a description in the textarea.
+                    </div>
                 </div>
             </div>
+        </div>
+        <!--end recipe details section-->
 
-            <button class="btn btn-primary" type="submit">Compartilhar</button>
-        </form>
-    </div>
+        <!--ingredients section-->
+        <div class="p-0 mt-5" id="ingredients-section">
+            <h2 class="fs-3 fw-light col-6">Ingredients</h2>
+
+            <div class="alert alert-danger" role="alert"
+                 th:errors="*{ingredients}" th:if="${#fields.hasErrors('ingredients')}"></div>
+
+            <div class="ingredient-div" th:each="err, stat : *{ingredients}">
+                <input class="form-control mb-2" placeholder="Flour 240gr"
+                       required th:field="*{ingredients[__${stat.index}__]}" type="text">
+            </div>
+
+        </div>
+        <button class="btn btn-primary btn-sm w-25" onclick="addIngredientInput()" type="button">Add ingredient
+        </button>
+        <!--end ingredients section-->
+
+        <!--step-by-step section-->
+        <div class="p-0 mt-5" id="step-section">
+            <h2 class="fs-3 fw-light col-6">Step-By-Step</h2>
+
+            <div class="alert alert-danger" role="alert"
+                 th:errors="*{howToPrepare}" th:if="${#fields.hasErrors('howToPrepare')}"></div>
+
+            <div class="step-by-step-div" th:each="err, stat : *{howToPrepare}">
+                <textarea class="form-control mb-2" maxlength="500"
+                          required th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
+            </div>
+
+        </div>
+        <button class="btn btn-primary btn-sm w-25" onclick="addStepInput()" type="button">Add Step
+        </button>
+        <!--end step-by-step section-->
+
+
+        <div class="col-12 p-0">
+            <button class="btn btn-success" type="submit">Share</button>
+        </div>
+    </form>
 </main>
 
 </html>

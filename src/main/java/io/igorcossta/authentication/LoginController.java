@@ -3,8 +3,8 @@ package io.igorcossta.authentication;
 import io.igorcossta.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,10 +14,11 @@ public class LoginController {
     private final UserService userService;
 
     @GetMapping
-    public String home(@ModelAttribute("userDto") LoginDTO loginDTO) {
+    public String home(Model model) {
         if (userService.isAuthenticated()) {
             return "redirect:/";
         }
+        model.addAttribute("authentication", new LoginDTO());
 
         return "login";
     }

@@ -1,5 +1,7 @@
 package io.igorcossta.recipe;
 
+import io.igorcossta.calories.Calories;
+import io.igorcossta.calories.CaloriesService;
 import io.igorcossta.comment.Comment;
 import io.igorcossta.comment.CommentRepository;
 import io.igorcossta.comment.CommentViewDTO;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
+    private final CaloriesService caloriesService;
 
     public long createRecipe(RecipeCreationDTO recipe) {
         User user = UserService.getPrincipal();
@@ -58,10 +61,13 @@ public class RecipeService {
 
     public RecipeAndCommentsViewDTO getRecipeAndComments(Long id) {
         RecipeViewDTO recipeViewDTO = getRecipeViewDTO(id);
+
+        Calories calories = caloriesService.getCaloriesFor(recipeViewDTO.ingredients()).block();
+
         List<CommentViewDTO> comments = commentRepository.findAllByRecipeId(id)
                 .stream()
                 .map(Comment::toCommentViewDTO)
                 .collect(Collectors.toList());
-        return new RecipeAndCommentsViewDTO(recipeViewDTO, comments);
+        return new RecipeAndCommentsViewDTO(recipeViewDTO, comments, calories);
     }
 }

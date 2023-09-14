@@ -14,6 +14,13 @@
           th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
           th:object="${recipe}">
 
+        <div class="alert alert-primary" role="alert">
+            To ensure that the recipe calories are calculated, please make sure that all ingredients are written in
+            english.
+            If you wish to calculate a specific quantity, you may prefix a quantity before an item. For example, 3
+            tomatoes or 200 grams beef brisket. If no quantity is specified, the default quantity is 100 grams.
+        </div>
+
         <!--recipe details section-->
         <div class="p-0" id="recipe-details-section">
             <h2 class="fs-3 fw-light col-6">Recipe Details</h2>
@@ -63,7 +70,7 @@
                  th:errors="*{ingredients}" th:if="${#fields.hasErrors('ingredients')}"></div>
 
             <div class="ingredient-div" th:each="err, stat : *{ingredients}">
-                <input class="form-control mb-2" placeholder="Flour 240gr"
+                <input class="form-control mb-2" placeholder="200 grams chicken breast"
                        required th:field="*{ingredients[__${stat.index}__]}" type="text">
             </div>
 
@@ -95,5 +102,4 @@
         </div>
     </form>
 </main>
-
 </html>

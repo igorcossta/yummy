@@ -7,7 +7,7 @@ function addIngredientInput() {
     // append the new input at the bottom
     container.insertAdjacentHTML('beforeend', `
     <div class="ingredient-div">
-     <input name="ingredients[${newIndex}]" placeholder="Flour 240gr" type="text" class="form-control mb-2" required>
+     <input name="ingredients[${newIndex}]" placeholder="200 grams chicken breast" type="text" class="form-control mb-2" required>
     </div>
     `);
 }

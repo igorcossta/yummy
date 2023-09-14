@@ -59,6 +59,68 @@
                 </div>
             </div>
 
+            <!-- Calories -->
+            <div class="col-12 col-lg-4 mx-auto mt-5 pt-5" th:if="${recipeAndComments.calories().calories > 0}">
+                <div>
+                    <h4 class="mb-3 text-secondary-emphasis text-center">Calories</h4>
+
+                    <div class="mb-3">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Macro</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <th scope="row">Calories</th>
+                                <td th:text="${recipeAndComments.calories().calories}"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fat</th>
+                                <td th:text="${recipeAndComments.calories().fatTotalG} + 'gr'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fat Saturated</th>
+                                <td th:text="${recipeAndComments.calories().fatSaturatedG} + 'gr'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Protein</th>
+                                <td th:text="${recipeAndComments.calories().proteinG} + 'gr'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sodium</th>
+                                <td th:text="${recipeAndComments.calories().sodiumMg} + 'mg'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Potassium</th>
+                                <td th:text="${recipeAndComments.calories().potassiumMg} + 'mg'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cholesterol</th>
+                                <td th:text="${recipeAndComments.calories().cholesterolMg} + 'mg'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Carbohydrates</th>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().carbohydratesTotalG, 1,2)} + 'gr'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Fiber</th>
+                                <td th:text="${recipeAndComments.calories().fiberG} + 'gr'"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sugar</th>
+                                <td th:text="${recipeAndComments.calories().sugarG} + 'gr'"></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div sec:authorize="isAuthenticated()">
                 <div class="row mt-5">
                     <div class="col-12">

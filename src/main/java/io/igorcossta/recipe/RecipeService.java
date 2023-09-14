@@ -56,13 +56,14 @@ public class RecipeService {
 
     private Recipe getRecipeById(Long id) {
         return recipeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recipe not found"));
+                .orElseThrow(() -> new RecipeNotFoundException("recipe %s was not found".formatted(id)));
     }
 
     public RecipeAndCommentsViewDTO getRecipeAndComments(Long id) {
         RecipeViewDTO recipeViewDTO = getRecipeViewDTO(id);
 
         Calories calories = caloriesService.getCaloriesFor(recipeViewDTO.ingredients()).block();
+        if (calories == null) calories = new Calories();
 
         List<CommentViewDTO> comments = commentRepository.findAllByRecipeId(id)
                 .stream()

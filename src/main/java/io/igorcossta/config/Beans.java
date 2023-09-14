@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import io.igorcossta.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -20,6 +21,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class Beans {
     private final UserRepository userRepository;
+    @Value("${api.calories}")
+    private String API_KEY;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -57,7 +60,7 @@ public class Beans {
 
         return WebClient.builder()
                 .baseUrl("https://api.calorieninjas.com/v1/nutrition")
-                .defaultHeader("X-Api-Key", "T20ii4Nnuw1s8rR6vKvvzA==wMgnehkduYDbtqvD")
+                .defaultHeader("X-Api-Key", API_KEY)
                 .exchangeStrategies(exchangeStrategies)
                 .build();
     }

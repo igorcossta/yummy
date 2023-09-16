@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{})}"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -10,7 +10,7 @@
 <main>
     <div class="container">
 
-        <div class="d-flex justify-content-center" style="height: 100vh;">
+        <div class="d-flex justify-content-center">
 
             <form class="w-50" method="post" th:action="@{/signup}" th:object="${registration}">
 

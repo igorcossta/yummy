@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{::script})}, ~{::main})}"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{::script})}, ~{::main}, ~{})}"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -8,7 +8,7 @@
     <script defer th:src="@{/js/createInput.js}"></script>
 </head>
 
-<main class="container overflow-scroll" style="height: 100vh; margin-top: 8rem;">
+<main class="container">
     <form class="row g-3 needs-validation" method="post"
           novalidate
           th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
@@ -98,7 +98,7 @@
 
 
         <div class="col-12 p-0">
-            <button class="btn btn-success" type="submit">Share</button>
+            <button class="btn btn-success mb-3" type="submit">Share</button>
         </div>
     </form>
 </main>

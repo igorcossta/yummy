@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{})}"
       xmlns:sec="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
@@ -25,7 +25,7 @@
                     <div class="my-5">
                         <span class="text-secondary"
                               th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}"></span>
-                        <h2 class="text-dark-emphasis mb-4 fs-1" th:text="${recipeAndComments.recipe().title()}"></h2>
+                        <h2 class="text-dark-emphasis mb-4 fs-1 text-break" th:text="${recipeAndComments.recipe().title()}"></h2>
                         <div class="border-start border-dark border-3 ps-3">
                             <h6 th:text="'Preparation: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'"></h6>
                             <h6 th:text="'Servings: ' + ${recipeAndComments.recipe().servings()}"></h6>
@@ -40,7 +40,7 @@
                     <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe().howToPrepare(), ':')}">
                         <div class="d-flex mb-3">
                             <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + ."></h4>
-                            <p class="ms-4 text-body-tertiary fs-6" th:text="${text}"></p>
+                            <p class="ms-4 text-body-tertiary fs-6 text-break" th:text="${text}"></p>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
                         <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
                             <div class="mb-3">
-                                <label class="text-body-tertiary fs-6" th:text="${ingredient}"></label>
+                                <p class="text-body-tertiary fs-6 text-break" th:text="${ingredient}"></p>
                             </div>
                         </div>
                     </div>
@@ -80,15 +80,15 @@
                             </tr>
                             <tr>
                                 <th scope="row">Fat</th>
-                                <td th:text="${recipeAndComments.calories().fatTotalG} + 'gr'"></td>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatTotalG, 1,2)} + 'gr'"></td>
                             </tr>
                             <tr>
                                 <th scope="row">Fat Saturated</th>
-                                <td th:text="${recipeAndComments.calories().fatSaturatedG} + 'gr'"></td>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatSaturatedG, 1,2)} + 'gr'"></td>
                             </tr>
                             <tr>
                                 <th scope="row">Protein</th>
-                                <td th:text="${recipeAndComments.calories().proteinG} + 'gr'"></td>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().proteinG, 1,2)} + 'gr'"></td>
                             </tr>
                             <tr>
                                 <th scope="row">Sodium</th>
@@ -108,11 +108,11 @@
                             </tr>
                             <tr>
                                 <th scope="row">Fiber</th>
-                                <td th:text="${recipeAndComments.calories().fiberG} + 'gr'"></td>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fiberG, 1,2)} + 'gr'"></td>
                             </tr>
                             <tr>
                                 <th scope="row">Sugar</th>
-                                <td th:text="${recipeAndComments.calories().sugarG} + 'gr'"></td>
+                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().sugarG, 1,2)} + 'gr'"></td>
                             </tr>
 
                             </tbody>
@@ -121,7 +121,7 @@
                 </div>
             </div>
 
-            <div sec:authorize="isAuthenticated()">
+            <div sec:authorize="isAuthenticated()" class="my-5">
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="text-left">
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         <div class="col-12 mt-3">
-                            <button class="btn btn-success" type="submit">Post</button>
+                            <button class="btn btn-primary" type="submit">Post</button>
                         </div>
                     </div>
                 </form>
@@ -158,7 +158,7 @@
                 </div>
             </div>
 
-            <div class="row mt-5 mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
+            <div class="row mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
                 <div class="col-12">
 
                     <div th:each="comment, status : ${recipeAndComments.comments()}">
@@ -176,7 +176,7 @@
                                     </p>
                                     <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
                                 </div>
-                                <p class="mb-0" th:text="${comment.comment()}">
+                                <p class="mb-0 text-break" th:text="${comment.comment()}">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting
                                     industry. Lorem Ipsum has been the industry's standard dummy text ever
                                     since the 1500s, when an unknown printer took a galley of type and

@@ -22,9 +22,8 @@
         </div>
 
         <div sec:authorize="!isAuthenticated()">
-            <a class="btn-book-a-table bg-body-tertiary text-dark" th:href="@{/login}">Sign In</a>
-            <a class="btn-book-a-table" th:href="@{/signup}">Sign Up</a>
+            <a class="btn bg-body-tertiary text-dark rounded-pill" th:href="@{/login}">Sign In</a>
+            <a class="btn btn-primary rounded-pill ms-3" th:href="@{/signup}">Sign Up</a>
         </div>
     </div>
 </header>
-<!--end header-->

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main})}"
+      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{})}"
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -9,7 +9,6 @@
 
 <main>
     <div th:replace="~{fragment/index/hero :: #hero}"></div>
-    <div th:replace="~{fragment/index/menu :: #menu}"></div>
 </main>
 
 </html>

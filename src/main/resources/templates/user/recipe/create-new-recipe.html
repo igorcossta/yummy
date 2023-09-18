@@ -27,7 +27,7 @@
             <div class="row g-3">
                 <div class="col-md-4">
                     <label class="form-label" for="recipeTitle">Title</label>
-                    <input class="form-control" id="recipeTitle" maxlength="60" pattern="[A-Za-z]+" required
+                    <input class="form-control" id="recipeTitle" maxlength="60" pattern="[A-Za-z ]+" required
                            th:field="*{title}" type="text">
                     <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}">
                         Please enter a valid recipe title.

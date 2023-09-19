@@ -17,7 +17,7 @@ public class CommentService {
 
     public void postComment(CommentCreationDTO comment, long recipeId) {
         User user = UserService.getPrincipal();
-        Recipe recipe = recipeService.getRecipeEntity(recipeId);
+        Recipe recipe = recipeService.searchForRecipe(recipeId);
         Comment toSave = new Comment(user, recipe, comment.getComment());
         commentRepository.save(toSave);
     }

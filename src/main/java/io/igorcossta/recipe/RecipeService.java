@@ -26,10 +26,6 @@ public class RecipeService {
         return recipeRepository.save(toSave).getId();
     }
 
-    public Recipe getRecipeEntity(Long id) {
-        return searchForRecipe(id);
-    }
-
     @Transactional(readOnly = true)
     public Recipe searchForRecipe(Long id) {
         Recipe recipe = recipeRepository.findById(id)
@@ -54,8 +50,9 @@ public class RecipeService {
 
     @Transactional
     public void disableMyRecipe(Long id) {
-        boolean isDisabled = recipeRepository.isRecipeDisabled(id);
-        if (isDisabled) throw new RecipeDisabledException("recipe %s is already disabled".formatted(id));
+        String username = UserService.getPrincipal().getUsername();
+        if (!searchForRecipe(id).getRecipeOwner().getUsername().equals(username))
+            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
         recipeRepository.disableRecipeById(id);
     }
 

@@ -1,6 +1,8 @@
 package io.igorcossta.misc;
 
+import io.igorcossta.recipe.RecipeDisabledException;
 import io.igorcossta.recipe.RecipeNotFoundException;
+import io.igorcossta.recipe.RecipeNotOwnerException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,13 +26,23 @@ public class ErrorControllerAdvice {
         return mav;
     }
 
-    @ExceptionHandler(RecipeNotFoundException.class)
+    @ExceptionHandler({RecipeNotFoundException.class, RecipeDisabledException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView error(HttpServletRequest req, RecipeNotFoundException exception) {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
         mav.addObject(ERROR_STATUS, "RECIPE NOT FOUND");
         mav.addObject(ERROR_MESSAGE, "Sorry, but we couldn't find this recipe!");
+        return mav;
+    }
+
+    @ExceptionHandler(RecipeNotOwnerException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ModelAndView error(HttpServletRequest req, RecipeNotOwnerException exception) {
+        ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
+
+        mav.addObject(ERROR_STATUS, "FORBIDDEN");
+        mav.addObject(ERROR_MESSAGE, "Sorry, but you are not the owner of this recipe!");
         return mav;
     }
 }

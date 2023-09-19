@@ -1,5 +1,6 @@
 package io.igorcossta.recipe;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.igorcossta.comment.CommentCreationDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -7,8 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/recipes")
@@ -18,14 +20,13 @@ public class RecipeController {
 
     @GetMapping
     public String recipes(Model model) {
-        model.addAttribute("recipes", recipeService.findAll());
+        model.addAttribute("recipes", recipeService.searchForAllRecipes());
         return "recipe/show-all-recipes";
     }
 
     @GetMapping("/mines")
     public String listMyRecipes(Model model) {
-        List<RecipeViewDTO> recipes = recipeService.listMyRecipes();
-        model.addAttribute("recipes", recipes);
+        model.addAttribute("recipes", recipeService.searchForMyRecipes());
         return "user/recipe/show-my-recipes";
     }
 
@@ -37,21 +38,28 @@ public class RecipeController {
 
     @PostMapping("/share")
     public String createRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe, BindingResult bindingResult) {
-        System.out.println(recipe.toString());
         if (bindingResult.hasErrors()) {
             return "user/recipe/create-new-recipe";
         }
 
-        long id = recipeService.createRecipe(recipe);
-        return "redirect:/recipes/details/" + id;
+        return "redirect:/recipes/details/" + recipeService.createRecipe(recipe);
     }
 
     @GetMapping("/details/{id}")
     public String displayFoodRecipe(Model model, @PathVariable Long id) {
-        RecipeAndCommentsViewDTO recipe = recipeService.getRecipeAndComments(id);
-
-        model.addAttribute("recipeAndComments", recipe);
+        model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(id));
         return "recipe/recipe-details";
+    }
+
+    @DeleteMapping("/{id}")
+    public HtmxResponse deleteRecipe(Model model, @PathVariable Long id) {
+        recipeService.disableMyRecipe(id);
+        model.addAttribute("recipes", recipeService.searchForMyRecipes());
+        return new HtmxResponse()
+                .addTemplate(new ModelAndView("fragment/component/toast"))
+                .addTemplate(new ModelAndView(
+                        "user/recipe/show-my-recipes :: recipes-container",
+                        Map.of("recipes", recipeService.searchForMyRecipes())));
     }
 
     @ModelAttribute("commentCreation")

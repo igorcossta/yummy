@@ -37,6 +37,7 @@ public class Recipe {
     private ZonedDateTime createdAt;
     private int preparationTime;
     private int servings;
+    private boolean isDisabled;
 
     public Recipe(User recipeOwner, String title, String description, String ingredients, String howToPrepare, int preparationTime, int servings) {
         this.recipeOwner = recipeOwner;
@@ -47,6 +48,7 @@ public class Recipe {
         this.createdAt = ZonedDateTime.now(ZoneId.of("GMT"));
         this.preparationTime = preparationTime;
         this.servings = servings;
+        this.isDisabled = false;
     }
 
     public static RecipeViewDTO toRecipeViewDTO(Recipe recipe) {

@@ -24,7 +24,7 @@ public class CommentController {
                           @RequestParam long recipeId,
                           Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("recipeAndComments", recipeService.getRecipeAndComments(recipeId));
+            model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(recipeId));
             return "recipe/recipe-details";
         }
 

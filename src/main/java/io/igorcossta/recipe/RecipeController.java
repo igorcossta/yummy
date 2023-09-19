@@ -52,9 +52,8 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    public HtmxResponse deleteRecipe(Model model, @PathVariable Long id) {
+    public HtmxResponse deleteRecipe(@PathVariable Long id) {
         recipeService.disableMyRecipe(id);
-        model.addAttribute("recipes", recipeService.searchForMyRecipes());
         return new HtmxResponse()
                 .addTemplate(new ModelAndView("fragment/component/toast"))
                 .addTemplate(new ModelAndView(

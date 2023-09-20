@@ -61,6 +61,26 @@ public class RecipeController {
                         Map.of("recipes", recipeService.searchForMyRecipes())));
     }
 
+    @GetMapping("/edit/{id}")
+    public String updateRecipe(Model model, @PathVariable Long id) {
+        RecipeCreationDTO recipe = Recipe.toRecipeCreationDTO(recipeService.searchForRecipe(id));
+        model.addAttribute("recipe", recipe);
+        return "user/recipe/update-recipe";
+    }
+
+    @PutMapping("/edit/{id}")
+    public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe,
+                                     BindingResult bindingResult,
+                                     @PathVariable Long id) {
+        if (bindingResult.hasErrors()) {
+            return new HtmxResponse()
+                    .addTemplate("user/recipe/update-recipe :: form");
+        }
+        recipeService.updateMyRecipe(id, recipe);
+        return new HtmxResponse()
+                .browserRedirect("/recipes/mines");
+    }
+
     @ModelAttribute("commentCreation")
     public CommentCreationDTO commentCreation() {
         return new CommentCreationDTO();

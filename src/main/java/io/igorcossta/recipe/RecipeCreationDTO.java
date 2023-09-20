@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class RecipeCreationDTO {
+    private Long id;
+
     @NotEmpty(message = "You must write a title before sending it")
     @Size(min = 1, max = 60, message = "Title must be between 1 and 60 characters")
     private String title;

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ public class RecipeService {
         return recipeRepository.findAllActiveRecipesByOwner(UserService.getPrincipal())
                 .stream()
                 .map(Recipe::toRecipeViewDTO)
+                .sorted(Comparator.comparing(RecipeViewDTO::id))
                 .collect(Collectors.toList());
     }
 
@@ -70,5 +72,25 @@ public class RecipeService {
                 .stream()
                 .map(Recipe::toRecipeViewDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateMyRecipe(Long id, RecipeCreationDTO updated) {
+        String username = UserService.getPrincipal().getUsername();
+        Recipe recipe = searchForRecipe(id);
+        if (!recipe.getRecipeOwner().getUsername().equals(username))
+            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
+
+        recipe.setTitle(updated.getTitle());
+        recipe.setDescription(updated.getDescription());
+        recipe.setPreparationTime(updated.getPreparationTime());
+        recipe.setServings(updated.getServings());
+
+        String ingredients = String.join(":", updated.getIngredients());
+        String howToPrepare = String.join(":", updated.getHowToPrepare());
+        recipe.setIngredients(ingredients);
+        recipe.setHowToPrepare(howToPrepare);
+
+        recipeRepository.save(recipe);
     }
 }

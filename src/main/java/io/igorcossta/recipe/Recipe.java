@@ -8,6 +8,7 @@ import lombok.*;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -74,5 +75,18 @@ public class Recipe {
                 howToPrepare,
                 recipe.getPreparationTime(),
                 recipe.getServings());
+    }
+
+    public static RecipeCreationDTO toRecipeCreationDTO(Recipe recipe) {
+        List<String> ingredients = Arrays.asList(recipe.getIngredients().split(":"));
+        List<String> howToPrepare = Arrays.asList(recipe.getHowToPrepare().split(":"));
+        return new RecipeCreationDTO(recipe.getId(),
+                recipe.getTitle(),
+                recipe.getDescription(),
+                ingredients,
+                howToPrepare,
+                recipe.getPreparationTime(),
+                recipe.getServings()
+        );
     }
 }

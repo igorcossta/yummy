@@ -1,197 +1,198 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{})}"
+      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}"
       xmlns:sec="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <title>Yummy. Recipe Details</title>
+<head id="head-content">
+  <title>Yummy. Recipe Details</title>
 </head>
 
 <main>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <img alt="" class="img-fluid" data-aos="zoom-out" data-aos-delay="300" th:src="@{/img/bg5.jpg}">
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <img alt="" class="img-fluid" data-aos="zoom-out" data-aos-delay="300" th:src="@{/img/bg5.jpg}">
+      </div>
     </div>
+  </div>
 
-    <div>
-        <div class="container">
+  <div>
+    <div class="container">
 
-            <div class="row">
-                <div class="col-12 col-md-8">
-                    <div class="my-5">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <div class="my-5">
                         <span class="text-secondary"
                               th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}"></span>
-                        <h2 class="text-dark-emphasis mb-4 fs-1 text-break" th:text="${recipeAndComments.recipe().title()}"></h2>
-                        <div class="border-start border-dark border-3 ps-3">
-                            <h6 th:text="'Preparation: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'"></h6>
-                            <h6 th:text="'Servings: ' + ${recipeAndComments.recipe().servings()}"></h6>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="text-dark-emphasis mb-4 fs-1 text-break"
+                th:text="${recipeAndComments.recipe().title()}"></h2>
+            <div class="border-start border-dark border-3 ps-3">
+              <h6 th:text="'Preparation: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'"></h6>
+              <h6 th:text="'Servings: ' + ${recipeAndComments.recipe().servings()}"></h6>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="row">
-                <div class="col-12 col-lg-8">
-                    <!-- Single Preparation Step -->
-                    <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe().howToPrepare(), ':')}">
-                        <div class="d-flex mb-3">
-                            <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + ."></h4>
-                            <p class="ms-4 text-body-tertiary fs-6 text-break" th:text="${text}"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ingredients -->
-                <div class="col-12 col-lg-4">
-                    <div>
-                        <h4 class="mb-3 text-secondary-emphasis">Ingredients</h4>
-
-                        <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
-                            <div class="mb-3">
-                                <p class="text-body-tertiary fs-6 text-break" th:text="${ingredient}"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col-12 col-lg-8">
+          <!-- Single Preparation Step -->
+          <div th:each="text, status : ${#strings.arraySplit(recipeAndComments.recipe().howToPrepare(), ':')}">
+            <div class="d-flex mb-3">
+              <h4 class="fs-4 text-secondary-emphasis" th:text="'0' + ${status.index + 1} + ."></h4>
+              <p class="ms-4 text-body-tertiary fs-6 text-break" th:text="${text}"></p>
             </div>
-
-            <!-- Calories -->
-            <div class="col-12 col-lg-4 mx-auto mt-5 pt-5" th:if="${recipeAndComments.calories().calories > 0}">
-                <div>
-                    <h4 class="mb-3 text-secondary-emphasis text-center">Calories</h4>
-
-                    <div class="mb-3">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">Macro</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <tr>
-                                <th scope="row">Calories</th>
-                                <td th:text="${recipeAndComments.calories().calories}"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fat</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatTotalG, 1,2)} + 'gr'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fat Saturated</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatSaturatedG, 1,2)} + 'gr'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Protein</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().proteinG, 1,2)} + 'gr'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Sodium</th>
-                                <td th:text="${recipeAndComments.calories().sodiumMg} + 'mg'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Potassium</th>
-                                <td th:text="${recipeAndComments.calories().potassiumMg} + 'mg'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Cholesterol</th>
-                                <td th:text="${recipeAndComments.calories().cholesterolMg} + 'mg'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Carbohydrates</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().carbohydratesTotalG, 1,2)} + 'gr'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Fiber</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fiberG, 1,2)} + 'gr'"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Sugar</th>
-                                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().sugarG, 1,2)} + 'gr'"></td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div sec:authorize="isAuthenticated()" class="my-5">
-                <div class="row mt-5">
-                    <div class="col-12">
-                        <div class="text-left">
-                            <h3>Leave a review for this recipe</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <form class="needs-validation"
-                      method="post"
-                      novalidate
-                      th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
-                      th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
-                      th:object="${commentCreation}">
-                    <div class="row">
-                        <div class="col-12">
-                            <textarea class="form-control" maxlength="300" minlength="1" required
-                                      th:field="*{comment}"></textarea>
-                            <div class="invalid-feedback" th:errors="*{comment}"
-                                 th:if="${#fields.hasErrors('comment')}">
-                                Please enter a comment in the textarea.
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <button class="btn btn-primary" type="submit">Post</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="mt-5" sec:authorize="!isAuthenticated()">
-                <div class="alert alert-danger text-center" role="alert">
-                    You must be logged in to share a comment!
-                </div>
-            </div>
-
-            <div class="row mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
-                <div class="col-12">
-
-                    <div th:each="comment, status : ${recipeAndComments.comments()}">
-                        <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
-                            <img class="rounded-circle me-3"
-                                 height="60"
-                                 th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${comment.owner()}}"
-                                 width="60"/>
-                            <div>
-                                <h6 class="fw-bold mb-1" th:text="${comment.owner()}">Maggie Marsh</h6>
-                                <div class="d-flex align-items-center mb-3">
-                                    <p class="mb-0"
-                                       th:text="${#temporals.format(comment.createdAt(), 'MMMM dd, yyyy')}">
-                                        March 07, 2021
-                                    </p>
-                                    <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
-                                </div>
-                                <p class="mb-0 text-break" th:text="${comment.comment()}">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting
-                                    industry. Lorem Ipsum has been the industry's standard dummy text ever
-                                    since the 1500s, when an unknown printer took a galley of type and
-                                    scrambled it.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+          </div>
         </div>
 
+        <!-- Ingredients -->
+        <div class="col-12 col-lg-4">
+          <div>
+            <h4 class="mb-3 text-secondary-emphasis">Ingredients</h4>
+
+            <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
+              <div class="mb-3">
+                <p class="text-body-tertiary fs-6 text-break" th:text="${ingredient}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calories -->
+      <div class="col-12 col-lg-4 mx-auto mt-5 pt-5" th:if="${recipeAndComments.calories().calories > 0}">
+        <div>
+          <h4 class="mb-3 text-secondary-emphasis text-center">Calories</h4>
+
+          <div class="mb-3">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Macro</th>
+                <th scope="col">Total</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr>
+                <th scope="row">Calories</th>
+                <td th:text="${recipeAndComments.calories().calories}"></td>
+              </tr>
+              <tr>
+                <th scope="row">Fat</th>
+                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatTotalG, 1,2)} + 'gr'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Fat Saturated</th>
+                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatSaturatedG, 1,2)} + 'gr'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Protein</th>
+                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().proteinG, 1,2)} + 'gr'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Sodium</th>
+                <td th:text="${recipeAndComments.calories().sodiumMg} + 'mg'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Potassium</th>
+                <td th:text="${recipeAndComments.calories().potassiumMg} + 'mg'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Cholesterol</th>
+                <td th:text="${recipeAndComments.calories().cholesterolMg} + 'mg'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Carbohydrates</th>
+                <td
+                  th:text="${#numbers.formatDecimal(recipeAndComments.calories().carbohydratesTotalG, 1,2)} + 'gr'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Fiber</th>
+                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fiberG, 1,2)} + 'gr'"></td>
+              </tr>
+              <tr>
+                <th scope="row">Sugar</th>
+                <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().sugarG, 1,2)} + 'gr'"></td>
+              </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div sec:authorize="isAuthenticated()" class="my-5">
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="text-left">
+              <h3>Leave a review for this recipe</h3>
+            </div>
+          </div>
+        </div>
+
+        <form class="needs-validation"
+              method="post"
+              novalidate
+              th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
+              th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+              th:object="${commentCreation}">
+          <div class="row">
+            <div class="col-12">
+                            <textarea class="form-control" maxlength="300" minlength="1" required
+                                      th:field="*{comment}"></textarea>
+              <div class="invalid-feedback" th:errors="*{comment}"
+                   th:if="${#fields.hasErrors('comment')}">
+                Please enter a comment in the textarea.
+              </div>
+            </div>
+            <div class="col-12 mt-3">
+              <button class="btn btn-primary" type="submit">Post</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="mt-5" sec:authorize="!isAuthenticated()">
+        <div class="alert alert-danger text-center" role="alert">
+          You must be logged in to share a comment!
+        </div>
+      </div>
+
+      <div class="row mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
+        <div class="col-12">
+
+          <div th:each="comment, status : ${recipeAndComments.comments()}">
+            <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
+              <img class="rounded-circle me-3"
+                   height="60"
+                   th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${comment.owner()}}"
+                   width="60"/>
+              <div>
+                <h6 class="fw-bold mb-1" th:text="${comment.owner()}">Maggie Marsh</h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0"
+                     th:text="${#temporals.format(comment.createdAt(), 'MMMM dd, yyyy')}">
+                    March 07, 2021
+                  </p>
+                  <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
+                </div>
+                <p class="mb-0 text-break" th:text="${comment.comment()}">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting
+                  industry. Lorem Ipsum has been the industry's standard dummy text ever
+                  since the 1500s, when an unknown printer took a galley of type and
+                  scrambled it.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
+
+  </div>
 </main>
 
 </html>

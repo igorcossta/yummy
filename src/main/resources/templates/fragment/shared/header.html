@@ -1,29 +1,29 @@
 <header class="header fixed-top d-flex align-items-center" id="header" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <div class="container d-flex align-items-center justify-content-between">
+  <div class="container d-flex align-items-center justify-content-between">
 
-        <a class="logo d-flex align-items-center me-auto me-lg-0" th:href="@{/}">
-            <h1>Yummy<span>.</span></h1>
-        </a>
+    <a class="logo d-flex align-items-center me-auto me-lg-0" th:href="@{/}">
+      <h1>Yummy<span>.</span></h1>
+    </a>
 
-        <div class="dropdown" sec:authorize="isAuthenticated()">
-            <a aria-expanded="false" data-bs-toggle="dropdown" href="#" role="button">
-                <span class="text-black" th:text="${#authentication.principal.username}">username</span>
-            </a>
+    <div class="dropdown" sec:authorize="isAuthenticated()">
+      <a aria-expanded="false" data-bs-toggle="dropdown" href="#" role="button">
+        <span class="text-black" th:text="${#authentication.principal.username}">username</span>
+      </a>
 
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" th:href="@{/recipes/share}">Share recipe</a></li>
-                <li><a class="dropdown-item" th:href="@{/recipes/mines}">My recipes</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-            </ul>
-        </div>
-
-        <div sec:authorize="!isAuthenticated()">
-            <a class="btn bg-body-tertiary text-dark rounded-pill" th:href="@{/login}">Sign In</a>
-            <a class="btn btn-primary rounded-pill ms-3" th:href="@{/signup}">Sign Up</a>
-        </div>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" th:href="@{/recipes/share}">Share recipe</a></li>
+        <li><a class="dropdown-item" th:href="@{/recipes/mines}">My recipes</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+      </ul>
     </div>
+
+    <div sec:authorize="!isAuthenticated()">
+      <a class="btn bg-body-tertiary text-dark rounded-pill" th:href="@{/login}">Sign In</a>
+      <a class="btn btn-primary rounded-pill ms-3" th:href="@{/signup}">Sign Up</a>
+    </div>
+  </div>
 </header>

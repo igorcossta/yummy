@@ -1,109 +1,105 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{::script})}"
+      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <title>Yummy. My Recipes</title>
+<head id="head-content">
+  <title>Yummy. My Recipes</title>
 </head>
 <!-- very helpful https://htmx.org/examples/update-other-content/ -->
 <!-- https://www.youtube.com/watch?v=M9TL-2Jbr0c -->
 <main class="container" id="main" th:fragment="recipes-container" hx-swap-oob="outerHTML:#main">
-    <section class="row" th:if="${recipes.isEmpty()}">
-        <div class="col d-flex flex-column align-items-center justify-content-center">
-            <h1 class="fw-light fs-5 mb-0">You don't have any recipe!</h1>
-            <a th:href="@{/recipes/share}">Create one!</a>
+  <section class="row" th:if="${recipes.isEmpty()}">
+    <div class="col d-flex flex-column align-items-center justify-content-center">
+      <h1 class="fw-light fs-5 mb-0">You don't have any recipe!</h1>
+      <a th:href="@{/recipes/share}">Create one!</a>
+    </div>
+  </section>
+
+  <section class="row" th:unless="${recipes.isEmpty()}">
+    <h1 class="fw-light text-center text-capitalize mb-4">My Recipes</h1>
+
+    <!-- card -->
+    <div class="col-md-4 mb-3" id="card-item" th:each="recipe : ${recipes}">
+      <div class="card border-0">
+
+        <div class="overflow-hidden rounded-top" id="recipe-img">
+          <img
+            src="https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            class="card-img-top object-fit-cover" alt="Image Recipe">
         </div>
-    </section>
 
-    <section class="row" th:unless="${recipes.isEmpty()}">
-        <h1 class="fw-light text-center text-capitalize mb-4">My Recipes</h1>
+        <div class="card-body shadow">
+          <h5 class="card-title text-truncate w-50" th:text="${recipe.title()}">Card title</h5>
+          <p class="card-text text-truncate" th:text="${recipe.description()}">Some quick example text to
+            build on the card title and make up the bulk
+            of the card's content.</p>
 
-        <!-- card -->
-        <div class="col-md-4 mb-3" id="card-item" th:each="recipe : ${recipes}">
-            <div class="card border-0">
+          <!-- tools -->
+          <div class="d-flex align-items-center">
+            <a th:href="@{'/recipes/details/' + ${recipe.id()}}" class="btn btn-primary">Details</a>
 
-                <div class="overflow-hidden rounded-top" id="recipe-img">
-                    <img src="https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                         class="card-img-top object-fit-cover" alt="Image Recipe">
-                </div>
+            <div class="d-flex align-items-center justify-content-between w-100 ms-3">
+              <span>3504 Likes</span>
 
-                <div class="card-body shadow">
-                    <h5 class="card-title text-truncate w-50" th:text="${recipe.title()}">Card title</h5>
-                    <p class="card-text text-truncate" th:text="${recipe.description()}">Some quick example text to
-                        build on the card title and make up the bulk
-                        of the card's content.</p>
-
-                    <!-- tools -->
-                    <div class="d-flex align-items-center">
-                        <a th:href="@{'/recipes/details/' + ${recipe.id()}}" class="btn btn-primary">Details</a>
-
-                        <div class="d-flex align-items-center justify-content-between w-100 ms-3">
-                            <span>3504 Likes</span>
-
-                            <div class="dropdown">
-                                <i class="bi bi-three-dots-vertical fs-5" data-bs-toggle="dropdown"
-                                   aria-expanded="false"></i>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" th:href="@{/recipes/edit/{id}(id=${recipe.id()})}"><i class="bi bi-pen"></i> Edit</a></li>
-                                    <li>
-                                        <button hx-swap="afterbegin"
-                                                hx-target="#toast-container"
-                                                th:attr="hx-delete=@{/recipes/{id}(id=${recipe.id()})}"
-                                                th:data-token="${_csrf.token}"
-                                                th:data-header-name="${_csrf.headerName}"
-                                                class="dropdown-item"><i class="bi bi-trash"></i>
-                                            Delete
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+              <div class="dropdown">
+                <i class="bi bi-three-dots-vertical fs-5" data-bs-toggle="dropdown"
+                   aria-expanded="false"></i>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" th:href="@{/recipes/edit/{id}(id=${recipe.id()})}"><i
+                    class="bi bi-pen"></i> Edit</a></li>
+                  <li>
+                    <button hx-swap="afterbegin"
+                            hx-target="#toast-container"
+                            th:attr="hx-delete=@{/recipes/{id}(id=${recipe.id()})}"
+                            th:data-token="${_csrf.token}"
+                            th:data-header-name="${_csrf.headerName}"
+                            class="dropdown-item"><i class="bi bi-trash"></i>
+                      Delete
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
+
+          </div>
         </div>
-        <!-- end of card -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item active" aria-current="1"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </section>
+
+      </div>
+    </div>
+    <!-- end of card -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item active" aria-current="1"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </section>
 </main>
 
+<script th:src="@{/js/addHeaders.js}"></script>
 <script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
-    document.body.addEventListener('htmx:configRequest', function (evt) {
-        var buttonElement = evt.detail.elt;
-        var csrf = buttonElement.getAttribute('data-token');
-        var headerName = buttonElement.getAttribute('data-header-name');
-        evt.detail.headers[headerName] = csrf;
-    });
+  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-    document.body.addEventListener('htmx:afterSwap', function (evt) {
-        if (evt.detail.xhr.status === 200) {
-            const toasts = document.querySelectorAll('[role="alert"]')
-            const toastList = [...toasts].map(t => {
-                if (t.classList.contains('hide')) t.remove()
-                bootstrap.Toast.getOrCreateInstance(t).show()
-            })
-        }
-    });
+  document.body.addEventListener('htmx:afterSwap', function (evt) {
+    if (evt.detail.xhr.status === 200) {
+      const toasts = document.querySelectorAll('[role="alert"]');
+      const toastList = [...toasts].map(t => {
+        if (t.classList.contains('hide')) t.remove();
+        bootstrap.Toast.getOrCreateInstance(t).show();
+      });
+    }
+  });
 </script>
 </html>

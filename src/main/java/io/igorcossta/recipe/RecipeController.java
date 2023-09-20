@@ -55,7 +55,7 @@ public class RecipeController {
     public HtmxResponse deleteRecipe(@PathVariable Long id) {
         recipeService.disableMyRecipe(id);
         return new HtmxResponse()
-                .addTemplate(new ModelAndView("fragment/component/toast"))
+                .addTemplate(new ModelAndView("fragment/shared/toast"))
                 .addTemplate(new ModelAndView(
                         "user/recipe/show-my-recipes :: recipes-container",
                         Map.of("recipes", recipeService.searchForMyRecipes())));

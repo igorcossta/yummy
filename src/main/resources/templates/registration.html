@@ -1,52 +1,51 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{fragment/shared/head :: head (~{::title}, ~{})}, ~{::main}, ~{})}"
+      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}"
       xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <title>Yummy. Sign Up</title>
+<head id="head-content">
+  <title>Yummy. Sign Up</title>
 </head>
 
 <main>
-    <div class="container">
+  <div class="container">
 
-        <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
 
-            <form class="w-50" method="post" th:action="@{/signup}" th:object="${registration}">
+      <form class="w-50" method="post" th:action="@{/signup}" th:object="${registration}">
 
-                <div class="col-12" th:if="${#fields.hasErrors('username')}">
-                    <p class="alert alert-danger" th:errors="*{username}">Please enter a valid email.</p>
-                </div>
-
-                <div class="col-12" th:if="${#fields.hasErrors('password')}">
-                    <p class="alert alert-danger" th:errors="*{password}">Please enter a valid password.</p>
-                </div>
-
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="email">Email</label>
-                    <input class="form-control" id="email" required th:field="*{username}" type="email"/>
-                </div>
-
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                    <label class="form-label" for="password">Password</label>
-                    <input class="form-control" id="password" required th:field="*{password}" type="password"/>
-                </div>
-
-                <!-- Submit button -->
-                <div class="d-grid">
-                    <button class="btn btn-primary mb-4" type="submit">Sign Up</button>
-                </div>
-
-                <!-- Login buttons -->
-                <div class="text-center">
-                    <p>Already have an account ? <a class="text-primary" th:href="@{/login}">Sign In</a></p>
-                </div>
-            </form>
+        <div class="col-12" th:if="${#fields.hasErrors('username')}">
+          <p class="alert alert-danger" th:errors="*{username}">Please enter a valid email.</p>
         </div>
 
+        <div class="col-12" th:if="${#fields.hasErrors('password')}">
+          <p class="alert alert-danger" th:errors="*{password}">Please enter a valid password.</p>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-control" id="email" required th:field="*{username}" type="email"/>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-control" id="password" required th:field="*{password}" type="password"/>
+        </div>
+
+        <!-- Submit button -->
+        <div class="d-grid">
+          <button class="btn btn-primary mb-4" type="submit">Sign Up</button>
+        </div>
+
+        <!-- Login buttons -->
+        <div class="text-center">
+          <p>Already have an account ? <a class="text-primary" th:href="@{/login}">Sign In</a></p>
+        </div>
+      </form>
     </div>
+
+  </div>
 
 </main>
 

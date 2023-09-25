@@ -1,8 +1,8 @@
-<div class="toast align-items-center bg-body-tertiary" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="d-flex">
-    <div class="toast-body">
-      Recipe deleted successfully!
+<div id="toast-container" hx-swap-oob="afterbegin:#toast-container">
+  <div class="toast align-items-center bg-body-tertiary" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" th:text="${msg ?: 'Something happen!'}"></div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
-    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
 </div>

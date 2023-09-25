@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:hx="http://www.w3.org/1999/xhtml">
 <head id="head-content">
   <title>Yummy. My Recipes</title>
 </head>
@@ -48,9 +48,8 @@
                   <li><a class="dropdown-item" th:href="@{/recipes/edit/{id}(id=${recipe.id()})}"><i
                     class="bi bi-pen"></i> Edit</a></li>
                   <li>
-                    <button hx-swap="afterbegin"
-                            hx-target="#toast-container"
-                            th:attr="hx-delete=@{/recipes/{id}(id=${recipe.id()})}"
+                    <button hx-swap="none"
+                            hx:delete="@{/recipes/{id}(id=${recipe.id()})}"
                             th:data-token="${_csrf.token}"
                             th:data-header-name="${_csrf.headerName}"
                             class="dropdown-item"><i class="bi bi-trash"></i>
@@ -89,12 +88,9 @@
 
 <script th:src="@{/js/addHeaders.js}"></script>
 <script>
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
   document.body.addEventListener('htmx:afterSwap', function (evt) {
     if (evt.detail.xhr.status === 200) {
-      const toasts = document.querySelectorAll('[role="alert"]');
+      const toasts = document.querySelectorAll('[role="alert"]:not(.show)');
       const toastList = [...toasts].map(t => {
         if (t.classList.contains('hide')) t.remove();
         bootstrap.Toast.getOrCreateInstance(t).show();

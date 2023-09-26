@@ -2,7 +2,7 @@ package io.igorcossta.recipe;
 
 import java.time.ZonedDateTime;
 
-public record RecipeViewDTO(
+public record RecipeDetailsDTO(
         Long id,
         String owner,
         String title,

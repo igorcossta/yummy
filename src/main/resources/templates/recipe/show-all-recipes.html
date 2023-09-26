@@ -38,15 +38,6 @@
                 <i class="bi bi-bookmarks fs-5" data-bs-toggle="tooltip" data-bs-title="Save"
                    onclick="save(this)"></i>
               </div>
-
-              <div class="dropdown" th:unless="${recipe.servings() > 1}">
-                <i class="bi bi-three-dots-vertical fs-5" data-bs-toggle="dropdown"
-                   aria-expanded="false"></i>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-pen"></i> Edit</a></li>
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Delete</a></li>
-                </ul>
-              </div>
             </div>
 
           </div>

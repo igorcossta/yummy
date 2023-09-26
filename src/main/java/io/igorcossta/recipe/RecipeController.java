@@ -18,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RecipeController {
     private final RecipeService recipeService;
+    private final RecipeMapper recipeMapper;
 
     @GetMapping
     public String recipes(Model model) {
@@ -69,12 +70,12 @@ public class RecipeController {
         String username = recipe.getRecipeOwner().getUsername();
         if (!username.equals(UserService.getPrincipal().getUsername()))
             throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
-        model.addAttribute("recipe", Recipe.toRecipeCreationDTO(recipe));
+        model.addAttribute("recipe", recipeMapper.entityToRecipeEditDto(recipe));
         return "user/recipe/update-recipe";
     }
 
     @PutMapping("/edit/{id}")
-    public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe,
+    public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
                                      BindingResult bindingResult,
                                      @PathVariable Long id) {
         Recipe toCheck = recipeService.searchForRecipe(id);

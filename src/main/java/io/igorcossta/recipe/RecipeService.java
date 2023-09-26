@@ -20,10 +20,11 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final CommentRepository commentRepository;
     private final CaloriesService caloriesService;
+    private final RecipeMapper recipeMapper;
 
     @Transactional
     public long createRecipe(RecipeCreationDTO recipe) {
-        Recipe toSave = Recipe.fromRecipeCreationDTO(recipe, UserService.getPrincipal());
+        Recipe toSave = recipeMapper.recipeCreationToEntity(recipe);
         return recipeRepository.save(toSave).getId();
     }
 
@@ -37,16 +38,16 @@ public class RecipeService {
 
     @Transactional(readOnly = true)
     public RecipeAndCommentsViewDTO searchForRecipeAndComments(Long id) {
-        RecipeViewDTO recipeViewDTO = Recipe.toRecipeViewDTO(searchForRecipe(id));
+        RecipeDetailsDTO recipeDetails = recipeMapper.entityToRecipeDetailsDto(searchForRecipe(id));
 
-        Calories calories = caloriesService.getCaloriesFor(recipeViewDTO.ingredients()).block();
+        Calories calories = caloriesService.getCaloriesFor(recipeDetails.ingredients()).block();
         if (calories == null) calories = new Calories();
 
         List<CommentViewDTO> comments = commentRepository.findAllByRecipeId(id)
                 .stream()
                 .map(Comment::toCommentViewDTO)
                 .collect(Collectors.toList());
-        return new RecipeAndCommentsViewDTO(recipeViewDTO, comments, calories);
+        return new RecipeAndCommentsViewDTO(recipeDetails, comments, calories);
     }
 
     @Transactional
@@ -58,39 +59,28 @@ public class RecipeService {
     }
 
     @Transactional(readOnly = true)
-    public List<RecipeViewDTO> searchForMyRecipes() {
+    public List<RecipeCardDTO> searchForMyRecipes() {
         return recipeRepository.findAllActiveRecipesByOwner(UserService.getPrincipal())
                 .stream()
-                .map(Recipe::toRecipeViewDTO)
-                .sorted(Comparator.comparing(RecipeViewDTO::id))
+                .map(recipeMapper::entityToRecipeCardDto)
+                .sorted(Comparator.comparing(RecipeCardDTO::id))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public List<RecipeViewDTO> searchForAllRecipes() {
+    public List<RecipeCardDTO> searchForAllRecipes() {
         return recipeRepository.findAllActiveRecipes()
                 .stream()
-                .map(Recipe::toRecipeViewDTO)
+                .map(recipeMapper::entityToRecipeCardDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public void updateMyRecipe(Long id, RecipeCreationDTO updated) {
+    public void updateMyRecipe(Long id, RecipeEditDTO dto) {
         String username = UserService.getPrincipal().getUsername();
         Recipe recipe = searchForRecipe(id);
         if (!recipe.getRecipeOwner().getUsername().equals(username))
             throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
-
-        recipe.setTitle(updated.getTitle());
-        recipe.setDescription(updated.getDescription());
-        recipe.setPreparationTime(updated.getPreparationTime());
-        recipe.setServings(updated.getServings());
-
-        String ingredients = String.join(":", updated.getIngredients());
-        String howToPrepare = String.join(":", updated.getHowToPrepare());
-        recipe.setIngredients(ingredients);
-        recipe.setHowToPrepare(howToPrepare);
-
-        recipeRepository.save(recipe);
+        recipeRepository.save(recipeMapper.updateEntity(recipe, dto));
     }
 }

@@ -8,7 +8,6 @@ import lombok.*;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -50,43 +49,5 @@ public class Recipe {
         this.preparationTime = preparationTime;
         this.servings = servings;
         this.isDisabled = false;
-    }
-
-    public static RecipeViewDTO toRecipeViewDTO(Recipe recipe) {
-        return new RecipeViewDTO(recipe.getId(),
-                recipe.getRecipeOwner().getUsername(),
-                recipe.getTitle(),
-                recipe.getDescription(),
-                recipe.getIngredients(),
-                recipe.getHowToPrepare(),
-                recipe.getCreatedAt(),
-                recipe.getPreparationTime(),
-                recipe.getServings()
-        );
-    }
-
-    public static Recipe fromRecipeCreationDTO(RecipeCreationDTO recipe, User owner) {
-        String ingredients = String.join(":", recipe.getIngredients());
-        String howToPrepare = String.join(":", recipe.getHowToPrepare());
-        return new Recipe(owner,
-                recipe.getTitle(),
-                recipe.getDescription(),
-                ingredients,
-                howToPrepare,
-                recipe.getPreparationTime(),
-                recipe.getServings());
-    }
-
-    public static RecipeCreationDTO toRecipeCreationDTO(Recipe recipe) {
-        List<String> ingredients = Arrays.asList(recipe.getIngredients().split(":"));
-        List<String> howToPrepare = Arrays.asList(recipe.getHowToPrepare().split(":"));
-        return new RecipeCreationDTO(recipe.getId(),
-                recipe.getTitle(),
-                recipe.getDescription(),
-                ingredients,
-                howToPrepare,
-                recipe.getPreparationTime(),
-                recipe.getServings()
-        );
     }
 }

@@ -30,14 +30,18 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "commentOwner")
     private List<Comment> comments;
 
-    public User(String username, String password) {
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return role.getAuthorities();
     }
 
     @Override

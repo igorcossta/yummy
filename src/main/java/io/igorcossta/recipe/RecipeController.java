@@ -2,6 +2,7 @@ package io.igorcossta.recipe;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.igorcossta.comment.CommentCreationDTO;
+import io.igorcossta.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -64,8 +65,11 @@ public class RecipeController {
 
     @GetMapping("/edit/{id}")
     public String updateRecipe(Model model, @PathVariable Long id) {
-        RecipeCreationDTO recipe = Recipe.toRecipeCreationDTO(recipeService.searchForRecipe(id));
-        model.addAttribute("recipe", recipe);
+        Recipe recipe = recipeService.searchForRecipe(id);
+        String username = recipe.getRecipeOwner().getUsername();
+        if (!username.equals(UserService.getPrincipal().getUsername()))
+            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
+        model.addAttribute("recipe", Recipe.toRecipeCreationDTO(recipe));
         return "user/recipe/update-recipe";
     }
 
@@ -73,6 +77,11 @@ public class RecipeController {
     public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe,
                                      BindingResult bindingResult,
                                      @PathVariable Long id) {
+        Recipe toCheck = recipeService.searchForRecipe(id);
+        String username = toCheck.getRecipeOwner().getUsername();
+        if (!username.equals(UserService.getPrincipal().getUsername()))
+            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
+
         if (bindingResult.hasErrors()) {
             return new HtmxResponse()
                     .addTemplate("user/recipe/update-recipe :: form");

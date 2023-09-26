@@ -28,7 +28,7 @@ public class ErrorControllerAdvice {
 
     @ExceptionHandler({RecipeNotFoundException.class, RecipeDisabledException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ModelAndView error(HttpServletRequest req, RecipeNotFoundException exception) {
+    public ModelAndView error(HttpServletRequest req, RuntimeException exception) {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
         mav.addObject(ERROR_STATUS, "RECIPE NOT FOUND");

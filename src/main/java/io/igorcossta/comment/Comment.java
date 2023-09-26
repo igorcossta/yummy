@@ -37,8 +37,4 @@ public class Comment {
         this.comment = comment;
         this.createdAt = ZonedDateTime.now(ZoneId.of("GMT"));
     }
-
-    public static CommentViewDTO toCommentViewDTO(Comment comment) {
-        return new CommentViewDTO(comment.getCommentOwner().getUsername(), comment.getComment(), comment.getCreatedAt());
-    }
 }

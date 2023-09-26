@@ -2,7 +2,7 @@ package io.igorcossta.comment;
 
 import java.time.ZonedDateTime;
 
-public record CommentViewDTO(
+public record CommentDTO(
         String owner,
         String comment,
         ZonedDateTime createdAt

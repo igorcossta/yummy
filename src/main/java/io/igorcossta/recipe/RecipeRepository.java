@@ -17,9 +17,18 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM recipe r WHERE r.id = :id AND r.isDisabled = true")
     boolean isRecipeDisabled(Long id);
 
-    @Query("SELECT r FROM recipe r WHERE r.recipeOwner = :owner AND r.isDisabled = false")
-    List<Recipe> findAllActiveRecipesByOwner(User owner);
+    @Query("""
+            SELECT new io.igorcossta.recipe.RecipeCardDTO(r.id, r.title, r.description, r.createdAt) 
+            FROM recipe r 
+            WHERE r.recipeOwner = :owner 
+            AND r.isDisabled = false
+            """)
+    List<RecipeCardDTO> findAllActiveRecipesByOwner(User owner);
 
-    @Query("SELECT r FROM recipe r WHERE r.isDisabled = false")
-    List<Recipe> findAllActiveRecipes();
+    @Query("""
+            SELECT new io.igorcossta.recipe.RecipeCardDTO(r.id, r.title, r.description, r.createdAt) 
+            FROM recipe r 
+            WHERE r.isDisabled = false
+            """)
+    List<RecipeCardDTO> findAllActiveRecipes();
 }

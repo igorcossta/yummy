@@ -28,8 +28,6 @@ public abstract class RecipeMapper {
     @Mapping(target = "owner", source = "recipe.recipeOwner.username")
     abstract RecipeDetailsDTO entityToRecipeDetailsDto(Recipe recipe);
 
-    abstract RecipeCardDTO entityToRecipeCardDto(Recipe recipe);
-
     protected String listToString(List<String> list) {
         return String.join(":", list);
     }

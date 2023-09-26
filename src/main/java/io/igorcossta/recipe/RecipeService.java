@@ -2,9 +2,8 @@ package io.igorcossta.recipe;
 
 import io.igorcossta.calories.Calories;
 import io.igorcossta.calories.CaloriesService;
-import io.igorcossta.comment.Comment;
+import io.igorcossta.comment.CommentDTO;
 import io.igorcossta.comment.CommentRepository;
-import io.igorcossta.comment.CommentViewDTO;
 import io.igorcossta.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,17 +36,17 @@ public class RecipeService {
     }
 
     @Transactional(readOnly = true)
-    public RecipeAndCommentsViewDTO searchForRecipeAndComments(Long id) {
+    public RecipeAndCommentsDTO searchForRecipeAndComments(Long id) {
         RecipeDetailsDTO recipeDetails = recipeMapper.entityToRecipeDetailsDto(searchForRecipe(id));
 
         Calories calories = caloriesService.getCaloriesFor(recipeDetails.ingredients()).block();
         if (calories == null) calories = new Calories();
 
-        List<CommentViewDTO> comments = commentRepository.findAllByRecipeId(id)
+        List<CommentDTO> comments = commentRepository.findAllByRecipeId(id)
                 .stream()
-                .map(Comment::toCommentViewDTO)
+                .sorted(Comparator.comparing(CommentDTO::createdAt).reversed())
                 .collect(Collectors.toList());
-        return new RecipeAndCommentsViewDTO(recipeDetails, comments, calories);
+        return new RecipeAndCommentsDTO(recipeDetails, comments, calories);
     }
 
     @Transactional
@@ -62,8 +61,7 @@ public class RecipeService {
     public List<RecipeCardDTO> searchForMyRecipes() {
         return recipeRepository.findAllActiveRecipesByOwner(UserService.getPrincipal())
                 .stream()
-                .map(recipeMapper::entityToRecipeCardDto)
-                .sorted(Comparator.comparing(RecipeCardDTO::id))
+                .sorted(Comparator.comparing(RecipeCardDTO::createdAt).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -71,7 +69,7 @@ public class RecipeService {
     public List<RecipeCardDTO> searchForAllRecipes() {
         return recipeRepository.findAllActiveRecipes()
                 .stream()
-                .map(recipeMapper::entityToRecipeCardDto)
+                .sorted(Comparator.comparing(RecipeCardDTO::createdAt).reversed())
                 .collect(Collectors.toList());
     }
 

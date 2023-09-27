@@ -51,9 +51,7 @@ public class RecipeService {
 
     @Transactional
     public void disableMyRecipe(Long id) {
-        String username = UserService.getPrincipal().getUsername();
-        if (!searchForRecipe(id).getRecipeOwner().getUsername().equals(username))
-            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
+        isResourceOwner(id);
         recipeRepository.disableRecipeById(id);
     }
 
@@ -74,11 +72,16 @@ public class RecipeService {
     }
 
     @Transactional
-    public void updateMyRecipe(Long id, RecipeEditDTO dto) {
-        String username = UserService.getPrincipal().getUsername();
+    public void updateMyRecipe(RecipeEditDTO dto, Recipe original) {
+        recipeRepository.save(recipeMapper.updateEntity(original, dto));
+    }
+
+    @Transactional(readOnly = true)
+    public Recipe isResourceOwner(Long id) {
         Recipe recipe = searchForRecipe(id);
-        if (!recipe.getRecipeOwner().getUsername().equals(username))
+        String username = recipe.getRecipeOwner().getUsername();
+        if (!username.equals(UserService.getPrincipal().getUsername()))
             throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
-        recipeRepository.save(recipeMapper.updateEntity(recipe, dto));
+        return recipe;
     }
 }

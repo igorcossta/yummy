@@ -66,10 +66,7 @@ public class RecipeController {
 
     @GetMapping("/edit/{id}")
     public String updateRecipe(Model model, @PathVariable Long id) {
-        Recipe recipe = recipeService.searchForRecipe(id);
-        String username = recipe.getRecipeOwner().getUsername();
-        if (!username.equals(UserService.getPrincipal().getUsername()))
-            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
+        Recipe recipe = recipeService.isResourceOwner(id);
         model.addAttribute("recipe", recipeMapper.entityToRecipeEditDto(recipe));
         return "user/recipe/update-recipe";
     }
@@ -78,16 +75,12 @@ public class RecipeController {
     public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
                                      BindingResult bindingResult,
                                      @PathVariable Long id) {
-        Recipe toCheck = recipeService.searchForRecipe(id);
-        String username = toCheck.getRecipeOwner().getUsername();
-        if (!username.equals(UserService.getPrincipal().getUsername()))
-            throw new RecipeNotOwnerException("%s are not the owner of recipe %s".formatted(username, id));
-
+        Recipe original = recipeService.isResourceOwner(id);
         if (bindingResult.hasErrors()) {
             return new HtmxResponse()
                     .addTemplate("user/recipe/update-recipe :: form");
         }
-        recipeService.updateMyRecipe(id, recipe);
+        recipeService.updateMyRecipe(recipe, original);
         return new HtmxResponse()
                 .browserRedirect("/recipes/mines");
     }

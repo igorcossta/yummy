@@ -1,0 +1,24 @@
+<div th:fragment="newComment" hx-swap-oob="afterbegin:#comment-container">
+  <div class="d-flex flex-start shadow-sm p-3 rounded mb-4" th:fragment="comment(data)">
+    <img class="rounded-circle me-3"
+         height="60"
+         th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${data.owner()}}"
+         width="60"/>
+    <div>
+      <h6 class="fw-bold mb-1" th:text="${data.owner()}">Maggie Marsh</h6>
+      <div class="d-flex align-items-center mb-3">
+        <p class="mb-0"
+           th:text="${#temporals.format(data.createdAt(), 'MMMM dd, yyyy')}">
+          March 07, 2021
+        </p>
+        <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
+      </div>
+      <p class="mb-0 text-break" th:text="${data.comment()}">
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        since the 1500s, when an unknown printer took a galley of type and
+        scrambled it.
+      </p>
+    </div>
+  </div>
+</div>

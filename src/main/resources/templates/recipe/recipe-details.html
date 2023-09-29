@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}"
+      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:hx="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
   <title>Yummy. Recipe Details</title>
 </head>
@@ -132,10 +132,16 @@
         </div>
 
         <form class="needs-validation"
-              method="post"
+              id="form"
+              hx-swap="none"
+              hx-swap-oob="true"
+              hx:post="@{'/comments?recipeId=' + ${id}}"
+              _="on submit target.reset()"
               novalidate
-              th:action="@{'/comments/post?recipeId=' + ${recipeAndComments.recipe().id()}}"
+              th:data-header-name="${_csrf.headerName}"
+              th:data-token="${_csrf.token}"
               th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+              th:fragment="form"
               th:object="${commentCreation}">
           <div class="row">
             <div class="col-12">
@@ -159,40 +165,17 @@
         </div>
       </div>
 
-      <div class="row mb-5" th:if="!${#lists.isEmpty(recipeAndComments.comments())}">
-        <div class="col-12">
-
-          <div th:each="comment, status : ${recipeAndComments.comments()}">
-            <div class="d-flex flex-start shadow-sm p-3 rounded mb-4">
-              <img class="rounded-circle me-3"
-                   height="60"
-                   th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${comment.owner()}}"
-                   width="60"/>
-              <div>
-                <h6 class="fw-bold mb-1" th:text="${comment.owner()}">Maggie Marsh</h6>
-                <div class="d-flex align-items-center mb-3">
-                  <p class="mb-0"
-                     th:text="${#temporals.format(comment.createdAt(), 'MMMM dd, yyyy')}">
-                    March 07, 2021
-                  </p>
-                  <a class="link-muted ms-3 fs-5" hidden="hidden" href="#"><i class="bi bi-heart"></i></a>
-                </div>
-                <p class="mb-0 text-break" th:text="${comment.comment()}">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting
-                  industry. Lorem Ipsum has been the industry's standard dummy text ever
-                  since the 1500s, when an unknown printer took a galley of type and
-                  scrambled it.
-                </p>
-              </div>
-            </div>
-          </div>
-
+      <div class="row mb-5">
+        <div class="col-12" id="comment-container">
+          <th:block th:each="comment, status : ${recipeAndComments.comments()}">
+            <div th:replace="~{/fragment/comment :: comment(${comment})}"></div>
+          </th:block>
         </div>
-
       </div>
     </div>
 
   </div>
 </main>
 
+<script th:src="@{/js/addHeaders.js}"></script>
 </html>

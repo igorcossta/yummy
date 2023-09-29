@@ -1,8 +1,6 @@
 package io.igorcossta.comment;
 
-import io.igorcossta.recipe.Recipe;
 import io.igorcossta.recipe.RecipeService;
-import io.igorcossta.user.User;
 import io.igorcossta.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +13,9 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final RecipeService recipeService;
 
-    public void postComment(CommentCreationDTO comment, long recipeId) {
-        User user = UserService.getPrincipal();
-        Recipe recipe = recipeService.searchForRecipe(recipeId);
-        Comment toSave = new Comment(user, recipe, comment.getComment());
+    public CommentDTO postComment(CommentCreationDTO comment, long recipeId) {
+        Comment toSave = new Comment(UserService.getPrincipal(), recipeService.searchForRecipe(recipeId), comment.getComment());
         commentRepository.save(toSave);
+        return new CommentDTO(toSave.getCommentOwner().getUsername(), comment.getComment(), toSave.getCreatedAt());
     }
 }

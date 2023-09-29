@@ -1,34 +1,35 @@
 package io.igorcossta.comment;
 
-import io.igorcossta.recipe.RecipeService;
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/comments")
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
-    private final RecipeService recipeService;
 
-    @PostMapping("/post")
-    public String recipes(@Valid @ModelAttribute("commentCreation") CommentCreationDTO comment,
-                          BindingResult bindingResult,
-                          @RequestParam long recipeId,
-                          Model model) {
+    @PostMapping
+    public HtmxResponse postComment(@Valid @ModelAttribute("commentCreation") CommentCreationDTO comment,
+                                    BindingResult bindingResult,
+                                    @RequestParam long recipeId) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(recipeId));
-            return "recipe/recipe-details";
+            return new HtmxResponse()
+                    .addTemplate(new ModelAndView("recipe/recipe-details :: form", Map.of("id", recipeId)));
         }
 
-        commentService.postComment(comment, recipeId);
-        return "redirect:/recipes/details/" + recipeId;
+        return new HtmxResponse()
+                .addTemplate(new ModelAndView("fragment/comment :: newComment", Map.of("data",
+                        commentService.postComment(comment, recipeId))));
     }
 }

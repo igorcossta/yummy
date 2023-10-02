@@ -2,7 +2,6 @@ package io.igorcossta.recipe;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import io.igorcossta.comment.CommentCreationDTO;
-import io.igorcossta.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -71,18 +70,16 @@ public class RecipeController {
         return "user/recipe/update-recipe";
     }
 
-    @PutMapping("/edit/{id}")
-    public HtmxResponse updateRecipe(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
+    @PostMapping("/edit/{id}")
+    public String updateRecipe(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
                                      BindingResult bindingResult,
                                      @PathVariable Long id) {
         Recipe original = recipeService.isResourceOwner(id);
         if (bindingResult.hasErrors()) {
-            return new HtmxResponse()
-                    .addTemplate("user/recipe/update-recipe :: form");
+            return "user/recipe/update-recipe";
         }
         recipeService.updateMyRecipe(recipe, original);
-        return new HtmxResponse()
-                .browserRedirect("/recipes/mines");
+        return "redirect:/recipes/mines";
     }
 
     @ModelAttribute("commentCreation")

@@ -12,16 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * Sticky header on scroll
-   */
-  const selectHeader = document.querySelector('#header');
-  if (selectHeader) {
-    document.addEventListener('scroll', () => {
-      window.scrollY > 100 ? selectHeader.classList.add('sticked') : selectHeader.classList.remove('sticked');
-    });
-  }
-
-  /**
    * Scroll top button
    */
   const scrollTop = document.querySelector('.scroll-top');
@@ -36,21 +26,4 @@ document.addEventListener('DOMContentLoaded', () => {
       behavior: 'smooth'
     }));
   }
-
-  /**
-   * Animation on scroll function and init
-   */
-  function aos_init() {
-    AOS.init({
-      duration: 1000,
-      easing: 'ease-in-out',
-      once: true,
-      mirror: false
-    });
-  }
-
-  window.addEventListener('load', () => {
-    aos_init();
-  });
-
 });

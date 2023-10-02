@@ -4,81 +4,109 @@
       xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
   <title>Yummy. Recipes</title>
+  <link href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css" rel="stylesheet">
 </head>
 
-<main class="container">
-  <section class="row" id="section">
-    <h1 class="fw-light text-center text-capitalize mb-4">recipes</h1>
-
-    <!-- card -->
-    <div class="col-md-4 mb-3" id="card-item" th:each="recipe : ${recipes}">
-      <div class="card border-0">
-
-        <div class="overflow-hidden rounded" id="recipe-img">
-          <img
-            src="https://images.pexels.com/photos/8969237/pexels-photo-8969237.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            class="card-img-top object-fit-cover" alt="Image Recipe">
-        </div>
-
-        <div class="card-body shadow">
-          <h5 class="card-title text-truncate w-50" th:text="${recipe.title()}">Card title</h5>
-          <p class="card-text text-truncate" th:text="${recipe.description()}">Some quick example text to
-            build on the card title and make up
-            the bulk
-            of the card's content.</p>
-
-          <!-- tools -->
-          <div class="d-flex align-items-center">
-            <a th:href="@{'/recipes/details/' + ${recipe.id()}}" class="btn btn-primary">Details</a>
-
-            <div class="d-flex align-items-center justify-content-between w-100 ms-3">
-              <div>
-                <i class="bi bi-heart me-2 fs-5" data-bs-toggle="tooltip" data-bs-title="3504 Likes"
-                   onclick="like(this)"></i>
-                <i class="bi bi-bookmarks fs-5" data-bs-toggle="tooltip" data-bs-title="Save"
-                   onclick="save(this)"></i>
+<main>
+  <section class="mt-5">
+    <div class="container">
+      <div class="mb-3">
+        <p class="fs-4 m-0">Most rated recipes</p>
+        <small class="text-muted">Our recommendations</small>
+      </div>
+      <div class="glider-contain">
+        <div class="glider hidescroll py-3">
+          <th:block th:each="mostLiked : ${recipes}">
+            <div class="d-flex bg-white me-3 shadow-hover">
+              <div class="me-3">
+                <img class="object-fit-cover img-fluid p-sm-3" height="200"
+                     th:alt="${mostLiked.title()}" th:src="@{/img/menu/menu-item-6.png}"
+                     width="200">
+              </div>
+              <div class="d-flex flex-column justify-content-center w-100">
+                <span class="fs-5 text-truncate" style="max-width: 200px" th:text="${mostLiked.title()}"></span>
+                <div class="d-flex flex-column text-muted">
+                  <div>
+                    <small>45 Likes • 33 comments</small>
+                  </div>
+                  <div>
+                    <small><span th:text="${10}"></span> min • <span th:text="${8}"></span> Servings</small>
+                  </div>
+                </div>
               </div>
             </div>
-
-          </div>
+          </th:block>
         </div>
-
+        <button aria-label="Previous" class="glider-prev d-none d-lg-block" type="button">«</button>
+        <button aria-label="Next" class="glider-next d-none d-lg-block" type="button">»</button>
       </div>
     </div>
-    <!-- end of card -->
   </section>
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item active" aria-current="1"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+
+  <section>
+    <div class="container mt-5">
+      <div class="mb-3 pb-3">
+        <p class="fs-4 m-0">Recipes</p>
+        <small class="text-muted">Search for any recipe you want!</small>
+      </div>
+
+      <div class="row">
+        <th:block th:each="recipe : ${recipes}">
+          <div class="col-12 col-lg-4 mb-5">
+            <div class="card border rounded-0">
+              <img class="card-img-top rounded-0 object-fit-cover" height="300" th:alt="${recipe.title()}"
+                   th:src="@{/img/bg5.jpg}" width="300">
+              <div class="card-body shadow">
+                <h4 class="card-title text-truncate" th:text="${recipe.title()}"></h4>
+                <div class="m-0 p-0 text-truncate">
+                  <small class="card-text" th:text="${recipe.description()}"></small>
+                </div>
+                <a class="card-link stretched-link text-decoration-none text-body"
+                   th:href="@{/recipes/details/{id}(id=${recipe.id()})}"></a>
+                <div class="mt-2 text-body">
+                  <span>Created at </span> <span
+                  th:text="${#temporals.format(recipe.createdAt(), 'MMMM dd, yyyy')}"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
 <script>
-  function save(btn) {
-    btn.classList.toggle('bi-bookmarks');
-    btn.classList.toggle('bi-bookmarks-fill');
-  }
+  window.addEventListener('load', function () {
+    new Glider(document.querySelector('.glider'), {
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      draggable: true,
+      dragVelocity: 1,
+      duration: 5,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.glider-prev',
+              next: '.glider-next'
+            }
+          }
+        }
+      ]
+    });
+  });
 
-  function like(btn) {
-    btn.classList.toggle('text-danger');
-    btn.classList.toggle('bi-heart');
-    btn.classList.toggle('bi-heart-fill');
-  }
+  var originalDis = document.getElementById('display');
+  var containerDis = document.querySelector('.glider');
 
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  for (var i = 0; i < 10; i++) {
+    var cloneDisplay = originalDis.cloneNode(true);
+    containerDis.appendChild(cloneDisplay);
+  }
 </script>
 </html>

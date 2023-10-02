@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}"
+      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
   <title>Something Wrong - Yummy</title>
@@ -17,4 +17,7 @@
     to homepage</a></p>
 </main>
 
+<script>
+  document.getElementById('footer').remove();
+</script>
 </html>

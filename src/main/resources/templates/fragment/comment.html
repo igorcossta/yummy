@@ -1,5 +1,5 @@
 <div th:fragment="newComment" hx-swap-oob="afterbegin:#comment-container">
-  <div class="d-flex flex-start shadow-sm p-3 rounded mb-4" th:fragment="comment(data)">
+  <div class="d-flex flex-start shadow-sm p-3 mb-4" th:fragment="comment(data)">
     <img class="rounded-circle me-3"
          height="60"
          th:src="@{'https://api.dicebear.com/7.x/initials/svg?seed=' + ${data.owner()}}"

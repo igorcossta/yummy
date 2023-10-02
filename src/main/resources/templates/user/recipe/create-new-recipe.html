@@ -6,100 +6,134 @@
   <title>Yummy. Share Recipe</title>
 </head>
 
-<main class="container">
-  <form class="row g-3 needs-validation" method="post"
-        novalidate
-        th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
-        th:object="${recipe}">
+<main>
+  <section class="mt-5">
+    <div class="container">
 
-    <div class="alert alert-primary" role="alert">
-      To ensure that the recipe calories are calculated, please make sure that all ingredients are written in
-      english.
-      If you wish to calculate a specific quantity, you may prefix a quantity before an item. For example, 3
-      tomatoes or 200 grams beef brisket. If no quantity is specified, the default quantity is 100 grams.
-    </div>
+      <!-- form -->
+      <div class="m-0 p-0" id="box-container">
 
-    <!--recipe details section-->
-    <div class="p-0" id="recipe-details-section">
-      <h2 class="fs-3 fw-light col-6">Recipe Details</h2>
-      <div class="row g-3">
-        <div class="col-md-4">
-          <label class="form-label" for="recipeTitle">Title</label>
-          <input class="form-control" id="recipeTitle" maxlength="60" pattern="[A-Za-z ]+" required
-                 th:field="*{title}" type="text">
-          <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}">
-            Please enter a valid recipe title.
+        <form class="needs-validation" id="form-wrapper" method="post" novalidate
+              th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+              th:object="${recipe}">
+          <input hidden type="hidden" value="1">
+          <div class="steps-container">
+
+            <!-- step 1 -->
+            <div class="step d-none">
+              <h1 class="fs-3 pb-4">Enter recipe details</h1>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label" for="title">Title</label>
+                  <input class="form-control shadow-none rounded-0" id="title" maxlength="60"
+                         pattern="^[A-Za-z\s\!#\$%&\(\)]{1,60}$"
+                         required th:field="*{title}" type="text">
+                  <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="preparationTime">Preparation Time (in minutes)</label>
+                  <input class="form-control shadow-none rounded-0" id="preparationTime"
+                         max="999" min="1"
+                         pattern="^(?:[1-9]\d{0,2}|999)$" required th:field="*{preparationTime}" type="number">
+                  <div class="invalid-feedback" th:errors="*{preparationTime}"
+                       th:if="${#fields.hasErrors('preparationTime')}"></div>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label" for="numberOfServings">Number of Servings</label>
+                  <input class="form-control shadow-none rounded-0" id="numberOfServings" max="99"
+                         min="1"
+                         pattern="^(?:[1-9]|[1-9][0-9])$" required th:field="*{servings}" type="number">
+                  <div class="invalid-feedback" th:errors="*{servings}" th:if="${#fields.hasErrors('servings')}"></div>
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label" for="description">Description</label>
+                  <textarea class="form-control shadow-none rounded-0" id="description" maxlength="180"
+                            required rows="5" style="resize: none;" th:field="*{description}"></textarea>
+                  <div class="invalid-feedback" th:errors="*{description}"
+                       th:if="${#fields.hasErrors('description')}"></div>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label" for="category">Category</label>
+                  <select class="form-select shadow-none rounded-0" disabled id="category" required>
+                    <option disabled selected value="">Choose...</option>
+                    <option>Food 1</option>
+                    <option>Food 2</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- step 2 -->
+            <div class="step d-none">
+              <div class="d-flex justify-content-between mb-3">
+                <h1 class="fs-3">Ingredients</h1>
+                <button class="btn btn-secondary rounded-0" id="add-ingredient" type="button"><i class="bi bi-plus"></i>
+                </button>
+              </div>
+              <div class="g-3" id="ingredients-section">
+                <div class="alert alert-primary alert-dismissible fade show rounded-0" role="alert">
+                  To ensure that the recipe calories are calculated, please make sure that all ingredients are written
+                  in
+                  english.
+                  If you wish to calculate a specific quantity, you may prefix a quantity before an item. For example, 3
+                  tomatoes or 200 grams beef brisket. If no quantity is specified, the default quantity is 100 grams.
+                  <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+                </div>
+                <div class="alert alert-danger" role="alert" th:errors="*{ingredients}"
+                     th:if="${#fields.hasErrors('ingredients')}"></div>
+                <div class="input-group mb-3 ingredient-div" th:if="${#lists.isEmpty(recipe.getIngredients())}">
+                  <input aria-label="ingredient details" class="form-control shadow-none rounded-0 ingredient-in"
+                         maxlength="120" name="ingredients[0]" required
+                         type="text">
+                </div>
+                <div class="input-group mb-3 ingredient-div" th:each="ingredient, stat : *{ingredients}">
+                  <input aria-label="ingredient details" class="form-control shadow-none rounded-0 ingredient-in"
+                         maxlength="120" required th:field="*{ingredients[__${stat.index}__]}"
+                         type="text">
+                </div>
+              </div>
+            </div>
+
+            <!-- step 3 -->
+            <div class="step d-none">
+              <div class="d-flex justify-content-between mb-3">
+                <h1 class="fs-3">How to prepare</h1>
+                <button class="btn btn-secondary rounded-0" id="add-step" type="button"><i class="bi bi-plus"></i>
+                </button>
+              </div>
+              <div class="g-3" id="steps-section">
+                <div class="alert alert-danger" role="alert" th:errors="*{howToPrepare}"
+                     th:if="${#fields.hasErrors('howToPrepare')}"></div>
+                <div class="input-group mb-3 ingredient-div" th:if="${#lists.isEmpty(recipe.getHowToPrepare())}">
+                   <textarea aria-label="how to prepare step"
+                             class="form-control shadow-none rounded-0 steps-in" maxlength="1200" name="howToPrepare[0]"
+                             required></textarea>
+                </div>
+                <div class="input-group mb-3 step-div" th:each="step, stat : *{howToPrepare}">
+                  <textarea aria-label="how to prepare step"
+                            class="form-control shadow-none rounded-0 steps-in" maxlength="1200" required
+                            th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
+                </div>
+              </div>
+            </div>
+
           </div>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label" for="recipePreparationTime">Approximated time</label>
-          <input class="form-control" id="recipePreparationTime" max="99" min="1"
-                 required th:field="*{preparationTime}" type="number">
-          <div class="invalid-feedback">
-            Please provide an approximate preparation time.
+
+          <!-- box buttons -->
+          <div class="my-3" id="box-buttons">
+            <button class="btn btn-light btn-sm rounded-0" id="prev-btn" type="button">Previous</button>
+            <button class="btn btn-primary btn-sm rounded-0" id="next-btn" type="button">Next</button>
+            <button class="btn btn-success btn-sm rounded-0" id="submit-btn" type="submit">Submit</button>
           </div>
-        </div>
-        <div class="col-md-4">
-          <label class="form-label" for="recipeServings">No. of Servings</label>
-          <input class="form-control" id="recipeServings" max="99" min="1"
-                 required th:field="*{servings}" type="number">
-          <div class="invalid-feedback">
-            Please specify the number of servings.
-          </div>
-        </div>
-        <div class="col-12">
-          <label class="form-label" for="recipeDescription">Description</label>
-          <textarea class="form-control" id="recipeDescription" maxlength="180"
-                    required th:field="*{description}"></textarea>
-          <div class="invalid-feedback" th:errors="*{description}"
-               th:if="${#fields.hasErrors('description')}">
-            Please enter a description in the textarea.
-          </div>
-        </div>
+        </form>
+
       </div>
     </div>
-    <!--end recipe details section-->
-
-    <!--ingredients section-->
-    <div class="p-0 mt-5" id="ingredients-section">
-      <h2 class="fs-3 fw-light col-6">Ingredients</h2>
-
-      <div class="alert alert-danger" role="alert"
-           th:errors="*{ingredients}" th:if="${#fields.hasErrors('ingredients')}"></div>
-
-      <div class="ingredient-div" th:each="err, stat : *{ingredients}">
-        <input class="form-control mb-2" placeholder="200 grams chicken breast"
-               required th:field="*{ingredients[__${stat.index}__]}" type="text">
-      </div>
-
-    </div>
-    <button class="btn btn-primary btn-sm w-25" onclick="addIngredientInput()" type="button">Add ingredient
-    </button>
-    <!--end ingredients section-->
-
-    <!--step-by-step section-->
-    <div class="p-0 mt-5" id="step-section">
-      <h2 class="fs-3 fw-light col-6">Step-By-Step</h2>
-
-      <div class="alert alert-danger" role="alert"
-           th:errors="*{howToPrepare}" th:if="${#fields.hasErrors('howToPrepare')}"></div>
-
-      <div class="step-by-step-div" th:each="err, stat : *{howToPrepare}">
-                <textarea class="form-control mb-2" maxlength="500"
-                          required th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
-      </div>
-
-    </div>
-    <button class="btn btn-primary btn-sm w-25" onclick="addStepInput()" type="button">Add Step
-    </button>
-    <!--end step-by-step section-->
-
-
-    <div class="col-12 p-0">
-      <button class="btn btn-success mb-3" type="submit">Share</button>
-    </div>
-  </form>
+  </section>
 </main>
 
-<script th:src="@{/js/createInput.js}"></script>
+<script th:src="@{/js/create-update-recipe.js}"></script>
+<script>
+  document.getElementById('footer').remove();
+</script>
 </html>

@@ -19,4 +19,8 @@ public class UserRegistrationDTO {
     @NotEmpty(message = "Password cannot be empty")
     @Size(max = 120, message = "Password must be at most 120 characters")
     private String password;
+
+    @NotEmpty(message = "Confirm password cannot be empty")
+    @Size(max = 120, message = "Confirm password must be at most 120 characters")
+    private String confirmPassword;
 }

@@ -1,29 +1,38 @@
-<header class="header fixed-top d-flex align-items-center" id="header" xmlns:sec="http://www.w3.org/1999/xhtml">
-  <div class="container d-flex align-items-center justify-content-between">
+<header class="shadow-sm sticky-top" id="header" xmlns:sec="http://www.w3.org/1999/xhtml">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand fs-2 fw-medium" th:href="@{/}">Yummy<span
+        class="text-primary fw-bolder">.</span></a>
+      <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+              class="navbar-toggler shadow-none border-0" data-bs-target="#navbarSupportedContent"
+              data-bs-toggle="collapse"
+              type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="d-flex align-items-center justify-content-center gap-2 ms-auto" sec:authorize="!isAuthenticated()">
+          <a class="btn btn-light btn-sm rounded-0" th:href="@{/signup}">create account</a>
+          <a class="btn btn-primary rounded-0" th:href="@{/login}">Sign In</a>
+        </div>
 
-    <a class="logo d-flex align-items-center me-auto me-lg-0" th:href="@{/}">
-      <h1>Yummy<span>.</span></h1>
-    </a>
+        <div class="d-flex align-items-center justify-content-center gap-2 ms-auto"
+             sec:authorize="isAuthenticated()">
+          <div class="dropdown">
+            <img alt="user profile picture" aria-expanded="false" class="rounded-circle" data-bs-toggle="dropdown"
+                 height="40" src="https://placehold.co/80x80" width="40">
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" th:href="@{/recipes/share}">Share</a></li>
+              <li><a class="dropdown-item" href="#" th:href="@{/recipes/mines}">My recipes</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" th:href="@{/logout}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-    <div class="dropdown" sec:authorize="isAuthenticated()">
-      <a aria-expanded="false" data-bs-toggle="dropdown" href="#" role="button">
-        <span class="text-black" th:text="${#authentication.principal.username}">username</span>
-      </a>
-
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" th:href="@{/recipes/share}">Share recipe</a></li>
-        <li><a class="dropdown-item" th:href="@{/recipes/mines}">My recipes</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li>
-          <hr class="dropdown-divider">
-        </li>
-        <li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
-      </ul>
+      </div>
     </div>
-
-    <div sec:authorize="!isAuthenticated()">
-      <a class="btn bg-body-tertiary text-dark rounded-pill" th:href="@{/login}">Sign In</a>
-      <a class="btn btn-primary rounded-pill ms-3" th:href="@{/signup}">Sign Up</a>
-    </div>
-  </div>
+  </nav>
 </header>

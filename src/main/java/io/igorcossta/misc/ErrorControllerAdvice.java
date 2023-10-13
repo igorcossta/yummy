@@ -3,6 +3,7 @@ package io.igorcossta.misc;
 import io.igorcossta.recipe.RecipeDisabledException;
 import io.igorcossta.recipe.RecipeNotFoundException;
 import io.igorcossta.recipe.RecipeNotOwnerException;
+import io.igorcossta.token.TokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -43,6 +44,16 @@ public class ErrorControllerAdvice {
 
         mav.addObject(ERROR_STATUS, "FORBIDDEN");
         mav.addObject(ERROR_MESSAGE, "Sorry, but you are not the owner of this recipe!");
+        return mav;
+    }
+
+    @ExceptionHandler(TokenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ModelAndView processTokenException(TokenException exception) {
+        ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
+
+        mav.addObject(ERROR_STATUS, exception.getExceptionType());
+        mav.addObject(ERROR_MESSAGE, exception.getMessage());
         return mav;
     }
 }

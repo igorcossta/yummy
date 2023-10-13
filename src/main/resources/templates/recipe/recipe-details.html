@@ -130,7 +130,7 @@
               hx-swap="none"
               hx-swap-oob="true"
               _="on submit target.reset() then remove .was-validated from me"
-              hx:post="@{/comment/{id}/share(id=${recipeAndComments.recipe().id()})}"
+              hx:post="@{/comment/{id}/share(id=${recipeId})}"
               novalidate
               th:data-header-name="${_csrf.headerName}"
               th:data-token="${_csrf.token}"

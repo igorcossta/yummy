@@ -53,6 +53,7 @@ public class RecipeController {
     @ResponseStatus(OK)
     public String viewRecipeById(Model model, @PathVariable long recipeId) {
         model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(recipeId));
+        model.addAttribute("recipeId", recipeId);
         model.addAttribute("comment", new CommentCreationDTO());
         return "recipe/recipe-details";
     }

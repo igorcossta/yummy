@@ -12,78 +12,60 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
+
 @Controller
 @RequestMapping("/recipes")
 @RequiredArgsConstructor
 public class RecipeController {
     private final RecipeService recipeService;
-    private final RecipeMapper recipeMapper;
 
     @GetMapping
+    @ResponseStatus(OK)
     public String recipes(Model model) {
         model.addAttribute("recipes", recipeService.searchForAllRecipes());
         return "recipe/show-all-recipes";
     }
 
-    @GetMapping("/mines")
-    public String listMyRecipes(Model model) {
-        model.addAttribute("recipes", recipeService.searchForMyRecipes());
-        return "user/recipe/show-my-recipes";
-    }
-
-    @GetMapping("/share")
-    public String createRecipeHomePage(Model model) {
-        model.addAttribute("recipe", new RecipeCreationDTO());
-        return "user/recipe/create-new-recipe";
-    }
-
-    @PostMapping("/share")
-    public String createRecipe(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe, BindingResult bindingResult) {
+    @PostMapping("/new")
+    public ModelAndView processCreationForm(@Valid @ModelAttribute("recipe") RecipeCreationDTO recipe,
+                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "user/recipe/create-new-recipe";
+            return new ModelAndView("dashboard/create-new-recipe", BAD_REQUEST);
         }
-
-        return "redirect:/recipes/details/" + recipeService.createRecipe(recipe);
+        return new ModelAndView("redirect:/recipes/%s/details".formatted(recipeService.createRecipe(recipe)));
     }
 
-    @GetMapping("/details/{id}")
-    public String displayFoodRecipe(Model model, @PathVariable Long id) {
-        model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(id));
+    @PostMapping("/{recipeId}/edit")
+    public ModelAndView processUpdateForm(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
+                                          BindingResult bindingResult,
+                                          @PathVariable long recipeId) {
+        Recipe original = recipeService.isResourceOwner(recipeId);
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("dashboard/update-recipe", BAD_REQUEST);
+        }
+        recipeService.updateMyRecipe(recipe, original);
+        return new ModelAndView("redirect:/dashboard/recipes");
+    }
+
+    @GetMapping("/{recipeId}/details")
+    @ResponseStatus(OK)
+    public String viewRecipeById(Model model, @PathVariable long recipeId) {
+        model.addAttribute("recipeAndComments", recipeService.searchForRecipeAndComments(recipeId));
+        model.addAttribute("comment", new CommentCreationDTO());
         return "recipe/recipe-details";
     }
 
-    @DeleteMapping("/{id}")
-    public HtmxResponse deleteRecipe(@PathVariable Long id) {
-        recipeService.disableMyRecipe(id);
+    @DeleteMapping("/{recipeId}")
+    @ResponseStatus(OK)
+    public HtmxResponse deleteRecipeById(@PathVariable long recipeId) {
+        recipeService.disableMyRecipe(recipeId);
         return new HtmxResponse()
                 .addTemplate(new ModelAndView("fragment/shared/toast",
-                        Map.of("msg", "Recipe %s deleted successfully!".formatted(id))))
+                        Map.of("msg", "Recipe %s deleted successfully!".formatted(recipeId))))
                 .addTemplate(new ModelAndView(
-                        "user/recipe/show-my-recipes :: recipes-container",
+                        "dashboard/show-my-recipes :: recipes-container",
                         Map.of("recipes", recipeService.searchForMyRecipes())));
-    }
-
-    @GetMapping("/edit/{id}")
-    public String updateRecipe(Model model, @PathVariable Long id) {
-        Recipe recipe = recipeService.isResourceOwner(id);
-        model.addAttribute("recipe", recipeMapper.entityToRecipeEditDto(recipe));
-        return "user/recipe/update-recipe";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateRecipe(@Valid @ModelAttribute("recipe") RecipeEditDTO recipe,
-                                     BindingResult bindingResult,
-                                     @PathVariable Long id) {
-        Recipe original = recipeService.isResourceOwner(id);
-        if (bindingResult.hasErrors()) {
-            return "user/recipe/update-recipe";
-        }
-        recipeService.updateMyRecipe(recipe, original);
-        return "redirect:/recipes/mines";
-    }
-
-    @ModelAttribute("commentCreation")
-    public CommentCreationDTO commentCreation() {
-        return new CommentCreationDTO();
     }
 }

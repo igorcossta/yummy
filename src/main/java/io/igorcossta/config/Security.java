@@ -11,6 +11,7 @@ import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,27 +22,32 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class Security {
     private final UserRepository userRepository;
+    private final String[] PUBLIC_MATCHERS = {
+            "/css/**", "/js/**", "/img/**",
+            "/",
+            "/recipes", "/recipes/{recipeId}/details"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(conf -> conf
-                        .requestMatchers(HttpMethod.GET, "/css/**", "/js/**", "/img/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/recipes", "/recipes/details/{id}").permitAll()
-                        .requestMatchers("/signup").permitAll()
-                        .requestMatchers("/recipes/**").authenticated()
-                        .requestMatchers("/comments/**").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated())
                 .formLogin(conf -> conf
-                        .loginPage("/login").permitAll())
+                        .loginPage("/auth/login")
+                )
                 .logout(conf -> conf
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .invalidateHttpSession(true).clearAuthentication(true))
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout"))
+                        .invalidateHttpSession(true).clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "remember-me").logoutSuccessUrl("/")
+                )
                 .build();
     }
 

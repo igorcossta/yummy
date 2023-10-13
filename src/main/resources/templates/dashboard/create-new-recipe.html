@@ -3,7 +3,7 @@
       th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
-  <title>Yummy. Update Recipe</title>
+  <title>Yummy. Share Recipe</title>
 </head>
 
 <main>
@@ -13,13 +13,10 @@
       <!-- form -->
       <div class="m-0 p-0" id="box-container">
 
-        <form class="needs-validation" id="form-wrapper"
-              method="post"
-              novalidate
-              th:action="@{/recipes/edit/{id}(id=${recipe.getId()})}"
-              th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+        <form class="needs-validation" id="form-wrapper" method="post" novalidate
+              th:action="@{/recipes/new}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
               th:object="${recipe}">
-          <input hidden th:field="*{id}" type="hidden">
+          <input hidden type="hidden" value="1">
           <div class="steps-container">
 
             <!-- step 1 -->

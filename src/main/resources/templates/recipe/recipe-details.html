@@ -23,8 +23,9 @@
           <div class="my-5">
                         <span class="text-secondary"
                               th:text="${#temporals.format(recipeAndComments.recipe().createdAt(), 'MMMM dd, yyyy')}"></span>
-            <h2 class="text-dark-emphasis mb-4 fs-1 text-break"
+            <h2 class="text-dark-emphasis fs-1 text-break"
                 th:text="${recipeAndComments.recipe().title()}"></h2>
+            <p class="mb-4" th:text="${recipeAndComments.recipe().description()}"></p>
             <div class="border-start border-dark border-3 ps-3">
               <h6 th:text="'Preparation: ' + ${recipeAndComments.recipe().preparationTime()} + ' mins'"></h6>
               <h6 th:text="'Servings: ' + ${recipeAndComments.recipe().servings()}"></h6>
@@ -128,14 +129,14 @@
               id="form"
               hx-swap="none"
               hx-swap-oob="true"
-              hx:post="@{'/comments?recipeId=' + ${id}}"
-              _="on submit target.reset()"
+              _="on submit target.reset() then remove .was-validated from me"
+              hx:post="@{/comment/{id}/share(id=${recipe.id()})}"
               novalidate
               th:data-header-name="${_csrf.headerName}"
               th:data-token="${_csrf.token}"
               th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
               th:fragment="form"
-              th:object="${commentCreation}">
+              th:object="${comment}">
           <div class="row">
             <div class="col-12">
               <textarea class="form-control shadow-none rounded-0" maxlength="300" minlength="1" required
@@ -170,4 +171,11 @@
 </main>
 
 <script th:src="@{/js/addHeaders.js}"></script>
+<script>
+  document.body.addEventListener('htmx:beforeSwap', function (evt) {
+    // allow swap elements even when response status is not 2xx
+    evt.detail.shouldSwap = true;
+    evt.detail.isError = false;
+  });
+</script>
 </html>

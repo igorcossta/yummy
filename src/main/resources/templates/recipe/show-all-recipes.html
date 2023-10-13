@@ -62,7 +62,7 @@
                   <small class="card-text" th:text="${recipe.description()}"></small>
                 </div>
                 <a class="card-link stretched-link text-decoration-none text-body"
-                   th:href="@{/recipes/details/{id}(id=${recipe.id()})}"></a>
+                   th:href="@{/recipes/{id}/details(id=${recipe.id()})}"></a>
                 <div class="mt-2 text-body">
                   <span>Created at </span> <span
                   th:text="${#temporals.format(recipe.createdAt(), 'MMMM dd, yyyy')}"></span>

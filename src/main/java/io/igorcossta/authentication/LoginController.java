@@ -8,18 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/auth/login")
 @RequiredArgsConstructor
 public class LoginController {
     private final UserService userService;
 
     @GetMapping
-    public String home(Model model) {
+    public String initLoginForm(Model model) {
         if (userService.isAuthenticated()) {
             return "redirect:/";
         }
         model.addAttribute("authentication", new LoginDTO());
-
         return "login";
     }
 }

@@ -9,7 +9,7 @@
 <main>
   <section class="mt-5 d-flex align-items-center justify-content-center">
     <div class="text-center form-signup">
-      <form id="form" method="post" novalidate style="max-width: 330px" th:action="@{/signup}"
+      <form id="form" method="post" novalidate style="max-width: 330px" th:action="@{/auth/register}"
             th:object="${registration}">
         <h1 class="h3 mb-3 fw-normal">Sign up now</h1>
         <th:block th:if="${#fields.hasErrors('username')}">

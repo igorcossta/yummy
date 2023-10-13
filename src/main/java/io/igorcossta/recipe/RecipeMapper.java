@@ -23,7 +23,7 @@ public abstract class RecipeMapper {
 
     @Mapping(target = "ingredients", expression = "java(stringToList(recipe.getIngredients()))")
     @Mapping(target = "howToPrepare", expression = "java(stringToList(recipe.getHowToPrepare()))")
-    abstract RecipeEditDTO entityToRecipeEditDto(Recipe recipe);
+    public abstract RecipeEditDTO entityToRecipeEditDto(Recipe recipe);
 
     @Mapping(target = "owner", source = "recipe.recipeOwner.username")
     abstract RecipeDetailsDTO entityToRecipeDetailsDto(Recipe recipe);

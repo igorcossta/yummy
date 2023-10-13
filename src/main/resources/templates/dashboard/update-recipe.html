@@ -3,7 +3,7 @@
       th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
-  <title>Yummy. Share Recipe</title>
+  <title>Yummy. Update Recipe</title>
 </head>
 
 <main>
@@ -13,10 +13,13 @@
       <!-- form -->
       <div class="m-0 p-0" id="box-container">
 
-        <form class="needs-validation" id="form-wrapper" method="post" novalidate
-              th:action="@{/recipes/share}" th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+        <form class="needs-validation" id="form-wrapper"
+              method="post"
+              novalidate
+              th:action="@{/recipes/{id}/edit(id=${recipe.getId()})}"
+              th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
               th:object="${recipe}">
-          <input hidden type="hidden" value="1">
+          <input hidden th:field="*{id}" type="hidden">
           <div class="steps-container">
 
             <!-- step 1 -->
@@ -88,8 +91,11 @@
                 </div>
                 <div class="input-group mb-3 ingredient-div" th:each="ingredient, stat : *{ingredients}">
                   <input aria-label="ingredient details" class="form-control shadow-none rounded-0 ingredient-in"
-                         maxlength="120" required th:field="*{ingredients[__${stat.index}__]}"
-                         type="text">
+                         maxlength="120"
+                         required th:field="*{ingredients[__${stat.index}__]}" type="text">
+                  <span class="input-group-text rounded-0" onclick="remove(this)">
+                    <i class="bi bi-x"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -110,9 +116,11 @@
                              required></textarea>
                 </div>
                 <div class="input-group mb-3 step-div" th:each="step, stat : *{howToPrepare}">
-                  <textarea aria-label="how to prepare step"
-                            class="form-control shadow-none rounded-0 steps-in" maxlength="1200" required
-                            th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
+                  <textarea aria-label="how to prepare step" class="form-control shadow-none rounded-0 steps-in"
+                            maxlength="1200" required th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
+                  <span class="input-group-text rounded-0" onclick="remove(this, 1)">
+                    <i class="bi bi-x"></i>
+                  </span>
                 </div>
               </div>
             </div>

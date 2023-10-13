@@ -12,7 +12,7 @@
       <th:block th:if="${recipes.isEmpty()}">
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
           <h1 class="fw-light fs-5 mb-0">You don't have any recipe!</h1>
-          <a th:href="@{/recipes/share}">create one!</a>
+          <a th:href="@{/dashboard/recipes/new}">create one!</a>
         </div>
       </th:block>
 
@@ -34,7 +34,7 @@
           <tbody>
           <tr class="align-middle" th:each="recipe : ${recipes}">
             <th scope="row"><a class="btn btn-transparent"
-                               th:href="@{'/recipes/details/' + ${recipe.id()}}"
+                               th:href="@{/recipes/{id}/details(id=${recipe.id()})}"
                                th:text="${recipe.id()}"></a></th>
             <td>
               <img alt="recipe picture" class="object-fit-cover img-fluid" height="40"
@@ -58,7 +58,8 @@
                         th:data-token="${_csrf.token}"
                         type="button">
                   <i class="bi bi-trash"></i></button>
-                <a class="btn btn-transparent fs-5 border-0 p-0 m-0" th:href="@{/recipes/edit/{id}(id=${recipe.id()})}"
+                <a class="btn btn-transparent fs-5 border-0 p-0 m-0"
+                   th:href="@{/dashboard/recipes/{id}/edit(id=${recipe.id()})}"
                    type="button">
                   <i class="bi bi-pen"></i></a>
               </div>

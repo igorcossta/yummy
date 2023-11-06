@@ -9,16 +9,17 @@
 <main hx-swap-oob="outerHTML:#main" id="main" th:fragment="recipes-container">
   <section class="mt-5">
     <div class="container">
-      <th:block th:if="${recipes.isEmpty()}">
+      <th:block th:if="${data.items().isEmpty()}">
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
           <h1 class="fw-light fs-5 mb-0">You don't have any recipe!</h1>
           <a th:href="@{/dashboard/recipes/new}">create one!</a>
         </div>
       </th:block>
 
-      <div class="table-responsive" th:unless="${recipes.isEmpty()}">
+      <div class="table-responsive" th:unless="${data.items().isEmpty()}">
         <table class="table table-striped table-hover">
-          <caption>You have X recipes - Page Y of Z</caption>
+          <caption>You have <span th:text="${data.totalItems()}">10</span> recipes - Page <span
+            th:text="${data.currentPage()}">1</span> of <span th:text="${data.totalPages()}">2</span></caption>
           <thead>
           <tr>
             <th scope="col">ID</th>
@@ -32,7 +33,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="align-middle" th:each="recipe : ${recipes}">
+          <tr class="align-middle" th:each="recipe : ${data.items()}">
             <th scope="row"><a class="btn btn-transparent"
                                th:href="@{/recipes/{id}/details(id=${recipe.id()})}"
                                th:text="${recipe.id()}"></a></th>
@@ -67,6 +68,9 @@
           </tr>
           </tbody>
         </table>
+        <div th:if="${data.totalPages() > 0}">
+          <div th:replace="~{/fragment/pagination :: pagination(${data}, '/dashboard/recipes')}"></div>
+        </div>
       </div>
     </div>
   </section>

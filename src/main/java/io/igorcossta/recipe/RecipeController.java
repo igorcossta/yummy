@@ -23,8 +23,8 @@ public class RecipeController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public String recipes(Model model) {
-        model.addAttribute("recipes", recipeService.searchForAllRecipes());
+    public String recipes(Model model, @RequestParam(defaultValue = "1") int page) {
+        model.addAttribute("data", recipeService.searchForAllRecipes(page));
         return "recipe/show-all-recipes";
     }
 
@@ -67,6 +67,6 @@ public class RecipeController {
                         Map.of("msg", "Recipe %s deleted successfully!".formatted(recipeId))))
                 .addTemplate(new ModelAndView(
                         "dashboard/show-my-recipes :: recipes-container",
-                        Map.of("recipes", recipeService.searchForMyRecipes())));
+                        Map.of("recipes", recipeService.searchForMyRecipes(1))));
     }
 }

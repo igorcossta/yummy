@@ -1,6 +1,8 @@
 package io.igorcossta.recipe;
 
 import io.igorcossta.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,12 +25,12 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
             WHERE r.recipeOwner = :owner 
             AND r.isDisabled = false
             """)
-    List<RecipeCardDTO> findAllActiveRecipesByOwner(User owner);
+    Page<RecipeCardDTO> findAllActiveRecipesByOwner(User owner, Pageable pageable);
 
     @Query("""
             SELECT new io.igorcossta.recipe.RecipeCardDTO(r.id, r.title, r.description, r.createdAt) 
             FROM recipe r 
             WHERE r.isDisabled = false
             """)
-    List<RecipeCardDTO> findAllActiveRecipes();
+    Page<RecipeCardDTO> findAllActiveRecipes(Pageable pageable);
 }

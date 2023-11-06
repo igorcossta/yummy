@@ -16,7 +16,7 @@
       </div>
       <div class="glider-contain">
         <div class="glider hidescroll py-3">
-          <th:block th:each="mostLiked : ${recipes}">
+          <th:block th:each="mostLiked : ${data.items()}">
             <div class="d-flex bg-white me-3 shadow-hover">
               <div class="me-3">
                 <img class="object-fit-cover img-fluid p-sm-3" height="200"
@@ -51,7 +51,7 @@
       </div>
 
       <div class="row">
-        <th:block th:each="recipe : ${recipes}">
+        <th:block th:each="recipe : ${data.items()}">
           <div class="col-12 col-lg-4 mb-5">
             <div class="card border rounded-0">
               <img class="card-img-top rounded-0 object-fit-cover" height="300" th:alt="${recipe.title()}"
@@ -71,6 +71,9 @@
             </div>
           </div>
         </th:block>
+        <div th:if="${data.totalPages() > 0}">
+          <div th:replace="~{/fragment/pagination :: pagination(${data}, '/recipes')}"></div>
+        </div>
       </div>
     </div>
   </section>

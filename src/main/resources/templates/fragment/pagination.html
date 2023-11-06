@@ -1,0 +1,30 @@
+<nav aria-label="Pagination" th:fragment="pagination(data, url)">
+  <ul class="pagination">
+    <li class="page-item" th:classappend="${data.currentPage() == 1} ? 'disabled'">
+      <a class="page-link" th:href="@{${url} + '?page=' + 1}" aria-label="First Page">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    <li class="page-item font-weight-bold" th:classappend="${data.currentPage() == 1} ? 'disabled'">
+      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() - 1}, 'Prev', ${url})}"></a>
+    </li>
+
+    <li class="page-item" th:classappend="${page == data.currentPage()} ? 'active'"
+        th:each="page : ${#numbers.sequence((data.currentPage() > 2 ? data.currentPage() - 1 : 1), (data.currentPage() + 2 < data.totalPages() ? data.currentPage() + 1 : data.totalPages()))}">
+      <a th:replace="~{/fragment/paginationLink :: pagingLink(${page}, ${page}, ${url})}"></a>
+    </li>
+
+    <li class="page-item font-weight-bold"
+        th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
+      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() + 1}, 'Next', ${url})}"></a>
+    </li>
+
+    <li class="page-item" th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
+      <a class="page-link" th:href="@{${url} + '?page=' + ${data.totalPages()}}" aria-label="Last Page">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+
+  </ul>
+</nav>

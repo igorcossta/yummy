@@ -4,8 +4,12 @@ import io.igorcossta.calories.Calories;
 import io.igorcossta.calories.CaloriesService;
 import io.igorcossta.comment.CommentDTO;
 import io.igorcossta.comment.CommentRepository;
+import io.igorcossta.misc.Pagination;
 import io.igorcossta.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,19 +60,33 @@ public class RecipeService {
     }
 
     @Transactional(readOnly = true)
-    public List<RecipeCardDTO> searchForMyRecipes() {
-        return recipeRepository.findAllActiveRecipesByOwner(UserService.getPrincipal())
+    public Pagination<RecipeCardDTO> searchForMyRecipes(int page) {
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<RecipeCardDTO> pages = recipeRepository.findAllActiveRecipesByOwner(UserService.getPrincipal(), pageable);
+        List<RecipeCardDTO> content = pages
                 .stream()
                 .sorted(Comparator.comparing(RecipeCardDTO::createdAt).reversed())
                 .collect(Collectors.toList());
+        return new Pagination<>(content,
+                pages.getNumber() + 1,
+                pages.getTotalElements(),
+                pages.getTotalPages(),
+                pages.getSize());
     }
 
     @Transactional(readOnly = true)
-    public List<RecipeCardDTO> searchForAllRecipes() {
-        return recipeRepository.findAllActiveRecipes()
+    public Pagination<RecipeCardDTO> searchForAllRecipes(int page) {
+        Pageable pageable = PageRequest.of(page - 1, 6);
+        Page<RecipeCardDTO> pages = recipeRepository.findAllActiveRecipes(pageable);
+        List<RecipeCardDTO> content = pages.getContent()
                 .stream()
                 .sorted(Comparator.comparing(RecipeCardDTO::createdAt).reversed())
                 .collect(Collectors.toList());
+        return new Pagination<>(content,
+                pages.getNumber() + 1,
+                pages.getTotalElements(),
+                pages.getTotalPages(),
+                pages.getSize());
     }
 
     @Transactional

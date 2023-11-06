@@ -25,8 +25,8 @@ public class DashboardController {
     }
 
     @GetMapping("/recipes")
-    public String recipes(Model model) {
-        model.addAttribute("recipes", recipeService.searchForMyRecipes());
+    public String recipes(Model model, @RequestParam(defaultValue = "1") int page) {
+        model.addAttribute("data", recipeService.searchForMyRecipes(page));
         return "dashboard/show-my-recipes";
     }
 

@@ -11,16 +11,16 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class UserRegistrationDTO {
-    @Email(message = "Please provide a valid email address")
-    @NotEmpty(message = "Email address cannot be empty")
-    @Size(max = 100, message = "Email address must be at most 100 characters")
+    @Email(message = "{validation.messages.email}")
+    @NotEmpty(message = "{validation.messages.email.notEmpty}")
+    @Size(max = 100, message = "{validation.messages.email.size}")
     private String username;
 
-    @NotEmpty(message = "Password cannot be empty")
-    @Size(max = 120, message = "Password must be at most 120 characters")
+    @NotEmpty(message = "{validation.messages.password.notEmpty}")
+    @Size(max = 120, message = "{validation.messages.password.size}")
     private String password;
 
-    @NotEmpty(message = "Confirm password cannot be empty")
-    @Size(max = 120, message = "Confirm password must be at most 120 characters")
+    @NotEmpty(message = "{validation.messages.confirmPassword.notEmpty}")
+    @Size(max = 120, message = "{validation.messages.confirmPassword.size}")
     private String confirmPassword;
 }

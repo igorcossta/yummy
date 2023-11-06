@@ -11,7 +11,7 @@
     <div class="text-center form-signup">
       <form id="form" method="post" novalidate style="max-width: 330px" th:action="@{/auth/register}"
             th:object="${registration}">
-        <h1 class="h3 mb-3 fw-normal">Sign up now</h1>
+        <h1 class="h3 mb-3 fw-normal" data-th-text="#{ui.register.title}">Sign up now</h1>
         <th:block th:if="${#fields.hasErrors('username')}">
           <p class="alert alert-danger" th:errors="*{username}">Please enter a valid email.</p>
         </th:block>
@@ -25,25 +25,27 @@
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingInput" placeholder="name@example.com"
                  required th:field="*{username}" type="email">
-          <label for="floatingInput">Email address</label>
+          <label for="floatingInput" data-th-text="#{ui.email.field}">Email address</label>
         </div>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingPassword" placeholder="Password" required
                  th:field="*{password}" type="password">
-          <label for="floatingPassword">Password</label>
+          <label for="floatingPassword" data-th-text="#{ui.password.field}">Password</label>
         </div>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingConfirmPassword" placeholder="Confirm Password"
                  required th:field="*{confirmPassword}" type="password">
-          <label for="floatingConfirmPassword">Confirm Password</label>
+          <label for="floatingConfirmPassword" data-th-text="#{ui.confirmPassword.field}">Confirm Password</label>
         </div>
 
         <div class="checkbox my-3">
           <label>
-            <input type="checkbox" value="receive-notifications"> Keep me updated
+            <input type="checkbox" value="receive-notifications"> <span data-th-text="#{ui.register.keepUpdated}">Keep me updated</span>
           </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary rounded-0" type="submit">Sign Up</button>
+        <button class="w-100 btn btn-lg btn-primary rounded-0" type="submit" data-th-text="#{ui.register.button}">Sign
+          Up
+        </button>
         <p class="mt-4 mb-3 text-muted">&copy; 2023</p>
       </form>
     </div>

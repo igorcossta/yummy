@@ -11,8 +11,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="d-flex align-items-center justify-content-center gap-2 ms-auto" sec:authorize="!isAuthenticated()">
-          <a class="btn btn-light btn-sm rounded-0" th:href="@{/auth/register}">create account</a>
-          <a class="btn btn-primary rounded-0" th:href="@{/auth/login}">Sign In</a>
+          <a class="btn btn-light btn-sm rounded-0" th:href="@{/auth/register}"
+             data-th-text="#{ui.header.createAccount}">create account</a>
+          <a class="btn btn-primary rounded-0" th:href="@{/auth/login}" data-th-text="#{ui.header.login}">Sign In</a>
         </div>
 
         <div class="d-flex align-items-center justify-content-center gap-2 ms-auto"
@@ -21,12 +22,15 @@
             <img alt="user profile picture" aria-expanded="false" class="rounded-circle" data-bs-toggle="dropdown"
                  height="40" src="https://placehold.co/80x80" width="40">
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes/new}">Share</a></li>
-              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes}">My recipes</a></li>
+              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes/new}"
+                     data-th-text="#{ui.header.share}">Share</a></li>
+              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes}"
+                     data-th-text="#{ui.header.myRecipes}">My recipes</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" th:href="@{/auth/logout}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              <li><a class="dropdown-item" th:href="@{/auth/logout}"><i class="bi bi-box-arrow-right"></i> <span
+                data-th-text="#{ui.header.logout}">Logout</span></a>
               </li>
             </ul>
           </div>

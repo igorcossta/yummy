@@ -9,11 +9,11 @@
 <main class="d-flex flex-column align-items-center justify-content-center">
   <div class="w-100">
     <div>
-      <h1 class="text-center text-dark-emphasis" th:text="${error_status ?: 'ERROR'}"></h1>
-      <p class="text-center text-dark-emphasis" th:text="${error_message ?: 'Sorry, something went wrong. Try again later or contact an admin!'}"></p>
+      <h1 class="text-center text-dark-emphasis" th:text="${error_status ?: #{ui.error.title}}"></h1>
+      <p class="text-center text-dark-emphasis" th:text="${error_message ?: #{ui.error.message}}"></p>
     </div>
   </div>
-  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/}">Back
+  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/}" data-th-text="#{ui.error.backButton}">Back
     to homepage</a></p>
 </main>
 

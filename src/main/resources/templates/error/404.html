@@ -9,11 +9,11 @@
 <main class="d-flex flex-column align-items-center justify-content-center">
   <div class="w-100">
     <div>
-      <h1 class="text-center text-dark-emphasis">NOT FOUND</h1>
-      <p class="text-center text-dark-emphasis">Sorry, but we couldn't find this page!</p>
+      <h1 class="text-center text-dark-emphasis" data-th-text="#{ui.error.notFound}">NOT FOUND</h1>
+      <p class="text-center text-dark-emphasis" data-th-text="#{ui.error.notFound.message}">Sorry, but we couldn't find this page!</p>
     </div>
   </div>
-  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/}">Back
+  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/}" data-th-text="#{ui.error.backButton}">Back
     to homepage</a></p>
 </main>
 

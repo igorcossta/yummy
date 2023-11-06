@@ -11,8 +11,8 @@
   <section class="mt-5">
     <div class="container">
       <div class="mb-3">
-        <p class="fs-4 m-0">Most rated recipes</p>
-        <small class="text-muted">Our recommendations</small>
+        <p class="fs-4 m-0" data-th-text="#{ui.recipes.mostRated}">Most rated recipes</p>
+        <small class="text-muted" data-th-text="#{ui.recipes.mostRated.subTitle}">Our recommendations</small>
       </div>
       <div class="glider-contain">
         <div class="glider hidescroll py-3">
@@ -46,8 +46,8 @@
   <section>
     <div class="container mt-5">
       <div class="mb-3 pb-3">
-        <p class="fs-4 m-0">Recipes</p>
-        <small class="text-muted">Search for any recipe you want!</small>
+        <p class="fs-4 m-0" data-th-text="#{ui.recipes.title}">Recipes</p>
+        <small class="text-muted" data-th-text="#{ui.recipes.subTitle}">Search for any recipe you want!</small>
       </div>
 
       <div class="row">
@@ -64,7 +64,7 @@
                 <a class="card-link stretched-link text-decoration-none text-body"
                    th:href="@{/recipes/{id}/details(id=${recipe.id()})}"></a>
                 <div class="mt-2 text-body">
-                  <span>Created at </span> <span
+                  <span data-th-text="#{ui.recipes.createdAt}">Created at </span> <span
                   th:text="${#temporals.format(recipe.createdAt(), 'MMMM dd, yyyy')}"></span>
                 </div>
               </div>

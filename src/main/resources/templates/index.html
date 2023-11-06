@@ -22,16 +22,16 @@
     <div class="d-flex align-items-start align-items-xl-center flex-grow-1 flex-shrink-0 py-5 px-2 p-md-5">
       <div class="container text-center flex-grow-1 flex-shrink-1">
         <div class="mb-3">
-          <p class="fs-2 fw-semibold m-0 p-0">
+          <p class="fs-2 fw-semibold m-0 p-0" data-th-text="#{ui.welcome}">
             Delicious Food
           </p>
-          <p class="lead m-0 p-0">
+          <p class="lead m-0 p-0" data-th-text="#{ui.welcome.description}">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum
             voluptatibus ratione!
           </p>
         </div>
         <div class="d-flex justify-content-center">
-          <a class="btn btn-primary rounded-0" th:href="@{/recipes}" type="button">Search for recipes</a>
+          <a class="btn btn-primary rounded-0" th:href="@{/recipes}" data-th-text="#{ui.button.searchRecipe}" type="button">Search for recipes</a>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
   <!-- most rated recipes section -->
   <section>
     <div class="bg-light py-4">
-      <h1 class="w-100 text-center fs-3 fw-light pb-3">Newest Recipes</h1>
+      <h1 class="w-100 text-center fs-3 fw-light pb-3" data-th-text="#{ui.newest.recipes}">Newest Recipes</h1>
       <div class="d-flex flex-column flex-md-row gap-2">
 
         <div class="d-flex flex-grow-1 gap-3 border rounded-2 mx-2 px-2 bg-white shadow-sm food-card"

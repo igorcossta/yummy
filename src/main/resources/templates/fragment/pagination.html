@@ -7,7 +7,7 @@
     </li>
 
     <li class="page-item font-weight-bold" th:classappend="${data.currentPage() == 1} ? 'disabled'">
-      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() - 1}, 'Prev', ${url})}"></a>
+      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() - 1}, #{ui.pagination.prev}, ${url})}"></a>
     </li>
 
     <li class="page-item" th:classappend="${page == data.currentPage()} ? 'active'"
@@ -17,7 +17,7 @@
 
     <li class="page-item font-weight-bold"
         th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
-      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() + 1}, 'Next', ${url})}"></a>
+      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() + 1}, #{ui.pagination.next}, ${url})}"></a>
     </li>
 
     <li class="page-item" th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">

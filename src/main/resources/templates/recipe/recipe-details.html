@@ -48,7 +48,7 @@
         <!-- Ingredients -->
         <div class="col-12 col-lg-4">
           <div>
-            <h4 class="mb-3 text-secondary-emphasis">Ingredients</h4>
+            <h4 class="mb-3 text-secondary-emphasis" data-th-text="#{ui.recipe.details.ingredients}">Ingredients</h4>
 
             <div th:each="ingredient : ${#strings.arraySplit(recipeAndComments.recipe().ingredients(), ':')}">
               <div class="mb-3">
@@ -64,51 +64,51 @@
         <table class="table table-striped table-hover w-100">
           <thead>
           <tr>
-            <th scope="col">Macro</th>
-            <th scope="col">Total</th>
+            <th scope="col" data-th-text="#{ui.recipe.details.macro}">Macro</th>
+            <th scope="col" data-th-text="#{ui.recipe.details.macro.total}">Total</th>
           </tr>
           </thead>
           <tbody>
 
           <tr>
-            <th scope="row">Calories</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.calories}">Calories</th>
             <td th:text="${recipeAndComments.calories().calories}"></td>
           </tr>
           <tr>
-            <th scope="row">Fat</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.fat}">Fat</th>
             <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatTotalG, 1,2)} + 'gr'"></td>
           </tr>
           <tr>
-            <th scope="row">Fat Saturated</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.fatSatured}">Fat Saturated</th>
             <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fatSaturatedG, 1,2)} + 'gr'"></td>
           </tr>
           <tr>
-            <th scope="row">Protein</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.protein}">Protein</th>
             <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().proteinG, 1,2)} + 'gr'"></td>
           </tr>
           <tr>
-            <th scope="row">Sodium</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.sodium}">Sodium</th>
             <td th:text="${recipeAndComments.calories().sodiumMg} + 'mg'"></td>
           </tr>
           <tr>
-            <th scope="row">Potassium</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.potassium}">Potassium</th>
             <td th:text="${recipeAndComments.calories().potassiumMg} + 'mg'"></td>
           </tr>
           <tr>
-            <th scope="row">Cholesterol</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.cholesterol}">Cholesterol</th>
             <td th:text="${recipeAndComments.calories().cholesterolMg} + 'mg'"></td>
           </tr>
           <tr>
-            <th scope="row">Carbohydrates</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.carbohydrates}">Carbohydrates</th>
             <td
               th:text="${#numbers.formatDecimal(recipeAndComments.calories().carbohydratesTotalG, 1,2)} + 'gr'"></td>
           </tr>
           <tr>
-            <th scope="row">Fiber</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.fiber}">Fiber</th>
             <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().fiberG, 1,2)} + 'gr'"></td>
           </tr>
           <tr>
-            <th scope="row">Sugar</th>
+            <th scope="row" data-th-text="#{ui.recipe.details.macro.sugar}">Sugar</th>
             <td th:text="${#numbers.formatDecimal(recipeAndComments.calories().sugarG, 1,2)} + 'gr'"></td>
           </tr>
 
@@ -120,7 +120,7 @@
         <div class="row mt-5">
           <div class="col-12">
             <div class="text-left">
-              <h3>Leave a review for this recipe</h3>
+              <h3 data-th-text="#{ui.recipe.details.leaveComment}">Leave a review for this recipe</h3>
             </div>
           </div>
         </div>
@@ -147,14 +147,14 @@
               </div>
             </div>
             <div class="col-12 mt-3">
-              <button class="btn btn-light rounded-0" type="submit">Post</button>
+              <button class="btn btn-light rounded-0" type="submit" data-th-text="#{ui.recipe.details.button.post}">Post</button>
             </div>
           </div>
         </form>
       </div>
 
       <div sec:authorize="!isAuthenticated()">
-        <div class="alert alert-danger text-center" role="alert">
+        <div class="alert alert-danger text-center" role="alert" data-th-text="#{ui.recipe.details.mustBeLoggedIn}">
           You must be logged in to share a comment!
         </div>
       </div>

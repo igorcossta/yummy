@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CommentCreationDTO {
-    @NotEmpty(message = "Please ensure you've written a comment before sending.")
-    @Size(min = 1, max = 300, message = "Your comment should be between 1 and 300 characters in length.")
+    @NotEmpty(message = "{validation.messages.comment.notEmpty}")
+    @Size(min = 1, max = 300, message = "{validation.messages.comment.size}")
     private String comment;
 }

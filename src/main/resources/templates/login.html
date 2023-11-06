@@ -11,35 +11,35 @@
     <div class="text-center form-signin">
       <form id="form" method="post" novalidate style="max-width: 330px" th:action="@{/auth/login}"
             th:object="${authentication}">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal" data-th-text="#{ui.login.title}">Please sign in</h1>
         <th:block th:if="${param.error}">
-          <p class="alert alert-danger">Username or password are incorrect!</p>
+          <p class="alert alert-danger" data-th-text="#{ui.login.error}">Username or password are incorrect!</p>
         </th:block>
         <th:block th:if="${param.success}">
-          <p class="alert alert-success">Your account has been successfully created!<br>Check your email for a
+          <p class="alert alert-success" data-th-text="#{ui.login.success}">Your account has been successfully created!<br>Check your email for a
             confirmation message.</p>
         </th:block>
         <th:block th:if="${param.logout}">
-          <p class="alert alert-primary">You are disconnected!</p>
+          <p class="alert alert-primary" data-th-text="#{ui.logout}">You are disconnected!</p>
         </th:block>
         <p class="alert alert-danger d-none" id="not-empty-fields">You must enter all fields!</p>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingInput" placeholder="name@example.com"
                  required th:field="*{username}" type="email">
-          <label for="floatingInput">Email address</label>
+          <label for="floatingInput" data-th-text="#{ui.email.field}">Email address</label>
         </div>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingPassword" placeholder="Password" required
                  th:field="*{password}" type="password">
-          <label for="floatingPassword">Password</label>
+          <label for="floatingPassword" data-th-text="#{ui.password.field}">Password</label>
         </div>
 
         <div class="checkbox my-3">
           <label>
-            <input type="checkbox" value="remember-me"> Remember me
+            <input type="checkbox" value="remember-me"> <span data-th-text="#{ui.login.rememberMe}">Remember me</span>
           </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary rounded-0" type="submit">Sign In</button>
+        <button class="w-100 btn btn-lg btn-primary rounded-0" type="submit" data-th-text="#{ui.login.button}">Sign In</button>
         <p class="mt-4 mb-3 text-muted">&copy; 2023</p>
       </form>
     </div>

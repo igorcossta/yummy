@@ -24,17 +24,17 @@
 
             <!-- step 1 -->
             <div class="step d-none">
-              <h1 class="fs-3 pb-4">Enter recipe details</h1>
+              <h1 class="fs-3 pb-4" data-th-text="#{ui.recipe.create.title}">Enter recipe details</h1>
               <div class="row g-3">
                 <div class="col-md-4">
-                  <label class="form-label" for="title">Title</label>
+                  <label class="form-label" for="title" data-th-text="#{ui.recipe.create.recipe}">Title</label>
                   <input class="form-control shadow-none rounded-0" id="title" maxlength="60"
                          pattern="^[A-Za-z\s\!#\$%&\(\)]{1,60}$"
                          required th:field="*{title}" type="text">
                   <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label" for="preparationTime">Preparation Time (in minutes)</label>
+                  <label class="form-label" for="preparationTime" data-th-text="#{ui.recipe.create.preparationTime}">Preparation Time (in minutes)</label>
                   <input class="form-control shadow-none rounded-0" id="preparationTime"
                          max="999" min="1"
                          pattern="^(?:[1-9]\d{0,2}|999)$" required th:field="*{preparationTime}" type="number">
@@ -42,23 +42,23 @@
                        th:if="${#fields.hasErrors('preparationTime')}"></div>
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label" for="numberOfServings">Number of Servings</label>
+                  <label class="form-label" for="numberOfServings" data-th-text="#{ui.recipe.create.numberOfServings}">Number of Servings</label>
                   <input class="form-control shadow-none rounded-0" id="numberOfServings" max="99"
                          min="1"
                          pattern="^(?:[1-9]|[1-9][0-9])$" required th:field="*{servings}" type="number">
                   <div class="invalid-feedback" th:errors="*{servings}" th:if="${#fields.hasErrors('servings')}"></div>
                 </div>
                 <div class="col-md-8">
-                  <label class="form-label" for="description">Description</label>
+                  <label class="form-label" for="description" data-th-text="#{ui.recipe.create.desc}">Description</label>
                   <textarea class="form-control shadow-none rounded-0" id="description" maxlength="180"
                             required rows="5" style="resize: none;" th:field="*{description}"></textarea>
                   <div class="invalid-feedback" th:errors="*{description}"
                        th:if="${#fields.hasErrors('description')}"></div>
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label" for="category">Category</label>
+                  <label class="form-label" for="category" data-th-text="#{ui.recipe.create.category}">Category</label>
                   <select class="form-select shadow-none rounded-0" disabled id="category" required>
-                    <option disabled selected value="">Choose...</option>
+                    <option disabled selected value="" data-th-text="#{ui.recipe.create.category.choose}">Choose...</option>
                     <option>Food 1</option>
                     <option>Food 2</option>
                   </select>
@@ -69,12 +69,12 @@
             <!-- step 2 -->
             <div class="step d-none">
               <div class="d-flex justify-content-between mb-3">
-                <h1 class="fs-3">Ingredients</h1>
+                <h1 class="fs-3" data-th-text="#{ui.recipe.create.ingredients}">Ingredients</h1>
                 <button class="btn btn-secondary rounded-0" id="add-ingredient" type="button"><i class="bi bi-plus"></i>
                 </button>
               </div>
               <div class="g-3" id="ingredients-section">
-                <div class="alert alert-primary alert-dismissible fade show rounded-0" role="alert">
+                <div class="alert alert-primary alert-dismissible fade show rounded-0" role="alert" data-th-text="#{ui.recipe.create.ingredients.warning}">
                   To ensure that the recipe calories are calculated, please make sure that all ingredients are written
                   in
                   english.
@@ -103,7 +103,7 @@
             <!-- step 3 -->
             <div class="step d-none">
               <div class="d-flex justify-content-between mb-3">
-                <h1 class="fs-3">How to prepare</h1>
+                <h1 class="fs-3" data-th-text="#{ui.recipe.create.steps}">How to prepare</h1>
                 <button class="btn btn-secondary rounded-0" id="add-step" type="button"><i class="bi bi-plus"></i>
                 </button>
               </div>
@@ -129,9 +129,9 @@
 
           <!-- box buttons -->
           <div class="my-3" id="box-buttons">
-            <button class="btn btn-light btn-sm rounded-0" id="prev-btn" type="button">Previous</button>
-            <button class="btn btn-primary btn-sm rounded-0" id="next-btn" type="button">Next</button>
-            <button class="btn btn-success btn-sm rounded-0" id="submit-btn" type="submit">Submit</button>
+            <button class="btn btn-light btn-sm rounded-0" id="prev-btn" type="button" data-th-text="#{ui.recipe.create.prev}">Previous</button>
+            <button class="btn btn-primary btn-sm rounded-0" id="next-btn" type="button" data-th-text="#{ui.recipe.create.next}">Next</button>
+            <button class="btn btn-success btn-sm rounded-0" id="submit-btn" type="submit" data-th-text="#{ui.recipe.create.submit}">Submit</button>
           </div>
         </form>
 

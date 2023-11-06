@@ -11,8 +11,8 @@
     <div class="container">
       <th:block th:if="${data.items().isEmpty()}">
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
-          <h1 class="fw-light fs-5 mb-0">You don't have any recipe!</h1>
-          <a th:href="@{/dashboard/recipes/new}">create one!</a>
+          <h1 class="fw-light fs-5 mb-0" data-th-text="#{ui.myRecipes.empty}">You don't have any recipe!</h1>
+          <a th:href="@{/dashboard/recipes/new}" data-th-text="#{ui.myRecipes.empty.createOne}">create one!</a>
         </div>
       </th:block>
 
@@ -23,13 +23,13 @@
           <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Image</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Likes</th>
-            <th scope="col">Comments</th>
-            <th scope="col">Status</th>
-            <th scope="col">Actions</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.image}">Image</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.title}">Title</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.desc}">Description</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.likes}">Likes</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.comments}">Comments</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.status}">Status</th>
+            <th scope="col" data-th-text="#{ui.myRecipes.table.actions}">Actions</th>
           </tr>
           </thead>
           <tbody>
@@ -78,7 +78,7 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script th:src="@{/js/addHeaders.js}"></script>
-<script>
+<script data-th-inline="javascript">
   document.getElementById('footer').remove();
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
@@ -101,15 +101,19 @@
     buttonsStyling: false
   });
 
+  const title = /*[[#{ui.myRecipes.modal.title}]]*/ 'Are you sure?';
+  const text = /*[[#{ui.myRecipes.modal.text}]]*/ 'You won\'t be able to revert this!';
+  const confirmButton = /*[[#{ui.myRecipes.modal.confirmButton}]]*/ 'Yes, delete it!';
+  const cancelButton = /*[[#{ui.myRecipes.modal.cancelButton}]]*/ 'No, cancel!';
   document.body.addEventListener('htmx:confirm', function (evt) {
     evt.preventDefault();
     swalWithBootstrapButtons.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
+      title: title,
+      text: text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel!',
+      confirmButtonText: confirmButton,
+      cancelButtonText: cancelButton,
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {

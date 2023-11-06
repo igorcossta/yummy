@@ -9,7 +9,6 @@
 
 > Platform for culinary enthusiasts, providing a space to share, discover, and discuss recipes.
 
-Elements in beautiful READMEs include, but are not limited to: images, screenshots, GIFs, text formatting, etc.
 <p align="right">
     <a href="https://example.com">View Demo</a>
     ·

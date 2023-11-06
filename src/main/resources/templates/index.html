@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}"
-      xmlns:th="http://www.thymeleaf.org">
+      data-th-replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{})}">
 <head id="head-content">
   <title>Yummy.</title>
 </head>
@@ -13,10 +12,10 @@
     id="hero">
     <img alt="desktop background image"
          class="object-fit-cover img-fluid position-absolute z-n1 d-none d-md-block"
-         th:src="@{/img/desktop-background.png}"/>
+         data-th-src="@{/img/desktop-background.png}"/>
     <img alt="mobile background image"
          class="object-fit-cover img-fluid position-absolute z-n1 d-block d-md-none"
-         th:src="@{/img/groceries-background-mobile.avif}"/>
+         data-th-src="@{/img/groceries-background-mobile.avif}"/>
 
     <!-- Hero content: will be in the middle -->
     <div class="d-flex align-items-start align-items-xl-center flex-grow-1 flex-shrink-0 py-5 px-2 p-md-5">
@@ -31,7 +30,7 @@
           </p>
         </div>
         <div class="d-flex justify-content-center">
-          <a class="btn btn-primary rounded-0" th:href="@{/recipes}" data-th-text="#{ui.button.searchRecipe}" type="button">Search for recipes</a>
+          <a class="btn btn-primary rounded-0" data-th-href="@{/recipes}" data-th-text="#{ui.button.searchRecipe}" type="button">Search for recipes</a>
         </div>
       </div>
     </div>
@@ -48,7 +47,7 @@
              style="height: 8rem;">
           <div class="d-flex justify-content-center align-items-center">
             <img alt="recipe image" class="object-fit-cover rounded-circle" height="50"
-                 th:src="@{/img/menu/menu-item-1.png}"
+                 data-th-src="@{/img/menu/menu-item-1.png}"
                  width="50">
           </div>
           <div class="w-100 d-flex flex-column justify-content-center">
@@ -61,7 +60,7 @@
              style="height: 8rem;">
           <div class="d-flex justify-content-center align-items-center">
             <img alt="recipe image" class="object-fit-cover rounded-circle" height="50"
-                 th:src="@{/img/menu/menu-item-2.png}"
+                 data-th-src="@{/img/menu/menu-item-2.png}"
                  width="50">
           </div>
           <div class="w-100 d-flex flex-column justify-content-center">
@@ -74,7 +73,7 @@
              style="height: 8rem;">
           <div class="d-flex justify-content-center align-items-center">
             <img alt="recipe image" class="object-fit-cover rounded-circle" height="50"
-                 th:src="@{/img/menu/menu-item-3.png}"
+                 data-th-src="@{/img/menu/menu-item-3.png}"
                  width="50">
           </div>
           <div class="w-100 d-flex flex-column justify-content-center">

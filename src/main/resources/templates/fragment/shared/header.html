@@ -1,7 +1,7 @@
 <header class="shadow-sm sticky-top" id="header" xmlns:sec="http://www.w3.org/1999/xhtml">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand fs-2 fw-medium" th:href="@{/}">Yummy<span
+      <a class="navbar-brand fs-2 fw-medium" data-th-href="@{/}">Yummy<span
         class="text-primary fw-bolder">.</span></a>
       <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
               class="navbar-toggler shadow-none border-0" data-bs-target="#navbarSupportedContent"
@@ -11,9 +11,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="d-flex align-items-center justify-content-center gap-2 ms-auto" sec:authorize="!isAuthenticated()">
-          <a class="btn btn-light btn-sm rounded-0" th:href="@{/auth/register}"
+          <a class="btn btn-light btn-sm rounded-0" data-th-href="@{/auth/register}"
              data-th-text="#{ui.header.createAccount}">create account</a>
-          <a class="btn btn-primary rounded-0" th:href="@{/auth/login}" data-th-text="#{ui.header.login}">Sign In</a>
+          <a class="btn btn-primary rounded-0" data-th-href="@{/auth/login}" data-th-text="#{ui.header.login}">Sign In</a>
         </div>
 
         <div class="d-flex align-items-center justify-content-center gap-2 ms-auto"
@@ -22,14 +22,14 @@
             <img alt="user profile picture" aria-expanded="false" class="rounded-circle" data-bs-toggle="dropdown"
                  height="40" src="https://placehold.co/80x80" width="40">
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes/new}"
+              <li><a class="dropdown-item" href="#" data-th-href="@{/dashboard/recipes/new}"
                      data-th-text="#{ui.header.share}">Share</a></li>
-              <li><a class="dropdown-item" href="#" th:href="@{/dashboard/recipes}"
+              <li><a class="dropdown-item" href="#" data-th-href="@{/dashboard/recipes}"
                      data-th-text="#{ui.header.myRecipes}">My recipes</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" th:href="@{/auth/logout}"><i class="bi bi-box-arrow-right"></i> <span
+              <li><a class="dropdown-item" data-th-href="@{/auth/logout}"><i class="bi bi-box-arrow-right"></i> <span
                 data-th-text="#{ui.header.logout}">Logout</span></a>
               </li>
             </ul>

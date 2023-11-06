@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
+      data-th-replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
+>
 <head id="head-content">
   <title>Something Wrong - Yummy</title>
 </head>
@@ -13,7 +13,7 @@
       <p class="text-center text-dark-emphasis" data-th-text="#{ui.error.denied.message}">Sorry, but you don't have permission!</p>
     </div>
   </div>
-  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" th:href="@{/}" data-th-text="#{ui.error.backButton}">Back
+  <p><a class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-th-href="@{/}" data-th-text="#{ui.error.backButton}">Back
     to homepage</a></p>
 </main>
 

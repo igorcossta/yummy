@@ -67,6 +67,6 @@ public class RecipeController {
                         Map.of("msg", "Recipe %s deleted successfully!".formatted(recipeId))))
                 .addTemplate(new ModelAndView(
                         "dashboard/show-my-recipes :: recipes-container",
-                        Map.of("recipes", recipeService.searchForMyRecipes(1))));
+                        Map.of("data", recipeService.searchForMyRecipes(1))));
     }
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org">
+      data-th-replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}">
 <head id="head-content">
   <title>Yummy. Update Recipe</title>
 </head>
@@ -16,10 +15,10 @@
         <form class="needs-validation" id="form-wrapper"
               method="post"
               novalidate
-              th:action="@{/recipes/{id}/edit(id=${recipe.getId()})}"
-              th:classappend="${#fields.hasErrors('*')} ? 'was-validated'"
-              th:object="${recipe}">
-          <input hidden th:field="*{id}" type="hidden">
+              data-th-action="@{/recipes/{id}/edit(id=${recipe.getId()})}"
+              data-th-classappend="${#fields.hasErrors('*')} ? 'was-validated'"
+              data-th-object="${recipe}">
+          <input data-th-field="*{id}" hidden type="hidden">
           <div class="steps-container">
 
             <!-- step 1 -->
@@ -30,30 +29,32 @@
                   <label class="form-label" for="title" data-th-text="#{ui.recipe.create.recipe}">Title</label>
                   <input class="form-control shadow-none rounded-0" id="title" maxlength="60"
                          pattern="^[A-Za-z\s\!#\$%&\(\)]{1,60}$"
-                         required th:field="*{title}" type="text">
-                  <div class="invalid-feedback" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></div>
+                         data-th-field="*{title}" required type="text">
+                  <div class="invalid-feedback" data-th-errors="*{title}"
+                       data-th-if="${#fields.hasErrors('title')}"></div>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label" for="preparationTime" data-th-text="#{ui.recipe.create.preparationTime}">Preparation Time (in minutes)</label>
                   <input class="form-control shadow-none rounded-0" id="preparationTime"
                          max="999" min="1"
-                         pattern="^(?:[1-9]\d{0,2}|999)$" required th:field="*{preparationTime}" type="number">
-                  <div class="invalid-feedback" th:errors="*{preparationTime}"
-                       th:if="${#fields.hasErrors('preparationTime')}"></div>
+                         data-th-field="*{preparationTime}" pattern="^(?:[1-9]\d{0,2}|999)$" required type="number">
+                  <div class="invalid-feedback" data-th-errors="*{preparationTime}"
+                       data-th-if="${#fields.hasErrors('preparationTime')}"></div>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label" for="numberOfServings" data-th-text="#{ui.recipe.create.numberOfServings}">Number of Servings</label>
                   <input class="form-control shadow-none rounded-0" id="numberOfServings" max="99"
                          min="1"
-                         pattern="^(?:[1-9]|[1-9][0-9])$" required th:field="*{servings}" type="number">
-                  <div class="invalid-feedback" th:errors="*{servings}" th:if="${#fields.hasErrors('servings')}"></div>
+                         data-th-field="*{servings}" pattern="^(?:[1-9]|[1-9][0-9])$" required type="number">
+                  <div class="invalid-feedback" data-th-errors="*{servings}"
+                       data-th-if="${#fields.hasErrors('servings')}"></div>
                 </div>
                 <div class="col-md-8">
                   <label class="form-label" for="description" data-th-text="#{ui.recipe.create.desc}">Description</label>
                   <textarea class="form-control shadow-none rounded-0" id="description" maxlength="180"
-                            required rows="5" style="resize: none;" th:field="*{description}"></textarea>
-                  <div class="invalid-feedback" th:errors="*{description}"
-                       th:if="${#fields.hasErrors('description')}"></div>
+                            data-th-field="*{description}" required rows="5" style="resize: none;"></textarea>
+                  <div class="invalid-feedback" data-th-errors="*{description}"
+                       data-th-if="${#fields.hasErrors('description')}"></div>
                 </div>
                 <div class="col-md-3">
                   <label class="form-label" for="category" data-th-text="#{ui.recipe.create.category}">Category</label>
@@ -82,17 +83,17 @@
                   tomatoes or 200 grams beef brisket. If no quantity is specified, the default quantity is 100 grams.
                   <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
                 </div>
-                <div class="alert alert-danger" role="alert" th:errors="*{ingredients}"
-                     th:if="${#fields.hasErrors('ingredients')}"></div>
-                <div class="input-group mb-3 ingredient-div" th:if="${#lists.isEmpty(recipe.getIngredients())}">
+                <div class="alert alert-danger" data-th-errors="*{ingredients}" data-th-if="${#fields.hasErrors('ingredients')}"
+                     role="alert"></div>
+                <div class="input-group mb-3 ingredient-div" data-th-if="${#lists.isEmpty(recipe.getIngredients())}">
                   <input aria-label="ingredient details" class="form-control shadow-none rounded-0 ingredient-in"
                          maxlength="120" name="ingredients[0]" required
                          type="text">
                 </div>
-                <div class="input-group mb-3 ingredient-div" th:each="ingredient, stat : *{ingredients}">
+                <div class="input-group mb-3 ingredient-div" data-th-each="ingredient, stat : *{ingredients}">
                   <input aria-label="ingredient details" class="form-control shadow-none rounded-0 ingredient-in"
                          maxlength="120"
-                         required th:field="*{ingredients[__${stat.index}__]}" type="text">
+                         data-th-field="*{ingredients[__${stat.index}__]}" required type="text">
                   <span class="input-group-text rounded-0" onclick="remove(this)">
                     <i class="bi bi-x"></i>
                   </span>
@@ -108,16 +109,16 @@
                 </button>
               </div>
               <div class="g-3" id="steps-section">
-                <div class="alert alert-danger" role="alert" th:errors="*{howToPrepare}"
-                     th:if="${#fields.hasErrors('howToPrepare')}"></div>
-                <div class="input-group mb-3 ingredient-div" th:if="${#lists.isEmpty(recipe.getHowToPrepare())}">
+                <div class="alert alert-danger" data-th-errors="*{howToPrepare}" data-th-if="${#fields.hasErrors('howToPrepare')}"
+                     role="alert"></div>
+                <div class="input-group mb-3 ingredient-div" data-th-if="${#lists.isEmpty(recipe.getHowToPrepare())}">
                    <textarea aria-label="how to prepare step"
                              class="form-control shadow-none rounded-0 steps-in" maxlength="1200" name="howToPrepare[0]"
                              required></textarea>
                 </div>
-                <div class="input-group mb-3 step-div" th:each="step, stat : *{howToPrepare}">
+                <div class="input-group mb-3 step-div" data-th-each="step, stat : *{howToPrepare}">
                   <textarea aria-label="how to prepare step" class="form-control shadow-none rounded-0 steps-in"
-                            maxlength="1200" required th:field="*{howToPrepare[__${stat.index}__]}"></textarea>
+                            data-th-field="*{howToPrepare[__${stat.index}__]}" maxlength="1200" required></textarea>
                   <span class="input-group-text rounded-0" onclick="remove(this, 1)">
                     <i class="bi bi-x"></i>
                   </span>
@@ -140,7 +141,7 @@
   </section>
 </main>
 
-<script th:src="@{/js/create-update-recipe.js}"></script>
+<script data-th-src="@{/js/create-update-recipe.js}"></script>
 <script>
   document.getElementById('footer').remove();
 </script>

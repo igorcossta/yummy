@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
-      xmlns:th="http://www.thymeleaf.org" xmlns:hx="http://www.w3.org/1999/xhtml">
+      data-th-replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
+      xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
   <title>Yummy. My Recipes</title>
 </head>
 
-<main hx-swap-oob="outerHTML:#main" id="main" th:fragment="recipes-container">
+<main data-th-fragment="recipes-container" hx-swap-oob="outerHTML:#main" id="main">
   <section class="mt-5">
     <div class="container">
-      <th:block th:if="${data.items().isEmpty()}">
+      <th:block data-th-if="${data.items().isEmpty()}">
         <div class="d-flex flex-column align-items-center justify-content-center w-100">
           <h1 class="fw-light fs-5 mb-0" data-th-text="#{ui.myRecipes.empty}">You don't have any recipe!</h1>
-          <a th:href="@{/dashboard/recipes/new}" data-th-text="#{ui.myRecipes.empty.createOne}">create one!</a>
-        </div>
+          <a data-th-href="@{/dashboard/recipes/new}" data-th-text="#{ui.myRecipes.empty.createOne}">create one!</a>
       </th:block>
 
-      <div class="table-responsive" th:unless="${data.items().isEmpty()}">
+      <div class="table-responsive" data-th-unless="${data.items().isEmpty()}">
         <table class="table table-striped table-hover">
-          <caption>You have <span th:text="${data.totalItems()}">10</span> recipes - Page <span
-            th:text="${data.currentPage()}">1</span> of <span th:text="${data.totalPages()}">2</span></caption>
+          <caption>You have <span data-th-text="${data.totalItems()}">10</span> recipes - Page <span
+            data-th-text="${data.currentPage()}">1</span> of <span data-th-text="${data.totalPages()}">2</span>
+          </caption>
           <thead>
           <tr>
             <th scope="col">ID</th>
@@ -33,34 +33,34 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="align-middle" th:each="recipe : ${data.items()}">
+          <tr class="align-middle" data-th-each="recipe : ${data.items()}">
             <th scope="row"><a class="btn btn-transparent"
-                               th:href="@{/recipes/{id}/details(id=${recipe.id()})}"
-                               th:text="${recipe.id()}"></a></th>
+                               data-th-href="@{/recipes/{id}/details(id=${recipe.id()})}"
+                               data-th-text="${recipe.id()}"></a></th>
             <td>
               <img alt="recipe picture" class="object-fit-cover img-fluid" height="40"
-                   th:src="@{/img/menu/menu-item-6.png}"
+                   data-th-src="@{/img/menu/menu-item-6.png}"
                    width="40">
             </td>
             <td class="text-truncate" data-bs-toggle="tooltip" style="max-width: 25px;"
-                th:data-bs-title="${recipe.title()}" th:text="${recipe.title()}"></td>
+                data-th-data-bs-title="${recipe.title()}" data-th-text="${recipe.title()}"></td>
             <td class="text-truncate" data-bs-toggle="tooltip" style="max-width: 25px;"
-                th:data-bs-title="${recipe.description()}" th:text="${recipe.description()}"></td>
-            <td th:text="0"></td>
-            <td th:text="0"></td>
-            <td th:text="Enabled"></td>
+                data-th-data-bs-title="${recipe.description()}" data-th-text="${recipe.description()}"></td>
+            <td data-th-text="0"></td>
+            <td data-th-text="0"></td>
+            <td data-th-text="Enabled"></td>
             <td>
               <div class="d-flex gap-3">
                 <button class="btn btn-transparent fs-5 border-0 p-0 m-0"
                         hx-confirm
                         hx-swap="none"
-                        hx:delete="@{/recipes/{id}(id=${recipe.id()})}"
-                        th:data-header-name="${_csrf.headerName}"
-                        th:data-token="${_csrf.token}"
+                        data-th-data-header-name="${_csrf.headerName}"
+                        data-th-data-token="${_csrf.token}"
+                        data-th-hx-delete="@{/recipes/{id}(id=${recipe.id()})}"
                         type="button">
                   <i class="bi bi-trash"></i></button>
                 <a class="btn btn-transparent fs-5 border-0 p-0 m-0"
-                   th:href="@{/dashboard/recipes/{id}/edit(id=${recipe.id()})}"
+                   data-th-href="@{/dashboard/recipes/{id}/edit(id=${recipe.id()})}"
                    type="button">
                   <i class="bi bi-pen"></i></a>
               </div>
@@ -68,8 +68,8 @@
           </tr>
           </tbody>
         </table>
-        <div th:if="${data.totalPages() > 0}">
-          <div th:replace="~{/fragment/pagination :: pagination(${data}, '/dashboard/recipes')}"></div>
+        <div data-th-if="${data.totalPages() > 0}">
+          <div data-th-replace="~{/fragment/pagination :: pagination(${data}, '/dashboard/recipes')}"></div>
         </div>
       </div>
     </div>
@@ -77,7 +77,8 @@
 </main>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script th:src="@{/js/addHeaders.js}"></script>
+
+<script data-th-src="@{/js/addHeaders.js}"></script>
 <script data-th-inline="javascript">
   document.getElementById('footer').remove();
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');

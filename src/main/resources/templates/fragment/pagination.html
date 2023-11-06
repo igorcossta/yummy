@@ -1,27 +1,28 @@
-<nav aria-label="Pagination" th:fragment="pagination(data, url)">
+<nav aria-label="Pagination" data-th-fragment="pagination(data, url)">
   <ul class="pagination">
-    <li class="page-item" th:classappend="${data.currentPage() == 1} ? 'disabled'">
-      <a class="page-link" th:href="@{${url} + '?page=' + 1}" aria-label="First Page">
+    <li class="page-item" data-th-classappend="${data.currentPage() == 1} ? 'disabled'">
+      <a aria-label="First Page" class="page-link" data-th-href="@{${url} + '?page=' + 1}">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 
-    <li class="page-item font-weight-bold" th:classappend="${data.currentPage() == 1} ? 'disabled'">
-      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() - 1}, #{ui.pagination.prev}, ${url})}"></a>
+
+    <li class="page-item font-weight-bold" data-th-classappend="${data.currentPage() == 1} ? 'disabled'">
+      <a data-th-replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() - 1}, #{ui.pagination.prev}, ${url})}"></a>
     </li>
 
-    <li class="page-item" th:classappend="${page == data.currentPage()} ? 'active'"
-        th:each="page : ${#numbers.sequence((data.currentPage() > 2 ? data.currentPage() - 1 : 1), (data.currentPage() + 2 < data.totalPages() ? data.currentPage() + 1 : data.totalPages()))}">
-      <a th:replace="~{/fragment/paginationLink :: pagingLink(${page}, ${page}, ${url})}"></a>
+    <li class="page-item" data-th-classappend="${page == data.currentPage()} ? 'active'"
+        data-th-each="page : ${#numbers.sequence((data.currentPage() > 2 ? data.currentPage() - 1 : 1), (data.currentPage() + 2 < data.totalPages() ? data.currentPage() + 1 : data.totalPages()))}">
+      <a data-th-replace="~{/fragment/paginationLink :: pagingLink(${page}, ${page}, ${url})}"></a>
     </li>
 
     <li class="page-item font-weight-bold"
-        th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
-      <a th:replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() + 1}, #{ui.pagination.next}, ${url})}"></a>
+        data-th-classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
+      <a data-th-replace="~{/fragment/paginationLink :: pagingLink(${data.currentPage() + 1}, #{ui.pagination.next}, ${url})}"></a>
     </li>
 
-    <li class="page-item" th:classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
-      <a class="page-link" th:href="@{${url} + '?page=' + ${data.totalPages()}}" aria-label="Last Page">
+    <li class="page-item" data-th-classappend="${data.currentPage() == data.totalPages()} ? 'disabled'">
+      <a aria-label="Last Page" class="page-link" data-th-href="@{${url} + '?page=' + ${data.totalPages()}}">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

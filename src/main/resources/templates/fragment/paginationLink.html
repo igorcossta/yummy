@@ -1,4 +1,4 @@
-<a th:fragment="pagingLink(pageNum, label, url)" class="page-link"
-   th:href="@{${url} + '?page=' + ${pageNum}}">
+<a class="page-link" data-th-fragment="pagingLink(pageNum, label, url)"
+   data-th-href="@{${url} + '?page=' + ${pageNum}}">
   [[${label}]]
 </a>

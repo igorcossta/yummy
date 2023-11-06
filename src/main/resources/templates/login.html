@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      th:replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
+      data-th-replace="~{fragment/shared/layout :: html (~{::#head-content}, ~{::main}, ~{::script})}"
       xmlns:th="http://www.thymeleaf.org">
 <head id="head-content">
   <title>Yummy. Login</title>
@@ -9,28 +9,28 @@
 <main>
   <section class="mt-5 d-flex align-items-center justify-content-center">
     <div class="text-center form-signin">
-      <form id="form" method="post" novalidate style="max-width: 330px" th:action="@{/auth/login}"
-            th:object="${authentication}">
+      <form id="form" method="post" novalidate style="max-width: 330px" data-th-action="@{/auth/login}"
+          data-th-object="${authentication}">
         <h1 class="h3 mb-3 fw-normal" data-th-text="#{ui.login.title}">Please sign in</h1>
-        <th:block th:if="${param.error}">
+        <th:block data-th-if="${param.error}">
           <p class="alert alert-danger" data-th-text="#{ui.login.error}">Username or password are incorrect!</p>
         </th:block>
-        <th:block th:if="${param.success}">
+        <th:block data-th-if="${param.success}">
           <p class="alert alert-success" data-th-text="#{ui.login.success}">Your account has been successfully created!<br>Check your email for a
             confirmation message.</p>
         </th:block>
-        <th:block th:if="${param.logout}">
+        <th:block data-th-if="${param.logout}">
           <p class="alert alert-primary" data-th-text="#{ui.logout}">You are disconnected!</p>
         </th:block>
         <p class="alert alert-danger d-none" id="not-empty-fields">You must enter all fields!</p>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingInput" placeholder="name@example.com"
-                 required th:field="*{username}" type="email">
+                 required data-th-field="*{username}" type="email">
           <label for="floatingInput" data-th-text="#{ui.email.field}">Email address</label>
         </div>
         <div class="form-floating">
           <input class="form-control shadow-none rounded-0" id="floatingPassword" placeholder="Password" required
-                 th:field="*{password}" type="password">
+                data-th-field="*{password}" type="password">
           <label for="floatingPassword" data-th-text="#{ui.password.field}">Password</label>
         </div>
 
@@ -46,7 +46,7 @@
   </section>
 </main>
 
-<script th:src="@{/js/inputValidation.js}"></script>
+<script data-th-src="@{/js/inputValidation.js}"></script>
 <script>
   document.getElementById('footer').remove();
   const form = document.getElementById('form');
